@@ -1,0 +1,24 @@
+.toolbar {
+  border-radius: 4px;
+  background: #fff;
+  border: 1px solid #d5d5d5;
+  margin: 16px 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 15px 10px;
+  row-gap: 15px;
+}
+.toolbar-grp > * {
+  margin-right: 10px;
+  cursor: pointer;
+}
+.toolbar-grp {
+  margin: 0 10px;
+}
+
+select {
+  height: 30px;
+  border: none;
+  width: 6.9rem;
+}

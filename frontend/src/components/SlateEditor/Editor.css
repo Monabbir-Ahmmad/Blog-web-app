@@ -1,0 +1,62 @@
+blockquote {
+  border-left: 2px solid #ddd;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 10px;
+  color: #aaa;
+  font-style: italic;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+td {
+  height: fit-content;
+  padding: 1rem;
+  word-wrap: break-word;
+}
+
+button {
+  background-color: white;
+  border: none;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.btnActive {
+  opacity: 1;
+}
+
+.editor-wrapper {
+  font-family: "Helvetica", "Arial", sans-serif;
+  border-radius: 4px;
+  background: #fff;
+  border: 1px solid #d5d5d5;
+  padding: 1rem;
+  min-height: 400px;
+  height: fit-content;
+}
+
+.popup-wrapper {
+  display: inline;
+  position: relative;
+}
+
+.popup {
+  position: absolute;
+  left: 0;
+  background-color: white;
+  padding: 6px 10px;
+  border: 1px solid lightgray;
+  height: fit-content;
+  z-index: 1;
+}
