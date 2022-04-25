@@ -3,17 +3,20 @@ import { ReactEditor } from "slate-react";
 
 const alignment = ["alignLeft", "alignRight", "alignCenter"];
 const list_types = ["orderedList", "unorderedList"];
+
 export const sizeMap = {
   small: "0.75em",
   normal: "1em",
   medium: "1.75em",
-  huge: "2.5em"
+  huge: "2.5em",
 };
+
 export const fontFamilyMap = {
   sans: "Helvetica,Arial, sans serif",
   serif: "Georgia, Times New Roaman,serif",
-  monospace: "Monaco, Courier New,monospace"
+  monospace: "Monaco, Courier New,monospace",
 };
+
 export const toggleBlock = (editor, format) => {
   const isActive = isBlockActive(editor, format);
   const isList = list_types.includes(format);
@@ -30,7 +33,7 @@ export const toggleBlock = (editor, format) => {
         alignment.includes(
           !Editor.isEditor(n) && SlateElement.isElement(n) && n.type
         ),
-      split: true
+      split: true,
     });
   }
 
@@ -38,7 +41,7 @@ export const toggleBlock = (editor, format) => {
   if (isIndent) {
     Transforms.wrapNodes(editor, {
       type: format,
-      children: []
+      children: [],
     });
     return;
   }
@@ -47,22 +50,24 @@ export const toggleBlock = (editor, format) => {
       list_types.includes(
         !Editor.isEditor(n) && SlateElement.isElement(n) && n.type
       ),
-    split: true
+    split: true,
   });
 
   Transforms.setNodes(editor, {
-    type: isActive ? "paragraph" : isList ? "list-item" : format
+    type: isActive ? "paragraph" : isList ? "list-item" : format,
   });
   if (isList && !isActive) {
     Transforms.wrapNodes(editor, {
       type: format,
-      children: []
+      children: [],
     });
   }
 };
+
 export const addMarkData = (editor, data) => {
   Editor.addMark(editor, data.format, data.value);
 };
+
 export const toggleMark = (editor, format) => {
   const isActive = isMarkActive(editor, format);
 
@@ -73,6 +78,7 @@ export const toggleMark = (editor, format) => {
   }
   ReactEditor.focus(editor);
 };
+
 export const isMarkActive = (editor, format) => {
   const marks = Editor.marks(editor);
 
@@ -82,7 +88,7 @@ export const isMarkActive = (editor, format) => {
 export const isBlockActive = (editor, format) => {
   const [match] = Editor.nodes(editor, {
     match: (n) =>
-      !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === format
+      !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === format,
   });
 
   return !!match;
@@ -93,7 +99,7 @@ export const activeMark = (editor, format) => {
     color: "black",
     bgColor: "black",
     fontSize: "normal",
-    fontFamily: "sans"
+    fontFamily: "sans",
   };
   const marks = Editor.marks(editor);
   const defaultValue = defaultMarkData[format];

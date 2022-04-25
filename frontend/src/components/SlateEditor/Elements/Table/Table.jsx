@@ -11,13 +11,13 @@ const Table = ({ editor }) => {
   const [showOptions, setShowOptions] = usePopup(tableOptionsRef);
   const [tableData, setTableData] = useState({
     row: 0,
-    column: 0
+    column: 0,
   });
   const [tableInput, setTableInput] = useState(
     Array.from({ length: 6 }, () =>
       Array.from({ length: 6 }, (v, i) => ({
         bg: "lightGray",
-        column: i
+        column: i,
       }))
     )
   );
@@ -29,7 +29,7 @@ const Table = ({ editor }) => {
           row + 1 <= tableData.row && col + 1 <= tableData.column
             ? "orange"
             : "lightgray",
-        column: col
+        column: col,
       }))
     );
     setTableInput(newTable);

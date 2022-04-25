@@ -9,7 +9,7 @@ export class TableUtil {
     const [tableNode] = Editor.nodes(this.editor, {
       match: (n) =>
         !Editor.isEditor(n) && Element.isElement(n) && n.type === "table",
-      mode: "highest"
+      mode: "highest",
     });
 
     if (tableNode) return;
@@ -22,7 +22,7 @@ export class TableUtil {
     const newTable = createTableNode(cellText);
 
     Transforms.insertNodes(this.editor, newTable, {
-      mode: "highest"
+      mode: "highest",
     });
     Transforms.insertNodes(
       this.editor,
@@ -46,7 +46,7 @@ export class TableUtil {
     }
     const newTable = createTableNode(existingText);
     Transforms.insertNodes(this.editor, newTable, {
-      at: path
+      at: path,
     });
   };
 
@@ -54,7 +54,7 @@ export class TableUtil {
     Transforms.removeNodes(this.editor, {
       match: (n) =>
         !Editor.isEditor(n) && Element.isElement(n) && n.type === "table",
-      mode: "highest"
+      mode: "highest",
     });
   };
 
@@ -63,7 +63,7 @@ export class TableUtil {
     if (!!selection && Range.isCollapsed(selection)) {
       const [tableNode] = Editor.nodes(this.editor, {
         match: (n) =>
-          !Editor.isEditor(n) && Element.isElement(n) && n.type === "table"
+          !Editor.isEditor(n) && Element.isElement(n) && n.type === "table",
       });
       if (tableNode) {
         const [oldTable, path] = tableNode;
@@ -78,7 +78,7 @@ export class TableUtil {
     if (!!selection && Range.isCollapsed(selection)) {
       const [tableNode] = Editor.nodes(this.editor, {
         match: (n) =>
-          !Editor.isEditor(n) && Element.isElement(n) && n.type === "table"
+          !Editor.isEditor(n) && Element.isElement(n) && n.type === "table",
       });
       if (tableNode) {
         const [oldTable, path] = tableNode;
@@ -93,14 +93,14 @@ const createRow = (cellText) => {
   const newRow = Array.from(cellText, (value) => createTableCell(value));
   return {
     type: "table-row",
-    children: newRow
+    children: newRow,
   };
 };
 
 const createTableCell = (text) => {
   return {
     type: "table-cell",
-    children: [{ text }]
+    children: [{ text }],
   };
 };
 

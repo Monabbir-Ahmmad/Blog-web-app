@@ -9,7 +9,7 @@ import { ReactEditor } from "slate-react";
 
 const logo = {
   color: <MdFormatColorText size={20} />,
-  bgColor: <MdFormatColorFill size={20} />
+  bgColor: <MdFormatColorFill size={20} />,
 };
 const ColorPicker = ({ format, editor }) => {
   const [selection, setSelection] = useState();
@@ -28,7 +28,7 @@ const ColorPicker = ({ format, editor }) => {
     addMarkData(editor, { format, value: clickedColor });
     ReactEditor.focus(editor);
     Transforms.move(editor, {
-      distance: 1
+      distance: 1,
     });
     setShowOptions(false);
   };
@@ -57,7 +57,7 @@ const ColorPicker = ({ format, editor }) => {
       <button
         style={{
           color: showOptions ? "black" : activeMark(editor, format),
-          opacity: "1"
+          opacity: "1",
         }}
         className={showOptions ? "clicked" : ""}
         onClick={toggleOption}
@@ -94,7 +94,7 @@ const ColorPicker = ({ format, editor }) => {
               onChange={handleHexChange}
               style={{
                 border:
-                  validHex === false ? "1px solid red" : "1px solid lightgray"
+                  validHex === false ? "1px solid red" : "1px solid lightgray",
               }}
             />
             <button style={{ color: validHex ? "green" : "" }} type={"submit"}>

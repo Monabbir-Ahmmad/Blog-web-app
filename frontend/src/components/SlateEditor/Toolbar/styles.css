@@ -6,19 +6,25 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  padding: 15px 10px;
+  padding: 10px;
   row-gap: 15px;
 }
+
 .toolbar-grp > * {
-  margin-right: 10px;
+  margin: 0 8px;
   cursor: pointer;
 }
+
 .toolbar-grp {
-  margin: 0 10px;
+  margin-right: 2rem;
 }
 
 select {
-  height: 30px;
+  height: 2rem;
   border: none;
-  width: 6.9rem;
+  border-radius: 4px;
+  outline: none;
+  background: #f6f6f6;
+  padding: 4px;
+  width: 7rem;
 }

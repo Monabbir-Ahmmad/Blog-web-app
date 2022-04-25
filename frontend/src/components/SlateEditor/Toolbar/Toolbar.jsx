@@ -8,7 +8,7 @@ import {
   isMarkActive,
   addMarkData,
   isBlockActive,
-  activeMark
+  activeMark,
 } from "../utils/SlateUtilityFunctions.js";
 import useTable from "../utils/useTable.js";
 import defaultToolbarGroups from "./toolbarGroups.js";
@@ -18,10 +18,12 @@ import LinkButton from "../Elements/Link/LinkButton";
 import Embed from "../Elements/Embed/Embed";
 import Table from "../Elements/Table/Table";
 import InTable from "../Elements/Table/InTable";
+
 const Toolbar = () => {
   const editor = useSlate();
   const isTable = useTable(editor);
   const [toolbarGroups, setToolbarGroups] = useState(defaultToolbarGroups);
+
   useEffect(() => {
     let filteredGroups = [...defaultToolbarGroups];
     if (isTable) {
@@ -33,6 +35,7 @@ const Toolbar = () => {
     setToolbarGroups(filteredGroups);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTable]);
+
   const BlockButton = ({ format }) => {
     return (
       <Button
@@ -47,6 +50,7 @@ const Toolbar = () => {
       </Button>
     );
   };
+
   const MarkButton = ({ format }) => {
     return (
       <Button
@@ -61,6 +65,7 @@ const Toolbar = () => {
       </Button>
     );
   };
+
   const Dropdown = ({ format, options }) => {
     return (
       <select
@@ -75,6 +80,7 @@ const Toolbar = () => {
       </select>
     );
   };
+
   const changeMarkData = (event, format) => {
     event.preventDefault();
     const value = event.target.value;
