@@ -36,7 +36,6 @@ const Embed = ({ editor, format }) => {
         active={isBlockActive(editor, format)}
         style={{
           border: showInput ? "1px solid lightgray" : "",
-          borderBottom: "none",
         }}
         format={format}
         onClick={handleButtonClick}

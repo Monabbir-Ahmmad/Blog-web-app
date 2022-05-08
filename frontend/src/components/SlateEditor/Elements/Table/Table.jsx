@@ -66,6 +66,7 @@ const Table = ({ editor }) => {
             {tableInput.map((grp, row) =>
               grp.map(({ column, bg }) => (
                 <div
+                  key={row+column}
                   onClick={() => handleInsert()}
                   onMouseOver={() =>
                     setTableData({ row: row + 1, column: column + 1 })
