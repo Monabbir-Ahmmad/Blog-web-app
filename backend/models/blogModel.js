@@ -9,16 +9,18 @@ const Blog = database.define("blog", {
     validate: { notEmpty: true },
   },
   content: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false,
-    unique: true,
     validate: { notEmpty: true },
+  },
+  coverImage: {
+    type: DataTypes.STRING,
   },
 });
 
-User.hasMany(Blog);
+User.hasMany(Blog, { onDelete: "CASCADE" });
 
-Blog.belongsTo(User);
+Blog.belongsTo(User, { onDelete: "CASCADE" });
 
 await Blog.sync();
 

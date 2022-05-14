@@ -29,10 +29,10 @@ const registerUser = asyncHandler(async (req, res) => {
     dateOfBirth,
     gender,
     password: await hashPassword(password),
-    profileImage: req.file.filename,
+    profileImage: req.file?.filename,
   });
 
-  user.setUserType(userType);
+  await user.setUserType(userType);
 
   user.privilege = (await user.getUserType()).privilege;
 
@@ -81,17 +81,23 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 // @desc Get user profile
-// @route GET /api/v1/user/profile/:id
+// @route GET /api/v1/user/profile
 // @access Private
 const getUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findByPk(req.user.id);
+  const id = req.user.id;
+
+  const user = await User.findByPk(id, {
+    attributes: [
+      "id",
+      "name",
+      "email",
+      "dateOfBirth",
+      "gender",
+      "profileImage",
+    ],
+  });
   if (user) {
-    res.json({
-      name: user.name,
-      email: user.email,
-      dateOfBirth: new Date(user.dateOfBirth).getTime(),
-      gender: user.gender,
-    });
+    res.json(user);
   } else {
     res.status(404);
     throw new Error("User not found");
@@ -99,22 +105,26 @@ const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 // @desc Update user profile
-// @route PATCH /api/user/profile/:id
+// @route PATCH /api/user/profile
 // @access Private
 // @needs password and fields to update
 const updateUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findByPk(req.user.id, {
+  const id = req.user.id;
+  const { name, email, dateOfBirth, gender, password } = req.body;
+
+  const user = await User.findByPk(id, {
     include: {
       model: UserType,
       attributes: ["privilege"],
     },
   });
 
-  if (user && (await verifyPassword(user.password, req.body.password))) {
-    user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
-    user.dateOfBirth = req.body.dateOfBirth || user.dateOfBirth;
-    user.gender = req.body.gender || user.gender;
+  if (user && (await verifyPassword(user.password, password))) {
+    user.name = name || user.name;
+    user.email = email || user.email;
+    user.dateOfBirth = dateOfBirth || user.dateOfBirth;
+    user.gender = gender || user.gender;
+    user.profileImage = req.file?.filename || user.profileImage;
 
     const emailExists = await User.findOne({
       where: { email: user.email, id: { [Op.not]: user.id } },
@@ -131,6 +141,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         email: user.email,
         dateOfBirth: user.dateOfBirth,
         gender: user.gender,
+        profileImage: user.profileImage,
       },
       { where: { id: user.id } }
     );
@@ -139,6 +150,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       id: user.id,
       name: user.name,
       email: user.email,
+      dateOfBirth: user.dateOfBirth,
+      gender: user.gender,
+      profileImage: user.profileImage,
       privilege: user.userType.privilege,
       token: generateToken(
         user.id,
@@ -157,17 +171,20 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 });
 
 // @desc Update user password
-// @route PUT /api/user/profile/:id
+// @route PUT /api/user/profile
 // @access Private
 // @needs oldPassword, newPassword
 const updateUserPassword = asyncHandler(async (req, res) => {
-  const user = await User.findByPk(req.user.id);
-  const passwordVerified =
-    user && (await verifyPassword(user.password, req.body.oldPassword));
+  const id = req.user.id;
+  const { oldPassword, newPassword } = req.body;
 
-  if (passwordVerified && req.body.oldPassword !== req.body.newPassword) {
+  const user = await User.findByPk(id);
+  const passwordVerified =
+    user && (await verifyPassword(user.password, oldPassword));
+
+  if (passwordVerified && oldPassword !== newPassword) {
     await User.update(
-      { password: await hashPassword(req.body.newPassword) },
+      { password: await hashPassword(newPassword) },
       { where: { id: user.id } }
     );
 
@@ -178,10 +195,7 @@ const updateUserPassword = asyncHandler(async (req, res) => {
   } else if (!passwordVerified) {
     res.status(401);
     throw new Error("Wrong password");
-  } else if (
-    passwordVerified &&
-    req.body.oldPassword === req.body.newPassword
-  ) {
+  } else if (passwordVerified && oldPassword === newPassword) {
     res.status(406);
     throw new Error("New password can not be the same as old password");
   } else {
@@ -190,10 +204,35 @@ const updateUserPassword = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc Get user profile
+// @route GET /api/v1/user/profile/:id
+// @access Private
+const getOtherUser = asyncHandler(async (req, res) => {
+  const id = req.user.id;
+
+  const user = await User.findByPk(id, {
+    attributes: [
+      "id",
+      "name",
+      "email",
+      "dateOfBirth",
+      "gender",
+      "profileImage",
+    ],
+  });
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
 export {
-  loginUser,
   registerUser,
+  loginUser,
   getUserProfile,
   updateUserProfile,
   updateUserPassword,
+  getOtherUser,
 };

@@ -5,6 +5,7 @@ import {
   registerUser,
   updateUserPassword,
   updateUserProfile,
+  getOtherUser,
 } from "../controllers/userController.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 import { filesUpload } from "../middleware/fileUploadMiddleware.js";
@@ -40,9 +41,19 @@ userRouter
   );
 
 userRouter
-  .route("/profile/:id")
+  .route("/profile")
   .get(verifyToken, getUserProfile)
-  .patch(verifyToken, updateUserProfile)
+  .patch(
+    verifyToken,
+    filesUpload.single("profileImage"),
+    [
+      check("name", "Name field can not be empty.").notEmpty(),
+      check("email", "Invalid email address.").isEmail(),
+      check("gender", "Gender field can not be empty.").notEmpty(),
+      check("dateOfBirth", "Date of birth field can not be empty.").notEmpty(),
+    ],
+    updateUserProfile
+  )
   .put(
     verifyToken,
     [
@@ -54,5 +65,7 @@ userRouter
     validationCheck,
     updateUserPassword
   );
+
+userRouter.route("/profile/:id").get(verifyToken, getOtherUser);
 
 export default userRouter;

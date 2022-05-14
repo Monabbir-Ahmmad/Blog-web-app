@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 import http from "http";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
-import userRouter from "./router/userRouter.js";
+import userRouter from "./routes/userRoutes.js";
+import blogRouter from "./routes/blogRoutes.js";
 import dotenv from "dotenv";
 import { database } from "./config/database.js";
 
@@ -28,6 +29,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/blog", blogRouter);
 
 app.use(notFound);
 

@@ -34,9 +34,9 @@ const User = database.define("user", {
   },
 });
 
-UserType.hasMany(User);
+UserType.hasMany(User, { onDelete: "CASCADE" });
 
-User.belongsTo(UserType);
+User.belongsTo(UserType, { onDelete: "CASCADE" });
 
 await User.sync();
 

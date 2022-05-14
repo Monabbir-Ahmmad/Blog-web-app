@@ -2,6 +2,10 @@ import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 
 const verifyToken = asyncHandler(async (req, res, next) => {
+  if (req.method === "OPTIONS") {
+    next();
+  }
+
   let token;
 
   if (
