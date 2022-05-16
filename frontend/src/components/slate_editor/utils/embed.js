@@ -22,7 +22,7 @@ export const createVideoNode = ({ url, width, height }) => ({
 export const insertEmbed = (editor, embedData, format) => {
   const { url, width, height } = embedData;
   if (!url) return;
-  embedData.width = width ? `${width}px` : "100%";
+  embedData.width = width ? `${width}px` : "auto";
   embedData.height = height ? `${height}px` : "auto";
   const embed =
     format === "image"

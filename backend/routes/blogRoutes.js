@@ -16,7 +16,7 @@ blogRouter.use(verifyToken);
 blogRouter
   .route("/create")
   .post(
-    filesUpload.single("coverImage"),
+    filesUpload.single("blogCoverImage"),
     [
       check("title", "Title field can not be empty.")
         .notEmpty()
@@ -33,7 +33,7 @@ blogRouter.route("/:id").get(getSingleBlog);
 blogRouter
   .route("/update")
   .patch(
-    filesUpload.single("coverImage"),
+    filesUpload.single("blogCoverImage"),
     [
       check("title", "Title field can not be empty.")
         .notEmpty()

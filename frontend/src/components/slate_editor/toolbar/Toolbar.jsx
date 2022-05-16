@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSlate } from "slate-react";
 import Button from "../common/Button";
 import Icon from "../common/Icon";
@@ -10,31 +10,15 @@ import {
   isBlockActive,
   activeMark,
 } from "../utils/SlateUtilityFunctions.js";
-import useTable from "../utils/useTable.js";
 import defaultToolbarGroups from "./toolbarGroups.js";
 import "./styles.css";
-import ColorPicker from "../Elements/Color Picker/ColorPicker";
-import LinkButton from "../Elements/Link/LinkButton";
-import Embed from "../Elements/Embed/Embed";
-import Table from "../Elements/Table/Table";
-import InTable from "../Elements/Table/InTable";
+import ColorPicker from "../elements/color_picker/ColorPicker";
+import LinkButton from "../elements/link/LinkButton";
+import Embed from "../elements/embed/Embed";
 
 const Toolbar = () => {
   const editor = useSlate();
-  const isTable = useTable(editor);
   const [toolbarGroups, setToolbarGroups] = useState(defaultToolbarGroups);
-
-  useEffect(() => {
-    let filteredGroups = [...defaultToolbarGroups];
-    if (isTable) {
-      filteredGroups = toolbarGroups.map((grp) =>
-        grp.filter((element) => element.type !== "block")
-      );
-      filteredGroups = filteredGroups.filter((elem) => elem.length);
-    }
-    setToolbarGroups(filteredGroups);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTable]);
 
   const BlockButton = ({ format }) => {
     return (
@@ -124,12 +108,6 @@ const Toolbar = () => {
                     editor={editor}
                   />
                 );
-              case "table":
-                return <Table key={element.id} editor={editor} />;
-              case "inTable":
-                return isTable ? (
-                  <InTable key={element.id} editor={editor} />
-                ) : null;
               default:
                 return <button>Invalid Button</button>;
             }

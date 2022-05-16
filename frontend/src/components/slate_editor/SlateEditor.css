@@ -7,24 +7,6 @@ blockquote {
   font-style: italic;
 }
 
-table,
-th,
-td {
-  border: 1px solid black;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
-
-td {
-  height: fit-content;
-  padding: 1rem;
-  word-wrap: break-word;
-}
-
 button {
   background-color: white;
   border: none;
@@ -37,12 +19,12 @@ button {
 }
 
 .editor-wrapper {
-  font-family: "Roboto","Helvetica", "Arial", sans-serif;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   border-radius: 4px;
   background: #fff;
   border: 1px solid #d5d5d5;
   padding: 1rem;
-  min-height: 400px;
+  min-height: 300px;
   height: fit-content;
 }
 
@@ -53,7 +35,7 @@ button {
 
 .popup {
   position: absolute;
-  left: 0;
+  left: -100px;
   background-color: white;
   padding: 6px 10px;
   border: 1px solid lightgray;

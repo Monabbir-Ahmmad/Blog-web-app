@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: auto auto auto auto auto auto auto;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
 }
 
 .clicked {
@@ -12,9 +12,11 @@
 
 .option,
 .hexPreview {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   background-color: #000000;
+  border: 1px solid rgba(169, 169, 169, 0.5);
+  border-radius: 2px;
 }
 
 .color-picker form {
@@ -26,16 +28,10 @@
 
 .color-picker input {
   width: 65%;
-  height: 1.3em;
+  height: 2em;
   border: 1px solid lightgray;
   border-radius: 5px;
   padding-left: 5px;
-}
-
-.color-picker button {
-  margin: 0;
-  padding: 0;
-  cursor: pointer;
 }
 
 .color-picker input:focus {

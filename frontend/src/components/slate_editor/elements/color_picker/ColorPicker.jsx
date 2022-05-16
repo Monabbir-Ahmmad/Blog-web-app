@@ -1,16 +1,13 @@
 import React, { useRef, useState } from "react";
-import { MdFormatColorText, MdFormatColorFill, MdCheck } from "react-icons/md";
 import "./ColorPicker.css";
 import { colors } from "./defaultColors.js";
-import { addMarkData, activeMark } from "../../utils/SlateUtilityFunctions.js";
+import { addMarkData } from "../../utils/SlateUtilityFunctions.js";
 import { Transforms } from "slate";
 import usePopup from "../../utils/usePopup";
 import { ReactEditor } from "slate-react";
+import { Check } from "@mui/icons-material";
+import Icon from "../../common/Icon";
 
-const logo = {
-  color: <MdFormatColorText size={20} />,
-  bgColor: <MdFormatColorFill size={20} />,
-};
 const ColorPicker = ({ format, editor }) => {
   const [selection, setSelection] = useState();
   const [hexValue, setHexValue] = useState("");
@@ -56,13 +53,13 @@ const ColorPicker = ({ format, editor }) => {
     <div className="color-picker popup-wrapper" ref={colorPickerRef}>
       <button
         style={{
-          color: showOptions ? "black" : activeMark(editor, format),
+          color: "black",
           opacity: "1",
         }}
         className={showOptions ? "clicked" : ""}
         onClick={toggleOption}
       >
-        {logo[format]}
+        <Icon icon={format} />
       </button>
       {showOptions && (
         <div className="popup">
@@ -98,7 +95,7 @@ const ColorPicker = ({ format, editor }) => {
               }}
             />
             <button style={{ color: validHex ? "green" : "" }} type={"submit"}>
-              <MdCheck size={20} />
+              <Check />
             </button>
           </form>
         </div>

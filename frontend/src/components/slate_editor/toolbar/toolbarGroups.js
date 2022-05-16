@@ -135,17 +135,6 @@ const toolbarGroups = [
     //   format: "video",
     //   type: "embed"
     // },
-    {
-      id: 23,
-      type: "table",
-    },
-  ],
-
-  [
-    {
-      id: 24,
-      type: "inTable",
-    },
   ],
 ];
 

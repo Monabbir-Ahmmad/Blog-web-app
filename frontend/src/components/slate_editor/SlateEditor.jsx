@@ -2,15 +2,14 @@ import React, { useCallback, useMemo, useState } from "react";
 import { createEditor } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact } from "slate-react";
-import Toolbar from "./Toolbar/Toolbar";
+import Toolbar from "./toolbar/Toolbar";
 import { sizeMap, fontFamilyMap } from "./utils/SlateUtilityFunctions.js";
 import withLinks from "./plugins/withLinks.js";
-import withTables from "./plugins/withTable.js";
 import withEmbeds from "./plugins/withEmbeds.js";
-import "./Editor.css";
-import Link from "./Elements/Link/Link";
-import Image from "./Elements/Image/Image";
-import Video from "./Elements/Video/Video";
+import "./SlateEditor.css";
+import Link from "./elements/link/Link";
+import Image from "./elements/image/Image";
+import Video from "./elements/video/Video";
 
 const Element = (props) => {
   const { attributes, children, element } = props;
@@ -63,17 +62,6 @@ const Element = (props) => {
       return <ul {...attributes}>{children}</ul>;
     case "link":
       return <Link {...props} />;
-
-    case "table":
-      return (
-        <table>
-          <tbody {...attributes}>{children}</tbody>
-        </table>
-      );
-    case "table-row":
-      return <tr {...attributes}>{children}</tr>;
-    case "table-cell":
-      return <td {...attributes}>{children}</td>;
     case "image":
       return <Image {...props} />;
     case "video":
@@ -130,8 +118,7 @@ const Leaf = ({ attributes, children, leaf }) => {
 
 const SlateEditor = () => {
   const editor = useMemo(
-    () =>
-      withHistory(withEmbeds(withTables(withLinks(withReact(createEditor()))))),
+    () => withHistory(withEmbeds(withLinks(withReact(createEditor())))),
     []
   );
 

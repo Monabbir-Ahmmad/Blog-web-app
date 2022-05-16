@@ -4,6 +4,7 @@ import Icon from "../../common/Icon";
 import { isBlockActive } from "../../utils/SlateUtilityFunctions";
 import usePopup from "../../utils/usePopup";
 import { insertEmbed } from "../../utils/embed.js";
+import "./Embad.css";
 
 const Embed = ({ editor, format }) => {
   const urlInputRef = useRef();
@@ -44,7 +45,7 @@ const Embed = ({ editor, format }) => {
       </Button>
       {showInput && (
         <div className="popup">
-          <form onSubmit={handleFormSubmit}>
+          <form onSubmit={handleFormSubmit} className="embad-popup">
             <input
               type="text"
               placeholder="Enter url"
