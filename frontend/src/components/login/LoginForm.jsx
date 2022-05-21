@@ -6,7 +6,6 @@ import {
   IconButton,
   InputAdornment,
   LinearProgress,
-  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -15,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { login } from "../../actions/userActions";
 
-const FormContainer = styled.div`
+const FormContainer = styled.form`
   display: flex;
   align-items: stretch;
   justify-content: center;
@@ -24,7 +23,8 @@ const FormContainer = styled.div`
   width: 100%;
   gap: 2rem;
 `;
-function LoginForm() {
+
+function LoginForm({ reset }) {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -45,6 +45,16 @@ function LoginForm() {
   const { loading, error, userAuthInfo } = useSelector(
     (state) => state.userLogin
   );
+
+  useEffect(() => {
+    if (reset) {
+      setValueMissing(false);
+      setValues({
+        email: "",
+        password: "",
+      });
+    }
+  }, [reset]);
 
   useEffect(() => {
     console.log(userAuthInfo);
@@ -83,7 +93,7 @@ function LoginForm() {
       </Typography>
 
       <Typography variant="h6" textAlign={"center"} color={"text.secondary"}>
-        Login to view many interesting blogs and maybe write some of your own
+        Login to view many interesting blogs and maybe write some of your own.
       </Typography>
 
       {loading && <LinearProgress />}
@@ -123,7 +133,11 @@ function LoginForm() {
         }}
       />
 
-      <Button variant="contained" size="large" type="submit" sx={{ mt: 4 }}>
+      <Typography variant="body2" textAlign={"center"} color={"text.secondary"}>
+        By continuing, you agree to our User Agreement and Privacy Policy.
+      </Typography>
+
+      <Button variant="contained" size="large" type="submit" sx={{ mt: 3 }}>
         Sign in
       </Button>
     </FormContainer>

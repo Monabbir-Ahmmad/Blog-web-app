@@ -4,15 +4,12 @@ import { DatePicker, LocalizationProvider } from "@mui/lab";
 import AdapterMoment from "@mui/lab/AdapterMoment";
 import {
   Alert,
-  Avatar,
   Button,
   CircularProgress,
   IconButton,
-  Input,
   InputAdornment,
   LinearProgress,
   MenuItem,
-  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -21,6 +18,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { register } from "../../actions/userActions";
+import ProfileImagePicker from "../imagePicker/ProfileImagePicker";
 
 const genders = ["Male", "Female", "Other"];
 
@@ -34,7 +32,7 @@ const FormContainer = styled.form`
   gap: 1rem;
 `;
 
-function RegisterForm() {
+function RegisterForm({ reset }) {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -57,6 +55,19 @@ function RegisterForm() {
   const { loading, error, userInfo } = useSelector(
     (state) => state.userRegister
   );
+
+  useEffect(() => {
+    if (reset) {
+      setValueMissing(false);
+      setName("");
+      setEmail("");
+      setProfilePic(null);
+      setDateOfBirth("");
+      setGender("");
+      setPassword("");
+      setConfirmPassword("");
+    }
+  }, [reset]);
 
   useEffect(() => {
     if (userInfo && Object.keys(userInfo).length) {
@@ -89,10 +100,9 @@ function RegisterForm() {
     if (
       name &&
       email &&
-      password &&
-      profilePic &&
       gender &&
       dateOfBirth &&
+      password &&
       confirmPassword &&
       password === confirmPassword
     ) {
@@ -125,37 +135,14 @@ function RegisterForm() {
 
       {error && <Alert severity="error">{error}</Alert>}
 
-      <Avatar
-        alt="Profile Picture"
-        src={profilePic && URL.createObjectURL(profilePic)}
-        sx={{ width: 150, height: 150, alignSelf: "center" }}
-      />
-
-      <label htmlFor="contained-button-file">
-        <Input
-          id="contained-button-file"
-          type={"file"}
-          name="profileImage"
-          accept=".png, .jpg, .jpeg"
-          onChange={onFileSelect}
-          sx={{ display: "none" }}
-        />
-        <Button
-          fullWidth
-          variant="outlined"
-          component="span"
-          color={valueMissing && !profilePic ? "error" : "primary"}
-        >
-          Upload Profile Picture
-        </Button>
-      </label>
+      <ProfileImagePicker onImageSelect={onFileSelect} image={profilePic} />
 
       <TextField
         variant="outlined"
         label="Name"
         type={"text"}
         error={valueMissing && !name}
-        helperText={valueMissing && !name ? "Please enter your name" : ""}
+        helperText={valueMissing && !name ? "Name cannot be empty" : ""}
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
@@ -165,7 +152,7 @@ function RegisterForm() {
         label="Email"
         type={"email"}
         error={valueMissing && !email}
-        helperText={valueMissing && !email ? "Please enter your email" : ""}
+        helperText={valueMissing && !email ? "Email cannot be empty" : ""}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
@@ -175,7 +162,7 @@ function RegisterForm() {
         label="Gender"
         select
         error={valueMissing && !gender}
-        helperText={valueMissing && !gender ? "Please select your gender" : ""}
+        helperText={valueMissing && !gender ? "Gender cannot be empty" : ""}
         value={gender}
         onChange={(e) => setGender(e.target.value)}
       >
@@ -200,7 +187,7 @@ function RegisterForm() {
               error={valueMissing && !dateOfBirth}
               helperText={
                 valueMissing && !dateOfBirth
-                  ? "Please enter your date of birth"
+                  ? "Date of birth cannot be empty"
                   : ""
               }
             />
@@ -213,9 +200,7 @@ function RegisterForm() {
         label="Password"
         type={showPassword.password ? "text" : "password"}
         error={valueMissing && !password}
-        helperText={
-          valueMissing && !password ? "Please enter your password" : ""
-        }
+        helperText={valueMissing && !password ? "Password cannot be empty" : ""}
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         InputProps={{
@@ -258,7 +243,12 @@ function RegisterForm() {
         }}
       />
 
-      <Button variant="contained" size="large" type="submit">
+      <Typography variant="body2" textAlign={"center"} color={"text.secondary"}>
+        By continuing, you are setting up an account and agree to our User
+        Agreement and Privacy Policy.
+      </Typography>
+
+      <Button variant="contained" size="large" type="submit" sx={{ mt: 2 }}>
         Create account
       </Button>
 

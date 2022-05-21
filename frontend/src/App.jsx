@@ -1,12 +1,12 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import LoginRegPage from "./pages/LoginRegPage";
+import { Route, Routes } from "react-router-dom";
+import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
 import BlogCreatePage from "./pages/BlogCreatePage";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<LoginRegPage />} />
+      <Route path="/" element={<AuthPage />} />
 
       <Route path="/home" element={<HomePage />} />
 
