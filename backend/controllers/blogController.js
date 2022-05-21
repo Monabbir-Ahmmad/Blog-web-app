@@ -5,6 +5,7 @@ import User from "../models/userModel.js";
 import { hashPassword, verifyPassword } from "../utils/passwordEncryption.js";
 import UserType from "../models/userTypeModel.js";
 import Blog from "../models/blogModel.js";
+import Like from "../models/likeModel.js";
 
 // @desc Create blog
 // @route POST /api/v1/blog/create
@@ -105,4 +106,36 @@ const updateBlog = asyncHandler(async (req, res) => {
   }
 });
 
-export { createBlog, getSingleBlog, updateBlog };
+// @desc Like blog
+// @route POST /api/v1/blog/like
+// @access private
+// @needs blogId
+const likeBlog = asyncHandler(async (req, res) => {
+  const { blogId } = req.body;
+  const userId = req.user.id;
+
+  const user = await User.findByPk(userId);
+  const blog = await Blog.findByPk(blogId);
+
+  if (user && blog) {
+    const like = await Like.findOrCreate({
+      where: { blogId: blog.id, userId: user.id },
+    });
+
+    if (like) {
+      await Like.update(
+        { hasLiked: !like[0].hasLiked },
+        { where: { id: like[0].id } }
+      );
+
+      res.status(200).json({
+        hasLiked: !like[0].hasLiked,
+      });
+    }
+  } else {
+    res.status(404);
+    throw new Error("Blog not found");
+  }
+});
+
+export { createBlog, getSingleBlog, updateBlog, likeBlog };

@@ -2,6 +2,7 @@ import express from "express";
 import {
   createBlog,
   getSingleBlog,
+  likeBlog,
   updateBlog,
 } from "../controllers/blogController.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
@@ -44,5 +45,7 @@ blogRouter
     validationCheck,
     updateBlog
   );
+
+blogRouter.route("/like").post(likeBlog);
 
 export default blogRouter;

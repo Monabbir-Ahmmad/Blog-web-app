@@ -1,22 +1,17 @@
-import { useState } from "react";
-import SunEditor from "./components/sun_editor/SunEditor";
-import "suneditor/dist/css/suneditor.min.css";
+import { Navigate, Route, Routes } from "react-router-dom";
+import LoginRegPage from "./pages/LoginRegPage";
+import HomePage from "./pages/HomePage";
+import BlogCreatePage from "./pages/BlogCreatePage";
 
 function App() {
-  const [value, setValue] = useState();
-
   return (
-    <div>
-      <SunEditor
-        onChange={(content) => {
-          setValue(content);
-        }}
-      />
-      <div
-        dangerouslySetInnerHTML={{ __html: value }}
-        className="sun-editor-editable"
-      ></div>
-    </div>
+    <Routes>
+      <Route path="/" element={<LoginRegPage />} />
+
+      <Route path="/home" element={<HomePage />} />
+
+      <Route path="/blogs/create" element={<BlogCreatePage />} />
+    </Routes>
   );
 }
 
