@@ -6,6 +6,7 @@ import userRouter from "./routes/userRoutes.js";
 import blogRouter from "./routes/blogRoutes.js";
 import dotenv from "dotenv";
 import { database } from "./config/database.js";
+import seedDatabase from "./seedDatabase.js";
 
 const app = express();
 
@@ -35,6 +36,8 @@ app.use("/api/v1/blog", blogRouter);
 app.use(notFound);
 
 app.use(errorHandler);
+
+seedDatabase();
 
 const PORT = process.env.PORT || 5000;
 

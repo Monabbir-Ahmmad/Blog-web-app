@@ -7,7 +7,7 @@ function ProfileImagePicker({ onImageSelect, image }) {
       <Input
         id="contained-button-file"
         type={"file"}
-        name="profileImage"
+        name="image"
         accept=".png, .jpg, .jpeg"
         onChange={onImageSelect}
         sx={{ display: "none" }}

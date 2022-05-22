@@ -92,7 +92,7 @@ function RegisterForm({ reset }) {
     const values = {
       name,
       email,
-      image: profilePic,
+      userProfileImage: profilePic,
       gender,
       dateOfBirth: moment(dateOfBirth).format("YYYY-MM-DD"),
       password,
@@ -115,7 +115,7 @@ function RegisterForm({ reset }) {
         formData.append([item], values[item]);
       });
 
-      dispatch(register("user", formData));
+      dispatch(register(formData));
     } else {
       setValueMissing(true);
     }
