@@ -3,6 +3,8 @@ import { Button, Fade, Stack, Typography } from "@mui/material";
 import AuthPageImage from "../../assets/loginPageImage.png";
 
 const Container = styled.div`
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,12 +16,7 @@ const Container = styled.div`
   background-position: center;
   background-size: cover;
   text-align: center;
-  width: 100%;
   transition: all 1s ease;
-
-  @media (max-width: 900px) {
-    height: 100vh;
-  }
 `;
 
 function AuthPageChanger({ signupOpen, pageChangeHandler }) {

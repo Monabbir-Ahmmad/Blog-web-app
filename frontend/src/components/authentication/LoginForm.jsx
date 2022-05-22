@@ -57,7 +57,6 @@ function LoginForm({ reset }) {
   }, [reset]);
 
   useEffect(() => {
-    console.log(userAuthInfo);
     if (userAuthInfo && Object.keys(userAuthInfo).length) {
       navigate(redirect ? `/${redirect}` : "/home");
     }

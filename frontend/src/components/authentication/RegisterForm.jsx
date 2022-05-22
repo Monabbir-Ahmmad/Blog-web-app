@@ -10,6 +10,7 @@ import {
   InputAdornment,
   LinearProgress,
   MenuItem,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -157,43 +158,46 @@ function RegisterForm({ reset }) {
         onChange={(e) => setEmail(e.target.value)}
       />
 
-      <TextField
-        variant="outlined"
-        label="Gender"
-        select
-        error={valueMissing && !gender}
-        helperText={valueMissing && !gender ? "Gender cannot be empty" : ""}
-        value={gender}
-        onChange={(e) => setGender(e.target.value)}
-      >
-        {genders.map((option, index) => (
-          <MenuItem key={index} value={option}>
-            {option}
-          </MenuItem>
-        ))}
-      </TextField>
+      <Stack direction={{ xs: "column", md: "row" }} sx={{ gap: "1rem" }}>
+        <TextField
+          variant="outlined"
+          label="Gender"
+          select
+          fullWidth
+          error={valueMissing && !gender}
+          helperText={valueMissing && !gender ? "Gender cannot be empty" : ""}
+          value={gender}
+          onChange={(e) => setGender(e.target.value)}
+        >
+          {genders.map((option, index) => (
+            <MenuItem key={index} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>
 
-      <LocalizationProvider dateAdapter={AdapterMoment}>
-        <DatePicker
-          disableFuture
-          label="Date of Birth"
-          value={dateOfBirth}
-          onChange={(newValue) => setDateOfBirth(newValue)}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              fullWidth
-              variant="outlined"
-              error={valueMissing && !dateOfBirth}
-              helperText={
-                valueMissing && !dateOfBirth
-                  ? "Date of birth cannot be empty"
-                  : ""
-              }
-            />
-          )}
-        />
-      </LocalizationProvider>
+        <LocalizationProvider dateAdapter={AdapterMoment}>
+          <DatePicker
+            disableFuture
+            label="Date of Birth"
+            value={dateOfBirth}
+            onChange={(newValue) => setDateOfBirth(newValue)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                fullWidth
+                variant="outlined"
+                error={valueMissing && !dateOfBirth}
+                helperText={
+                  valueMissing && !dateOfBirth
+                    ? "Date of birth cannot be empty"
+                    : ""
+                }
+              />
+            )}
+          />
+        </LocalizationProvider>
+      </Stack>
 
       <TextField
         variant="outlined"
@@ -244,8 +248,7 @@ function RegisterForm({ reset }) {
       />
 
       <Typography variant="body2" textAlign={"center"} color={"text.secondary"}>
-        By continuing, you are setting up an account and agree to our User
-        Agreement and Privacy Policy.
+        By continuing, you agree to our User Agreement and Privacy Policy.
       </Typography>
 
       <Button variant="contained" size="large" type="submit" sx={{ mt: 2 }}>

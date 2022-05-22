@@ -16,7 +16,7 @@ function ProfileImagePicker({ onImageSelect, image }) {
         <PhotoCamera
           sx={{
             fontSize: 100,
-            color: "gray",
+            color: "contrastText",
             opacity: 0,
             position: "absolute",
             left: 0,

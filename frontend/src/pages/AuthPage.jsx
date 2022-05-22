@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import LoginForm from "../components/login/LoginForm";
-import RegisterForm from "../components/register/RegisterForm";
-import AuthPageChanger from "../components/authPageChanger/AuthPageChanger";
+import LoginForm from "../components/authentication/LoginForm";
+import RegisterForm from "../components/authentication/RegisterForm";
+import AuthPageChanger from "../components/authentication/AuthPageChanger";
 import styled from "@emotion/styled";
 import { Stack } from "@mui/material";
 
@@ -12,7 +12,7 @@ const LoginFormContainer = styled.div`
   justify-content: center;
   width: ${({ signupOpen }) => (signupOpen ? 0 : "100%")};
   height: 100vh;
-  padding: ${({ signupOpen }) => (signupOpen ? 0 : "3rem")};
+  padding: ${({ signupOpen }) => (signupOpen ? 0 : "2rem")};
   transition: all 1s ease;
   overflow: hidden;
 
@@ -28,13 +28,13 @@ const RegFormContainer = styled.div`
   justify-content: center;
   width: ${({ signupOpen }) => (signupOpen ? "100%" : 0)};
   height: 100vh;
-  padding: ${({ signupOpen }) => (signupOpen ? "3rem" : 0)};
+  padding: ${({ signupOpen }) => (signupOpen ? "2rem" : 0)};
   transition: all 1s ease;
   overflow: hidden;
 
   @media (max-width: 900px) {
     width: 100%;
-    height: ${({ signupOpen }) => (signupOpen ? "100vh" : 0)};
+    height: ${({ signupOpen }) => (signupOpen ? "auto" : 0)};
   }
 `;
 
