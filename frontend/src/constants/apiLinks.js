@@ -15,6 +15,10 @@ export const UPDATE_BLOG = `${API_HOST}/api/v1/blog/update`;
 
 export const GET_SINGLE_BLOG = `${API_HOST}/api/v1/blog`;
 
+export const GET_BLOG_LIST = `${API_HOST}/api/v1/blog`;
+
+export const GET_PERSONAL_BLOG_LIST = `${API_HOST}/api/v1/blog`;
+
 export const UPVOTE_BLOG = `${API_HOST}/api/v1/blog/like`;
 
 export const POST_BLOG_COMMENT = `${API_HOST}/api/v1/blog/comment`;

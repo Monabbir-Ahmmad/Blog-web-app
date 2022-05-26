@@ -15,6 +15,7 @@ const createBlog = asyncHandler(async (req, res) => {
   const { title, content } = req.body;
 
   const user = await User.findByPk(req.user.id);
+
   if (user) {
     const blog = await Blog.create({
       title,
@@ -44,11 +45,34 @@ const createBlog = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc Get blog list by page number
+// @route GET /api/v1/blog/?page=num
+// @access private
+const getBlogList = asyncHandler(async (req, res) => {
+  const page = req.query.page;
+
+  const blogList = await Blog.findAll({
+    attributes: ["id", "title", "coverImage", "updatedAt"],
+    include: {
+      model: User,
+      attributes: ["id", "name", "profileImage"],
+    },
+  });
+
+  if (blogList) {
+    res.status(200).json(blogList);
+  } else {
+    res.status(404);
+    throw new Error("Blog not found");
+  }
+});
+
 // @desc Get single blog
 // @route GET /api/v1/blog/:id
 // @access private
 const getSingleBlog = asyncHandler(async (req, res) => {
   const id = req.params.id;
+
   const blog = await Blog.findByPk(id, {
     attributes: ["id", "title", "content", "coverImage", "updatedAt"],
     include: {
@@ -68,6 +92,7 @@ const getSingleBlog = asyncHandler(async (req, res) => {
 // @desc Update blog
 // @route PATCH /api/v1/blog/update
 // @access private
+// @needs blog id, title, content
 const updateBlog = asyncHandler(async (req, res) => {
   const { id, title, content } = req.body;
   const userId = req.user.id;

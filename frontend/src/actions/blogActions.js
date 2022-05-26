@@ -2,7 +2,7 @@ import axios from "axios";
 import {
   GET_BLOG_COMMENTS,
   GET_BLOG_LIST,
-  GET_PERSONAL_BLOGS,
+  GET_PERSONAL_BLOG_LIST,
   GET_SINGLE_BLOG,
   POST_BLOG,
   POST_BLOG_COMMENT,
@@ -26,47 +26,43 @@ import {
   POST_BLOG_FAIL,
   POST_BLOG_REQUEST,
   POST_BLOG_SUCCESS,
+  POST_BLOG_SUCCESS_RESET,
 } from "../constants/blogsConstants";
-import {
-  GET_PERSONAL_QUESTIONS_FAIL,
-  GET_PERSONAL_QUESTIONS_REQUEST,
-  GET_PERSONAL_QUESTIONS_SUCCESS,
-  GET_QUESTIONS_FAIL,
-  GET_QUESTIONS_REQUEST,
-  GET_QUESTIONS_SUCCESS,
-  GET_SINGLE_QUESTION_FAIL,
-  GET_SINGLE_QUESTION_REQUEST,
-  GET_SINGLE_QUESTION_SUCCESS,
-  POST_ANSWER_FAIL,
-  POST_ANSWER_REQUEST,
-  POST_ANSWER_SUCCESS,
-  POST_QUESTION_FAIL,
-  POST_QUESTION_REQUEST,
-  POST_QUESTION_SUCCESS,
-} from "../constants/queAnsConstants";
 
 export const writeBlog = (blog) => async (dispatch, getState) => {
   try {
     dispatch({ type: POST_BLOG_REQUEST });
 
     const {
-      userLogin: { userInfo },
+      userLogin: { userAuthInfo },
     } = getState();
 
     const config = {
       headers: {
         "Content-type": "multipart/form-data",
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${userAuthInfo.token}`,
       },
     };
 
     const res = await axios.post(`${POST_BLOG}`, blog, config);
 
+    console.log(res);
+
     dispatch({
       type: POST_BLOG_SUCCESS,
       payload: res.data,
     });
+
+    setTimeout(
+      () =>
+        dispatch({
+          type: POST_BLOG_SUCCESS_RESET,
+          payload: res.data,
+        }),
+      2000
+    );
   } catch (error) {
+    console.error(error);
     dispatch({
       type: POST_BLOG_FAIL,
       payload:
@@ -205,7 +201,10 @@ export const getPersonalBlogs = () => async (dispatch, getState) => {
       },
     };
 
-    const res = await axios.get(`${GET_PERSONAL_BLOGS}/${userInfo.id}`, config);
+    const res = await axios.get(
+      `${GET_PERSONAL_BLOG_LIST}/${userInfo.id}`,
+      config
+    );
 
     dispatch({
       type: GET_PERSONAL_BLOGS_SUCCESS,

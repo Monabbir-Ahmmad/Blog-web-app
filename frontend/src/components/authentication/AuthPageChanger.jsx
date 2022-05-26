@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
-import { Button, Fade, Stack, Typography } from "@mui/material";
+import { Box, Button, Fade, Stack, Typography, Zoom } from "@mui/material";
 import AuthPageImage from "../../assets/loginPageImage.png";
+import AppIcon from "../../icon/AppIcon";
 
 const Container = styled.div`
   width: 100%;
@@ -22,14 +23,27 @@ const Container = styled.div`
 function AuthPageChanger({ signupOpen, pageChangeHandler }) {
   return (
     <Container>
+      <Zoom in={true} style={{ transitionDelay: "1s" }}>
+        <Box
+          width={150}
+          height={150}
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          bgcolor={"#fff"}
+          borderRadius={100}
+        >
+          <AppIcon sx={{ fontSize: 100 }} />
+        </Box>
+      </Zoom>
       {signupOpen && (
         <Fade in={signupOpen} {...(signupOpen ? { timeout: 2000 } : {})}>
           <Stack spacing={4}>
             <Typography variant="h2" color={"#fff"}>
-              Already have an account?
+              Already a user?
             </Typography>
             <Typography variant="h4" color={"#fff"}>
-              Login to read or write blogs
+              Login to read or write many interesting blogs
             </Typography>
           </Stack>
         </Fade>
@@ -41,7 +55,7 @@ function AuthPageChanger({ signupOpen, pageChangeHandler }) {
               New here?
             </Typography>
             <Typography variant="h4" color={"#fff"}>
-              Sign up to get access to blog world
+              Sign up to get access to Writer
             </Typography>
           </Stack>
         </Fade>

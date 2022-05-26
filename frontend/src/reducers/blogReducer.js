@@ -17,6 +17,7 @@ import {
   POST_BLOG_FAIL,
   POST_BLOG_REQUEST,
   POST_BLOG_SUCCESS,
+  POST_BLOG_SUCCESS_RESET,
 } from "../constants/blogsConstants";
 
 export const postBlogReducer = (state = {}, action) => {
@@ -24,7 +25,9 @@ export const postBlogReducer = (state = {}, action) => {
     case POST_BLOG_REQUEST:
       return { loading: true };
     case POST_BLOG_SUCCESS:
-      return { loading: false, success: true, blogs: action.payload };
+      return { loading: false, success: true, blog: action.payload };
+    case POST_BLOG_SUCCESS_RESET:
+      return { loading: false, success: false };
     case POST_BLOG_FAIL:
       return { loading: false, success: false, error: action.payload };
     default:

@@ -1,18 +1,28 @@
 import { Route, Routes } from "react-router-dom";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
-import BlogCreatePage from "./pages/BlogCreatePage";
-import { ThemeContextProvider } from "./context/ThemeContext";
+import BlogWritePage from "./pages/BlogWritePage";
+import NavDrawer from "./components/nav/NavDrawer";
+import ProfilePage from "./pages/ProfilePage";
+import PersonalBlogPage from "./pages/PersonalBlogPage";
 
 function App() {
   return (
-    <ThemeContextProvider>
-      <Routes>
-        <Route path="/" element={<AuthPage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/blogs/create" element={<BlogCreatePage />} />
-      </Routes>
-    </ThemeContextProvider>
+    <Routes>
+      <Route index element={<AuthPage />} />
+
+      <Route path="/" element={<NavDrawer />}>
+        <Route path="home" element={<HomePage />} />
+
+        <Route path="profile" element={<ProfilePage />} />
+
+        <Route path="write" element={<BlogWritePage />} />
+
+        <Route path="personal-blogs" element={<PersonalBlogPage />} />
+
+        <Route path="*" element={<div>Page Not Found</div>} />
+      </Route>
+    </Routes>
   );
 }
 

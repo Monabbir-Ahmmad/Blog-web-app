@@ -40,6 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
     id: user.id,
     name: user.name,
     email: user.email,
+    profileImage: user.profileImage,
     privilege: user.privilege,
     token: generateToken(user.id, user.name, user.email, user.privilege),
   });
@@ -65,8 +66,8 @@ const loginUser = asyncHandler(async (req, res) => {
       id: user.id,
       name: user.name,
       email: user.email,
+      profileImage: user.profileImage,
       privilege: user.userType.privilege,
-
       token: generateToken(
         user.id,
         user.name,
@@ -208,7 +209,7 @@ const updateUserPassword = asyncHandler(async (req, res) => {
 // @route GET /api/v1/user/profile/:id
 // @access Private
 const getOtherUser = asyncHandler(async (req, res) => {
-  const id = req.user.id;
+  const id = req.params.id;
 
   const user = await User.findByPk(id, {
     attributes: [

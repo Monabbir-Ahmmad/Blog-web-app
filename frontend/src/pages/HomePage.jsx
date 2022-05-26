@@ -1,5 +1,7 @@
+import { Typography } from "@mui/material";
+
 function HomePage() {
-  return <div></div>;
+  return <Typography>This is the home page</Typography>;
 }
 
 export default HomePage;

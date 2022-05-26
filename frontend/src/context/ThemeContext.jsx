@@ -11,11 +11,11 @@ const ThemeContext = createContext({
 function ThemeContextProvider({ children }) {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
-  const [mode, setMode] = useState(prefersDarkMode ? "dark" : "light");
+  const [mode, setMode] = useState("light");
 
-  useEffect(() => {
-    setMode(prefersDarkMode ? "dark" : "light");
-  }, [prefersDarkMode]);
+  // useEffect(() => {
+  //   setMode(prefersDarkMode ? "dark" : "light");
+  // }, [prefersDarkMode]);
 
   const themeMode = useMemo(
     () => ({
@@ -30,10 +30,20 @@ function ThemeContextProvider({ children }) {
   const theme = useMemo(
     () =>
       createTheme({
+        typography: {
+          fontFamily: "Montserrat",
+          fontWeightLight: 400,
+          fontWeightRegular: 500,
+          fontWeightMedium: 600,
+          fontWeightBold: 700,
+        },
         palette: {
           mode,
           primary: {
             main: "#1976d2",
+          },
+          accent: {
+            main: "#1976d220",
           },
         },
       }),
