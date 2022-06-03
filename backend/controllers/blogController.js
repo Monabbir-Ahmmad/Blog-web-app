@@ -13,6 +13,7 @@ import Like from "../models/likeModel.js";
 // @needs title, content
 const createBlog = asyncHandler(async (req, res) => {
   const { title, content } = req.body;
+  const coverImage = req.file?.filename;
 
   const user = await User.findByPk(req.user.id);
 
@@ -20,7 +21,7 @@ const createBlog = asyncHandler(async (req, res) => {
     const blog = await Blog.create({
       title,
       content,
-      coverImage: req.file?.filename,
+      coverImage,
     });
 
     await blog.setUser(user);
@@ -53,10 +54,16 @@ const getBlogList = asyncHandler(async (req, res) => {
 
   const blogList = await Blog.findAll({
     attributes: ["id", "title", "coverImage", "updatedAt"],
-    include: {
-      model: User,
-      attributes: ["id", "name", "profileImage"],
-    },
+    include: [
+      {
+        model: User,
+        attributes: ["id", "name", "profileImage"],
+      },
+      {
+        model: Like,
+        attributes: ["userId", "hasLiked"],
+      },
+    ],
   });
 
   if (blogList) {
@@ -163,4 +170,4 @@ const likeBlog = asyncHandler(async (req, res) => {
   }
 });
 
-export { createBlog, getSingleBlog, updateBlog, likeBlog };
+export { createBlog, getBlogList, getSingleBlog, updateBlog, likeBlog };

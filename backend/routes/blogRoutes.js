@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createBlog,
+  getBlogList,
   getSingleBlog,
   likeBlog,
   updateBlog,
@@ -28,6 +29,8 @@ blogRouter
     validationCheck,
     createBlog
   );
+
+blogRouter.route("/").get(getBlogList);
 
 blogRouter.route("/:id").get(getSingleBlog);
 

@@ -47,7 +47,7 @@ function NavItems({ profileColor }) {
           src={
             userAuthInfo?.profileImage
               ? `${API_HOST}/${userAuthInfo?.profileImage}`
-              : "brokenImage.png"
+              : "broken.png"
           }
           sx={{ width: 100, height: 100, fontSize: 60, bgcolor: profileColor }}
         />

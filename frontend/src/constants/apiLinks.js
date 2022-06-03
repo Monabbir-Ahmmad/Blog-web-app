@@ -17,9 +17,9 @@ export const GET_SINGLE_BLOG = `${API_HOST}/api/v1/blog`;
 
 export const GET_BLOG_LIST = `${API_HOST}/api/v1/blog`;
 
-export const GET_PERSONAL_BLOG_LIST = `${API_HOST}/api/v1/blog`;
+export const GET_PERSONAL_BLOG_LIST = `${API_HOST}/api/v1/blog/personal`;
 
-export const UPVOTE_BLOG = `${API_HOST}/api/v1/blog/like`;
+export const LIKE_BLOG = `${API_HOST}/api/v1/blog/like`;
 
 export const POST_BLOG_COMMENT = `${API_HOST}/api/v1/blog/comment`;
 

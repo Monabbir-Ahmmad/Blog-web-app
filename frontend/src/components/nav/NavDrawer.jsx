@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material";
 import NavItems from "./NavItems";
 import { randomColor } from "../../utils/utilities";
-import AppIcon from "../../icon/AppIcon";
+import AppIcon from "../icon/AppIcon";
 
 const drawerWidth = 300;
 
@@ -83,6 +83,7 @@ function NavDrawer({ window }) {
         </Drawer>
         <Drawer
           variant="permanent"
+          open
           sx={{
             display: { xs: "none", md: "block" },
             "& .MuiDrawer-paper": {
@@ -90,7 +91,6 @@ function NavDrawer({ window }) {
               width: drawerWidth,
             },
           }}
-          open
         >
           <NavItems profileColor={profileColor} />
         </Drawer>

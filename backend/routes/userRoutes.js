@@ -22,7 +22,7 @@ userRouter
       check("name", "Name field can not be empty.").notEmpty(),
       check("email", "Invalid email address.").isEmail(),
       check("gender", "Gender field can not be empty.").notEmpty(),
-      check("dateOfBirth", "Date of birth must be a valid date")
+      check("dateOfBirth", "Date of birth must be a valid date.")
         .trim()
         .isDate(),
       check(
@@ -49,22 +49,36 @@ userRouter
     verifyToken,
     filesUpload.single("userProfileImage"),
     [
-      check("name", "Name field can not be empty.").notEmpty(),
-      check("email", "Invalid email address.").isEmail(),
-      check("gender", "Gender field can not be empty.").notEmpty(),
-      check("dateOfBirth", "Date of birth must be a valid date")
+      check("name", "Name field can not be empty.")
+        .notEmpty()
+        .optional({ nullable: true }),
+      check("email", "Invalid email address.")
+        .isEmail()
+        .optional({ nullable: true }),
+      check("gender", "Gender field can not be empty.")
+        .notEmpty()
+        .optional({ nullable: true }),
+      check("dateOfBirth", "Date of birth must be a valid date.")
         .trim()
-        .isDate(),
+        .isDate()
+        .optional({ nullable: true }),
+      check("password", "Password required.").notEmpty(),
     ],
+    validationCheck,
     updateUserProfile
   )
   .put(
     verifyToken,
     [
-      check(
-        "newPassword",
-        "Password should have at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character."
-      ).isStrongPassword(),
+      check("oldPassword").notEmpty().withMessage("Old password required."),
+      check("newPassword")
+        .notEmpty()
+        .withMessage("New password required.")
+        .bail()
+        .isStrongPassword()
+        .withMessage(
+          "Password should have at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character."
+        ),
     ],
     validationCheck,
     updateUserPassword

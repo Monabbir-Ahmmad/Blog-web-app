@@ -46,8 +46,6 @@ export const writeBlog = (blog) => async (dispatch, getState) => {
 
     const res = await axios.post(`${POST_BLOG}`, blog, config);
 
-    console.log(res);
-
     dispatch({
       type: POST_BLOG_SUCCESS,
       payload: res.data,
@@ -62,64 +60,62 @@ export const writeBlog = (blog) => async (dispatch, getState) => {
       2000
     );
   } catch (error) {
-    console.error(error);
     dispatch({
       type: POST_BLOG_FAIL,
       payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
+        error.response && error.response.data?.message
+          ? error.response.data?.message
           : error.message,
     });
   }
 };
 
-export const getBlogList = (filter) => async (dispatch, getState) => {
-  try {
-    dispatch({ type: GET_BLOGS_REQUEST });
+export const getBlogList =
+  (page = 1, filter) =>
+  async (dispatch, getState) => {
+    try {
+      dispatch({ type: GET_BLOGS_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userAuthInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userAuthInfo.token}`,
+        },
+      };
 
-    const res = await axios.get(
-      `${GET_BLOG_LIST}?category=${filter.category}&sortBy=${filter.sortBy}`,
-      config
-    );
+      const res = await axios.get(`${GET_BLOG_LIST}?page=${page}`, config);
 
-    dispatch({
-      type: GET_BLOGS_SUCCESS,
-      payload: res.data.data.filteredBlogs,
-    });
-  } catch (error) {
-    dispatch({
-      type: GET_BLOGS_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+      dispatch({
+        type: GET_BLOGS_SUCCESS,
+        payload: res.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_BLOGS_FAIL,
+        payload:
+          error.response && error.response.data?.message
+            ? error.response.data?.message
+            : error.message,
+      });
+    }
+  };
 
 export const getSingleBlog = (id) => async (dispatch, getState) => {
   try {
     dispatch({ type: GET_SINGLE_BLOG_REQUEST });
 
     const {
-      userLogin: { userInfo },
+      userLogin: { userAuthInfo },
     } = getState();
 
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${userAuthInfo.token}`,
       },
     };
 
@@ -127,14 +123,14 @@ export const getSingleBlog = (id) => async (dispatch, getState) => {
 
     dispatch({
       type: GET_SINGLE_BLOG_SUCCESS,
-      payload: res.data.data.blog,
+      payload: res.data,
     });
   } catch (error) {
     dispatch({
       type: GET_SINGLE_BLOG_FAIL,
       payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
+        error.response && error.response.data?.message
+          ? error.response.data?.message
           : error.message,
     });
   }
@@ -146,13 +142,13 @@ export const postBlogComment =
       dispatch({ type: POST_BLOG_COMMENT_REQUEST });
 
       const {
-        userLogin: { userInfo },
+        userLogin: { userAuthInfo },
       } = getState();
 
       const config = {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${userInfo.token}`,
+          Authorization: `Bearer ${userAuthInfo.token}`,
         },
       };
 
@@ -164,7 +160,7 @@ export const postBlogComment =
 
       dispatch({
         type: POST_BLOG_COMMENT_SUCCESS,
-        payload: res.data.data.newComment,
+        payload: res.data,
       });
 
       const {
@@ -173,14 +169,14 @@ export const postBlogComment =
 
       dispatch({
         type: GET_BLOG_COMMENTS_SUCCESS,
-        payload: [...blogComments, res.data.data.newComment],
+        payload: [...blogComments, res.data],
       });
     } catch (error) {
       dispatch({
         type: POST_BLOG_COMMENT_FAIL,
         payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
+          error.response && error.response.data?.message
+            ? error.response.data?.message
             : error.message,
       });
     }
@@ -191,31 +187,28 @@ export const getPersonalBlogs = () => async (dispatch, getState) => {
     dispatch({ type: GET_PERSONAL_BLOGS_REQUEST });
 
     const {
-      userLogin: { userInfo },
+      userLogin: { userAuthInfo },
     } = getState();
 
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${userAuthInfo.token}`,
       },
     };
 
-    const res = await axios.get(
-      `${GET_PERSONAL_BLOG_LIST}/${userInfo.id}`,
-      config
-    );
+    const res = await axios.get(`${GET_PERSONAL_BLOG_LIST}`, config);
 
     dispatch({
       type: GET_PERSONAL_BLOGS_SUCCESS,
-      payload: res.data.data.blogs,
+      payload: res.data,
     });
   } catch (error) {
     dispatch({
       type: GET_PERSONAL_BLOGS_FAIL,
       payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
+        error.response && error.response.data?.message
+          ? error.response.data?.message
           : error.message,
     });
   }
@@ -226,13 +219,13 @@ export const getBlogComments = (blogId) => async (dispatch, getState) => {
     dispatch({ type: GET_BLOG_COMMENTS_REQUEST });
 
     const {
-      userLogin: { userInfo },
+      userLogin: { userAuthInfo },
     } = getState();
 
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${userAuthInfo.token}`,
       },
     };
 
@@ -240,14 +233,14 @@ export const getBlogComments = (blogId) => async (dispatch, getState) => {
 
     dispatch({
       type: GET_BLOG_COMMENTS_SUCCESS,
-      payload: res.data.data.comments,
+      payload: res.data.comments,
     });
   } catch (error) {
     dispatch({
       type: GET_BLOG_COMMENTS_FAIL,
       payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
+        error.response && error.response.data?.message
+          ? error.response.data?.message
           : error.message,
     });
   }

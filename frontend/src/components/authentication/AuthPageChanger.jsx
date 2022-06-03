@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Box, Button, Fade, Stack, Typography, Zoom } from "@mui/material";
 import AuthPageImage from "../../assets/loginPageImage.png";
-import AppIcon from "../../icon/AppIcon";
+import AppIcon from "../icon/AppIcon";
 
 const Container = styled.div`
   width: 100%;
@@ -25,15 +25,15 @@ function AuthPageChanger({ signupOpen, pageChangeHandler }) {
     <Container>
       <Zoom in={true} style={{ transitionDelay: "1s" }}>
         <Box
-          width={150}
-          height={150}
+          width={100}
+          height={100}
           display={"flex"}
           alignItems={"center"}
           justifyContent={"center"}
           bgcolor={"#fff"}
           borderRadius={100}
         >
-          <AppIcon sx={{ fontSize: 100 }} />
+          <AppIcon sx={{ fontSize: 70 }} />
         </Box>
       </Zoom>
       {signupOpen && (
@@ -55,7 +55,7 @@ function AuthPageChanger({ signupOpen, pageChangeHandler }) {
               New here?
             </Typography>
             <Typography variant="h4" color={"#fff"}>
-              Sign up to get access to Writer
+              Sign up to get access to <strong>Writer</strong>
             </Typography>
           </Stack>
         </Fade>
