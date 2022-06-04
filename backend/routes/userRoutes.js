@@ -1,16 +1,10 @@
 import express from "express";
-import {
-  loginUser,
-  getUserProfile,
-  registerUser,
-  updateUserPassword,
-  updateUserProfile,
-  getOtherUser,
-} from "../controllers/userController.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 import { filesUpload } from "../middleware/fileUploadMiddleware.js";
 import { check } from "express-validator";
 import { validationCheck } from "../middleware/validationMiddleware.js";
+import authController from "../controllers/authController.js";
+import userController from "../controllers/userController.js";
 
 const userRouter = express.Router();
 
@@ -31,7 +25,7 @@ userRouter
       ).isStrongPassword(),
     ],
     validationCheck,
-    registerUser
+    authController.registerUser
   );
 
 userRouter
@@ -39,33 +33,33 @@ userRouter
   .post(
     [check("email", "Invalid email address.").isEmail()],
     validationCheck,
-    loginUser
+    authController.loginUser
   );
 
 userRouter
   .route("/profile")
-  .get(verifyToken, getUserProfile)
+  .get(verifyToken, userController.getUserProfile)
   .patch(
     verifyToken,
     filesUpload.single("userProfileImage"),
     [
       check("name", "Name field can not be empty.")
-        .notEmpty()
-        .optional({ nullable: true }),
+        .optional({ nullable: true })
+        .notEmpty(),
       check("email", "Invalid email address.")
-        .isEmail()
-        .optional({ nullable: true }),
+        .optional({ nullable: true })
+        .isEmail(),
       check("gender", "Gender field can not be empty.")
-        .notEmpty()
-        .optional({ nullable: true }),
+        .optional({ nullable: true })
+        .notEmpty(),
       check("dateOfBirth", "Date of birth must be a valid date.")
+        .optional({ nullable: true })
         .trim()
-        .isDate()
-        .optional({ nullable: true }),
+        .isDate(),
       check("password", "Password required.").notEmpty(),
     ],
     validationCheck,
-    updateUserProfile
+    userController.updateUserProfile
   )
   .put(
     verifyToken,
@@ -81,9 +75,9 @@ userRouter
         ),
     ],
     validationCheck,
-    updateUserPassword
+    userController.updateUserPassword
   );
 
-userRouter.route("/profile/:id").get(verifyToken, getOtherUser);
+userRouter.route("/profile/:id").get(verifyToken, userController.getOtherUser);
 
 export default userRouter;

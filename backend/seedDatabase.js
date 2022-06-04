@@ -1,6 +1,6 @@
 import UserType from "./models/userTypeModel.js";
 
-const initialUserTypes = ["Administrator", "User"];
+const initialUserTypes = ["Administrator", "Normal"];
 
 const seedDatabase = () => {
   initialUserTypes.forEach(async (type, index) => {

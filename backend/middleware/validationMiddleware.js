@@ -1,11 +1,12 @@
 import { validationResult } from "express-validator";
+import HttpError from "../utils/httpError.js";
 
-const validationCheck = (req, res, next) => {
+export const validationCheck = (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    res.status(400);
-    throw new Error(
+    throw new HttpError(
+      400,
       errors
         .array()
         .map((e) => e.msg)
@@ -15,5 +16,3 @@ const validationCheck = (req, res, next) => {
 
   next();
 };
-
-export { validationCheck };

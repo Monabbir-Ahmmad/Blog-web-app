@@ -1,4 +1,4 @@
-import { MoreVert, ThumbUp } from "@mui/icons-material";
+import { ThumbUp } from "@mui/icons-material";
 import {
   Avatar,
   Card,
@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { API_HOST, LIKE_BLOG } from "../../constants/apiLinks";
 import { randomColor, randomImageById } from "../../utils/utilities";
+import BlogItemMenu from "./BlogItemMenu";
 
 function BlogItem({ blog }) {
   const navigate = useNavigate();
@@ -46,11 +47,7 @@ function BlogItem({ blog }) {
         },
       };
 
-      const res = await axios.post(
-        `${LIKE_BLOG}`,
-        { blogId: blog?.id },
-        config
-      );
+      await axios.post(`${LIKE_BLOG}`, { blogId: blog?.id }, config);
 
       setLikedBy(
         hasLiked
@@ -64,7 +61,7 @@ function BlogItem({ blog }) {
   };
 
   return (
-    <Card sx={{ height: "100%" }}>
+    <Card variant="outlined" sx={{ height: "100%" }}>
       <CardHeader
         avatar={
           <Avatar
@@ -78,9 +75,7 @@ function BlogItem({ blog }) {
           />
         }
         action={
-          <IconButton>
-            <MoreVert />
-          </IconButton>
+          <BlogItemMenu isPersonal={blog?.user?.id === userAuthInfo?.id} />
         }
         title={blog?.user?.name}
         subheader={moment(new Date(blog?.updatedAt)).fromNow()}

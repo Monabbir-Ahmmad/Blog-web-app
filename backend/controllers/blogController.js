@@ -1,173 +1,124 @@
 import asyncHandler from "express-async-handler";
-import { Op } from "sequelize";
-import generateToken from "../utils/generateToken.js";
-import User from "../models/userModel.js";
-import { hashPassword, verifyPassword } from "../utils/passwordEncryption.js";
-import UserType from "../models/userTypeModel.js";
-import Blog from "../models/blogModel.js";
-import Like from "../models/likeModel.js";
+import blogService from "../service/blogService.js";
+import blogDbService from "../service/db_service/blogDbService.js";
+import userDbService from "../service/db_service/userDbService.js";
 
 // @desc Create blog
 // @route POST /api/v1/blog/create
-// @access private
-// @needs title, content
+// @access Protected
+// @needs title, content, ?blogCoverImage
 const createBlog = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
   const { title, content } = req.body;
   const coverImage = req.file?.filename;
 
-  const user = await User.findByPk(req.user.id);
+  const result = await blogService.createBlog(
+    userId,
+    title,
+    content,
+    coverImage
+  );
 
-  if (user) {
-    const blog = await Blog.create({
-      title,
-      content,
-      coverImage,
-    });
-
-    await blog.setUser(user);
-
-    blog.user = await blog.getUser();
-
-    res.status(200).json({
-      id: blog.id,
-      title: blog.title,
-      content: blog.content,
-      coverImage: blog.coverImage,
-      updatedAt: blog.updatedAt,
-      user: {
-        id: blog.user.id,
-        name: blog.user.name,
-        profileImage: blog.user.profileImage,
-      },
-    });
+  if (result.success) {
+    res.status(200).json(result.body);
   } else {
-    res.status(404);
-    throw new Error("Must be logged in");
+    throw result.error;
   }
 });
 
 // @desc Get blog list by page number
-// @route GET /api/v1/blog/?page=num
-// @access private
+// @route GET /api/v1/blog/?page=number
+// @access Protected
 const getBlogList = asyncHandler(async (req, res) => {
-  const page = req.query.page;
+  const page = req.query?.page || 1;
 
-  const blogList = await Blog.findAll({
-    attributes: ["id", "title", "coverImage", "updatedAt"],
-    include: [
-      {
-        model: User,
-        attributes: ["id", "name", "profileImage"],
-      },
-      {
-        model: Like,
-        attributes: ["userId", "hasLiked"],
-      },
-    ],
-  });
+  const result = await blogService.getBlogList(page);
 
-  if (blogList) {
-    res.status(200).json(blogList);
+  if (result.success) {
+    res.status(200).json(result.body);
   } else {
-    res.status(404);
-    throw new Error("Blog not found");
+    throw result.error;
   }
 });
 
 // @desc Get single blog
 // @route GET /api/v1/blog/:id
-// @access private
-const getSingleBlog = asyncHandler(async (req, res) => {
-  const id = req.params.id;
+// @access Protected
+const getBlog = asyncHandler(async (req, res) => {
+  const id = req.params?.id;
 
-  const blog = await Blog.findByPk(id, {
-    attributes: ["id", "title", "content", "coverImage", "updatedAt"],
-    include: {
-      model: User,
-      attributes: ["id", "name", "profileImage"],
-    },
-  });
+  const result = await blogService.getBlog(id);
 
-  if (blog) {
-    res.status(200).json(blog);
+  if (result.success) {
+    res.status(200).json(result.body);
   } else {
-    res.status(404);
-    throw new Error("Blog not found");
+    throw result.error;
   }
 });
 
 // @desc Update blog
 // @route PATCH /api/v1/blog/update
-// @access private
-// @needs blog id, title, content
+// @access Protected
+// @needs blog id, title, content, ?blogCoverImage
 const updateBlog = asyncHandler(async (req, res) => {
-  const { id, title, content } = req.body;
   const userId = req.user.id;
+  const { id, title, content } = req.body;
+  const coverImage = req.file?.filename;
 
-  const blog = await Blog.findByPk(id, { include: User });
+  const result = await blogService.updateBlog(
+    userId,
+    id,
+    title,
+    content,
+    coverImage
+  );
 
-  if (blog) {
-    blog.title = title || blog.title;
-    blog.content = content || blog.content;
-    blog.coverImage = req.file?.filename || blog.coverImage;
-
-    await Blog.update(
-      {
-        title: blog.title,
-        content: blog.content,
-        coverImage: blog.coverImage,
-      },
-      { where: { id: blog.id, userId } }
-    );
-
-    res.status(200).json({
-      id: blog.id,
-      title: blog.title,
-      content: blog.content,
-      coverImage: blog.coverImage,
-      updatedAt: new Date(),
-      user: {
-        id: blog.user.id,
-        name: blog.user.name,
-        profileImage: blog.user.profileImage,
-      },
-    });
+  if (result.success) {
+    res.status(200).json(result.body);
   } else {
-    res.status(404);
-    throw new Error("Blog not found");
+    throw result.error;
   }
 });
 
 // @desc Like blog
 // @route POST /api/v1/blog/like
-// @access private
-// @needs blogId
+// @access Protected
+// @needs blog id
 const likeBlog = asyncHandler(async (req, res) => {
-  const { blogId } = req.body;
   const userId = req.user.id;
+  const { id } = req.body;
 
-  const user = await User.findByPk(userId);
-  const blog = await Blog.findByPk(blogId);
+  const result = await blogService.updateBlogLikeStatus(userId, id);
 
-  if (user && blog) {
-    const like = await Like.findOrCreate({
-      where: { blogId: blog.id, userId: user.id },
-    });
-
-    if (like) {
-      await Like.update(
-        { hasLiked: !like[0].hasLiked },
-        { where: { id: like[0].id } }
-      );
-
-      res.status(200).json({
-        hasLiked: !like[0].hasLiked,
-      });
-    }
+  if (result.success) {
+    res.status(200).json(result.body);
   } else {
-    res.status(404);
-    throw new Error("Blog not found");
+    throw result.error;
   }
 });
 
-export { createBlog, getBlogList, getSingleBlog, updateBlog, likeBlog };
+// @desc Delete single blog
+// @route Delete /api/v1/blog/delete
+// @access Protected
+// @needs blog id
+const deleteBlog = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const { id } = req.body;
+
+  const result = await blogService.deleteBlog(userId, id);
+
+  if (result.success) {
+    res.status(200).json(result.body);
+  } else {
+    throw result.error;
+  }
+});
+
+export default {
+  createBlog,
+  getBlogList,
+  getBlog,
+  updateBlog,
+  likeBlog,
+  deleteBlog,
+};

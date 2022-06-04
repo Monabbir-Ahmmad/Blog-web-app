@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
+import HttpError from "../utils/httpError.js";
 
-const verifyToken = asyncHandler(async (req, res, next) => {
+export const verifyToken = asyncHandler(async (req, res, next) => {
   if (req.method === "OPTIONS") {
     next();
   }
@@ -27,14 +28,11 @@ const verifyToken = asyncHandler(async (req, res, next) => {
       next();
     } catch (error) {
       console.error(error);
-      res.status(401);
-      throw new Error("Not authorized. Token failed");
+      throw new HttpError(401, "Not authorized. Token failed.");
     }
   }
 
   if (!token) {
-    res.status(401);
-    throw new Error("Not authorized. No token found");
+    throw new HttpError(401, "Not authorized. No token found.");
   }
 });
-export { verifyToken };

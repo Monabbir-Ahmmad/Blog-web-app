@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(express.static("./public/uploads"));
 
 app.get("/", (req, res) => {
-  res.send("API is running");
+  res.send("Server is running");
 });
 
 app.use("/api/v1/user", userRouter);

@@ -1,11 +1,5 @@
 import express from "express";
-import {
-  createBlog,
-  getBlogList,
-  getSingleBlog,
-  likeBlog,
-  updateBlog,
-} from "../controllers/blogController.js";
+import blogController from "../controllers/blogController.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 import { filesUpload } from "../middleware/fileUploadMiddleware.js";
 import { check } from "express-validator";
@@ -27,12 +21,12 @@ blogRouter
       check("content", "Content field can not be empty.").notEmpty(),
     ],
     validationCheck,
-    createBlog
+    blogController.createBlog
   );
 
-blogRouter.route("/").get(getBlogList);
+blogRouter.route("/").get(blogController.getBlogList);
 
-blogRouter.route("/:id").get(getSingleBlog);
+blogRouter.route("/:id").get(blogController.getBlog);
 
 blogRouter
   .route("/update")
@@ -40,15 +34,20 @@ blogRouter
     filesUpload.single("blogCoverImage"),
     [
       check("title", "Title field can not be empty.")
+        .optional({ nullable: true })
         .notEmpty()
         .isLength({ max: 200 })
         .withMessage("Title is too large. Maximum length is 200 characters."),
-      check("content", "Content field can not be empty.").notEmpty(),
+      check("content", "Content field can not be empty.")
+        .optional({ nullable: true })
+        .notEmpty(),
     ],
     validationCheck,
-    updateBlog
+    blogController.updateBlog
   );
 
-blogRouter.route("/like").post(likeBlog);
+blogRouter.route("/like").post(blogController.likeBlog);
+
+blogRouter.route("/delete").delete(blogController.deleteBlog);
 
 export default blogRouter;

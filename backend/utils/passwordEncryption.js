@@ -1,6 +1,6 @@
 import bcryptjs from "bcryptjs";
 
-const hashPassword = async (password) => {
+export const hashPassword = async (password) => {
   try {
     const salt = await bcryptjs.genSalt(10);
     return await bcryptjs.hash(password, salt);
@@ -10,7 +10,7 @@ const hashPassword = async (password) => {
   }
 };
 
-const verifyPassword = async (hashedPassword, enteredPassword) => {
+export const verifyPassword = async (hashedPassword, enteredPassword) => {
   try {
     return await bcryptjs.compare(enteredPassword, hashedPassword);
   } catch (error) {
@@ -18,5 +18,3 @@ const verifyPassword = async (hashedPassword, enteredPassword) => {
     throw new Error("Password varification failed!");
   }
 };
-
-export { hashPassword, verifyPassword };

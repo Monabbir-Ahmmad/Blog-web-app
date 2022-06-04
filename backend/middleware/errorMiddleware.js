@@ -1,25 +1,25 @@
-import deleteFile from "../utils/deleteFile.js";
+import deleteUploadedFile from "../utils/deleteUploadedFile.js";
 
-const notFound = (req, res, next) => {
+export const notFound = (req, res, next) => {
   const error = new Error(`Not found - ${req.originalUrl}`);
-
-  res.status(404);
+  error.statusCode = 404;
 
   next(error);
 };
 
-const errorHandler = (err, req, res, next) => {
-  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-
-  if (req.file) {
-    deleteFile(req.file);
+export const errorHandler = (err, req, res, next) => {
+  if (!err.statusCode) {
+    console.error(err);
   }
 
-  res.status(statusCode);
+  err.statusCode = err.statusCode || 500;
 
-  res.json({
+  if (req.file) {
+    deleteUploadedFile(req.file.filename);
+  }
+
+  res.status(err.statusCode).json({
+    status: err.statusCode,
     message: err.message,
   });
 };
-
-export { notFound, errorHandler };
