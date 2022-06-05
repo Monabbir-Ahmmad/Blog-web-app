@@ -2,6 +2,40 @@ import { Op } from "sequelize";
 import User from "../../models/userModel.js";
 import UserType from "../../models/userTypeModel.js";
 
+const createUser = async (
+  name,
+  email,
+  dateOfBirth,
+  gender,
+  password,
+  profileImage
+) => {
+  const userType = await UserType.findOne({
+    where: { privilege: "Normal" },
+  });
+
+  const user = await User.create({
+    name,
+    email,
+    dateOfBirth,
+    gender,
+    password,
+    profileImage,
+  });
+
+  await user.setUserType(userType);
+
+  return {
+    id: user?.id,
+    name: user?.name,
+    email: user?.email,
+    gender: user?.gender,
+    dateOfBirth: user?.dateOfBirth,
+    profileImage: user?.profileImage,
+    privilege: (await user.getUserType())?.privilege,
+  };
+};
+
 const findUserById = async (id) => {
   const user = await User.findByPk(id, {
     include: {
@@ -47,38 +81,6 @@ const emailInUse = async (email = "", id = null) => {
   return await User.findOne({
     where: { email: email, id: { [Op.not]: id } },
   });
-};
-
-const createUser = async (
-  name,
-  email,
-  dateOfBirth,
-  gender,
-  password,
-  profileImage
-) => {
-  const userType = await UserType.findOne({
-    where: { privilege: "Normal" },
-  });
-
-  const user = await User.create({
-    name,
-    email,
-    dateOfBirth,
-    gender,
-    password,
-    profileImage,
-  });
-
-  await user.setUserType(userType);
-
-  return {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    profileImage: user.profileImage,
-    privilege: (await user.getUserType()).privilege,
-  };
 };
 
 const findUserDetails = async (id) => {

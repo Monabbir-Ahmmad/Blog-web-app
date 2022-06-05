@@ -2,23 +2,30 @@ import deleteUploadedFile from "../utils/deleteUploadedFile.js";
 import generateToken from "../utils/generateToken.js";
 import HttpError from "../utils/httpError.js";
 import { hashPassword, verifyPassword } from "../utils/passwordEncryption.js";
+import userCacheService from "./cache_service/userCacheService.js";
 import userDbService from "./db_service/userDbService.js";
 
 const getProfileDetails = async (userId) => {
-  const user = await userDbService.findUserById(userId);
+  const user =
+    userCacheService.getUserById(userId) ||
+    (await userDbService.findUserById(userId));
 
   if (user?.id) {
+    const userDetails = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      gender: user.gender,
+      dateOfBirth: user.dateOfBirth,
+      profileImage: user.profileImage,
+      privilege: user.privilege,
+    };
+
+    userCacheService.cacheUserById(userDetails.id, userDetails);
+
     return {
       success: true,
-      body: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        gender: user.gender,
-        dateOfBirth: user.dateOfBirth,
-        profileImage: user.profileImage,
-        privilege: user.privilege,
-      },
+      body: userDetails,
     };
   } else {
     return {
@@ -65,17 +72,23 @@ const updateProfile = async (
     if (updateProfile && profileImage !== user.profileImage)
       deleteUploadedFile(user.profileImage);
 
+    const userDetails = {
+      id: userId,
+      name,
+      email,
+      gender,
+      dateOfBirth,
+      profileImage,
+      privilege: user.privilege,
+    };
+
+    userCacheService.cacheUserById(userId, userDetails);
+
     return updatedRecord
       ? {
           success: true,
           body: {
-            id: userId,
-            name,
-            email,
-            gender,
-            dateOfBirth,
-            profileImage,
-            privilege: user.privilege,
+            ...userDetails,
             token: generateToken(userId, name, email, user.privilege),
           },
         }
