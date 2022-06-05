@@ -27,12 +27,62 @@ const createBlog = asyncHandler(async (req, res) => {
 });
 
 // @desc Get blog list by page number
-// @route GET /api/v1/blog/?page=number
+// @route GET /api/v1/blog/?page=number&limit=number
 // @access Protected
 const getBlogList = asyncHandler(async (req, res) => {
-  const page = req.query?.page || 1;
+  let { page, limit } = req.query;
+  page = parseInt(page > 0 ? page : 1);
+  limit = parseInt(limit > 0 ? limit : 12);
+  const result = await blogService.getBlogList(page, limit);
 
-  const result = await blogService.getBlogList(page);
+  if (result.success) {
+    res.status(200).json(result.body);
+  } else {
+    throw result.error;
+  }
+});
+
+// @desc Search for blogs by username or title
+// @route Get /api/v1/blog/search?page=number&limit=number&keyword=String
+// @access Protected
+// @needs keyword
+const searchBlogs = asyncHandler(async (req, res) => {
+  let { page, limit, keyword } = req.query;
+  page = parseInt(page > 0 ? page : 1);
+  limit = parseInt(limit > 0 ? limit : 12);
+  keyword = keyword || "";
+
+  const result = await blogService.searchBlogs(keyword, page, limit);
+
+  if (result.success) {
+    res.status(200).json(result.body);
+  } else {
+    throw result.error;
+  }
+});
+
+// @desc Get blogs of other user
+// @route GET /api/v1/blog/user/:userId
+// @access Protected
+const getUserBlogList = asyncHandler(async (req, res) => {
+  const userId = req.params?.userId;
+
+  const result = await blogService.getUserBlogList(userId);
+
+  if (result.success) {
+    res.status(200).json(result.body);
+  } else {
+    throw result.error;
+  }
+});
+
+// @desc Get blogs of current user
+// @route GET /api/v1/blog/personal
+// @access Protected
+const getPersonalBlogList = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+
+  const result = await blogService.getUserBlogList(userId);
 
   if (result.success) {
     res.status(200).json(result.body);
@@ -42,12 +92,12 @@ const getBlogList = asyncHandler(async (req, res) => {
 });
 
 // @desc Get single blog
-// @route GET /api/v1/blog/:id
+// @route GET /api/v1/blog/find/:blogId
 // @access Protected
 const getBlog = asyncHandler(async (req, res) => {
-  const id = req.params?.id;
+  const blogId = req.params?.blogId;
 
-  const result = await blogService.getBlog(id);
+  const result = await blogService.getBlog(blogId);
 
   if (result.success) {
     res.status(200).json(result.body);
@@ -59,15 +109,15 @@ const getBlog = asyncHandler(async (req, res) => {
 // @desc Update blog
 // @route PATCH /api/v1/blog/update
 // @access Protected
-// @needs blog id, title, content, ?blogCoverImage
+// @needs blogId, title, content, ?blogCoverImage
 const updateBlog = asyncHandler(async (req, res) => {
   const userId = req.user.id;
-  const { id, title, content } = req.body;
+  const { blogId, title, content } = req.body;
   const coverImage = req.file?.filename;
 
   const result = await blogService.updateBlog(
     userId,
-    id,
+    blogId,
     title,
     content,
     coverImage
@@ -83,12 +133,12 @@ const updateBlog = asyncHandler(async (req, res) => {
 // @desc Like blog
 // @route POST /api/v1/blog/like
 // @access Protected
-// @needs blog id
+// @needs blogId
 const likeBlog = asyncHandler(async (req, res) => {
   const userId = req.user.id;
-  const { id } = req.body;
+  const { blogId } = req.body;
 
-  const result = await blogService.updateBlogLikeStatus(userId, id);
+  const result = await blogService.updateBlogLikeStatus(userId, blogId);
 
   if (result.success) {
     res.status(200).json(result.body);
@@ -100,12 +150,12 @@ const likeBlog = asyncHandler(async (req, res) => {
 // @desc Delete single blog
 // @route Delete /api/v1/blog/delete
 // @access Protected
-// @needs blog id
+// @needs blogId
 const deleteBlog = asyncHandler(async (req, res) => {
   const userId = req.user.id;
-  const { id } = req.body;
+  const { blogId } = req.body;
 
-  const result = await blogService.deleteBlog(userId, id);
+  const result = await blogService.deleteBlog(userId, blogId);
 
   if (result.success) {
     res.status(200).json(result.body);
@@ -117,8 +167,11 @@ const deleteBlog = asyncHandler(async (req, res) => {
 export default {
   createBlog,
   getBlogList,
+  getUserBlogList,
+  getPersonalBlogList,
   getBlog,
   updateBlog,
   likeBlog,
   deleteBlog,
+  searchBlogs,
 };

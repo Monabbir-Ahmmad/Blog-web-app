@@ -1,5 +1,6 @@
 import deleteUploadedFile from "../utils/deleteUploadedFile.js";
 import HttpError from "../utils/httpError.js";
+import { paginate } from "../utils/paginate.js";
 import blogDbService from "./db_service/blogDbService.js";
 import userDbService from "./db_service/userDbService.js";
 
@@ -26,8 +27,26 @@ const createBlog = async (userId, title, content, coverImage) => {
   }
 };
 
-const getBlogList = async (page) => {
-  const blogList = await blogDbService.findBlogList(page);
+const getBlogList = async (page, limit) => {
+  const blogList = await blogDbService.findBlogList();
+
+  return {
+    success: true,
+    body: paginate(blogList, page, limit),
+  };
+};
+
+const searchBlogs = async (keyword, page, limit) => {
+  const blogList = await blogDbService.findBlogsByUsernameOrTitle(keyword);
+
+  return {
+    success: true,
+    body: paginate(blogList, page, limit),
+  };
+};
+
+const getUserBlogList = async (userId) => {
+  const blogList = await blogDbService.findBlogListByUserId(userId);
 
   return {
     success: true,
@@ -135,7 +154,9 @@ export default {
   createBlog,
   getBlogList,
   getBlog,
+  getUserBlogList,
   updateBlog,
   updateBlogLikeStatus,
   deleteBlog,
+  searchBlogs,
 };

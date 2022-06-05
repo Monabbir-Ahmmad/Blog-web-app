@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import Blog from "../../models/blogModel.js";
 import Like from "../../models/likeModel.js";
 import User from "../../models/userModel.js";
@@ -31,11 +32,16 @@ const createBlog = async (userId, title, content, coverImage) => {
   };
 };
 
-const findBlogList = async (page) => {
+const findBlogList = async () => {
   return await Blog.findAll({
-    attributes: ["id", "title", "coverImage", "createdAt", "updatedAt"],
-    offset: 12 * (page - 1),
-    limit: 12,
+    attributes: [
+      "id",
+      "title",
+      "content",
+      "coverImage",
+      "createdAt",
+      "updatedAt",
+    ],
     include: [
       {
         model: User,
@@ -72,6 +78,29 @@ const findBlogById = async (id) => {
   });
 };
 
+const findBlogListByUserId = async (userId) => {
+  return await Blog.findAll({
+    attributes: [
+      "id",
+      "title",
+      "content",
+      "coverImage",
+      "createdAt",
+      "updatedAt",
+    ],
+    where: { userId },
+    include: [
+      {
+        model: User,
+        attributes: ["id", "name", "profileImage"],
+      },
+      {
+        model: Like,
+        attributes: ["userId", "hasLiked"],
+      },
+    ],
+  });
+};
 const updateBlog = async (blogId, title, content, coverImage) => {
   return await Blog.update(
     {
@@ -106,11 +135,42 @@ const deleteBlogById = async (id) => {
   return await Blog.destroy({ where: { id } });
 };
 
+const findBlogsByUsernameOrTitle = async (keyword) => {
+  return await Blog.findAll({
+    attributes: [
+      "id",
+      "title",
+      "content",
+      "coverImage",
+      "createdAt",
+      "updatedAt",
+    ],
+    where: {
+      [Op.or]: [
+        { "$Blog.title$": { [Op.substring]: keyword } },
+        { "$User.name$": { [Op.substring]: keyword } },
+      ],
+    },
+    include: [
+      {
+        model: User,
+        attributes: ["id", "name", "profileImage"],
+      },
+      {
+        model: Like,
+        attributes: ["userId", "hasLiked"],
+      },
+    ],
+  });
+};
+
 export default {
   createBlog,
   findBlogById,
   findBlogList,
+  findBlogListByUserId,
   updateBlog,
   updateBlogLikeStatus,
   deleteBlogById,
+  findBlogsByUsernameOrTitle,
 };
