@@ -2,15 +2,19 @@
 
 ## Attention :warning:
 
-### Frontend is work in progress
+### Frontend is still work in progress :neutral_face:
 
-## Technology used
+<br/>
+
+## Technologies used
 
 [<img width="34" alt="ReactJS" src="https://img.icons8.com/color/344/react-native.png" />][reactjs]
 [<img width="34" alt="Redux" src="https://img.icons8.com/color/344/redux.png" />][redux]
 [<img width="34" alt="NodeJS" src="https://img.icons8.com/color/344/nodejs.png" />][nodejs]
 [<img width="34" alt="ExpressJS" src="https://assets.website-files.com/61ca3f775a79ec5f87fcf937/6202fcdee5ee8636a145a41b_1234.png" />][expressjs]
 [<img width="34" alt="MySQL" src="https://img.icons8.com/color/344/mysql-logo.png" />][mysql]
+
+<br/>
 
 ## How to run
 
