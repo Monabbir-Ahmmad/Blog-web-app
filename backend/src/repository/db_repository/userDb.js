@@ -32,6 +32,7 @@ const createUser = async (
     gender: user?.gender,
     dateOfBirth: user?.dateOfBirth,
     profileImage: user?.profileImage,
+    password: user?.password,
     privilege: (await user.getUserType())?.privilege,
   };
 };
@@ -83,19 +84,6 @@ const emailInUse = async (email = "", id = null) => {
   });
 };
 
-const findUserDetails = async (id) => {
-  return await User.findByPk(id, {
-    attributes: [
-      "id",
-      "name",
-      "email",
-      "dateOfBirth",
-      "gender",
-      "profileImage",
-    ],
-  });
-};
-
 const updateProfile = async (
   id,
   name,
@@ -128,7 +116,6 @@ export default {
   emailInUse,
   findUserById,
   findUserByEmail,
-  findUserDetails,
   updateProfile,
   updatePassword,
 };

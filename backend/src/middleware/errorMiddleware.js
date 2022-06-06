@@ -1,13 +1,13 @@
 import deleteUploadedFile from "../utils/deleteUploadedFile.js";
 
-export const notFound = (req, res, next) => {
+const notFound = (req, res, next) => {
   const error = new Error(`Not found - ${req.originalUrl}`);
   error.statusCode = 404;
 
   next(error);
 };
 
-export const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res, next) => {
   if (!err.statusCode) {
     console.error(err);
   }
@@ -23,3 +23,5 @@ export const errorHandler = (err, req, res, next) => {
     message: err.message,
   });
 };
+
+export default { notFound, errorHandler };

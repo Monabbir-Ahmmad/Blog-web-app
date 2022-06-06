@@ -1,8 +1,8 @@
 import generateToken from "../utils/generateToken.js";
 import HttpError from "../utils/httpError.js";
 import { hashPassword, verifyPassword } from "../utils/passwordEncryption.js";
-import userCacheService from "./cache_service/userCacheService.js";
-import userDbService from "./db_service/userDbService.js";
+import userDb from "../repository/db_repository/userDb.js";
+import userCache from "../repository/cache_repository/userCache.js";
 
 const signup = async (
   name,
@@ -12,14 +12,14 @@ const signup = async (
   password,
   profileImage
 ) => {
-  if (await userDbService.emailInUse(email)) {
+  if (await userDb.emailInUse(email)) {
     return {
       success: false,
       error: new HttpError(409, "Email is already in use."),
     };
   }
 
-  const user = await userDbService.createUser(
+  const user = await userDb.createUser(
     name,
     email,
     dateOfBirth,
@@ -28,15 +28,7 @@ const signup = async (
     profileImage
   );
 
-  userCacheService.cacheUserById(user.id, {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    gender: user.gender,
-    dateOfBirth: user.dateOfBirth,
-    profileImage: user.profileImage,
-    privilege: user.privilege,
-  });
+  userCache.cacheUserById(user.id, user);
 
   return {
     success: true,
@@ -52,18 +44,10 @@ const signup = async (
 };
 
 const signin = async (email, password) => {
-  const user = await userDbService.findUserByEmail(email);
+  const user = await userDb.findUserByEmail(email);
 
   if (user?.id && (await verifyPassword(user?.password, password))) {
-    userCacheService.cacheUserById(user.id, {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      gender: user.gender,
-      dateOfBirth: user.dateOfBirth,
-      profileImage: user.profileImage,
-      privilege: user.privilege,
-    });
+    userCache.cacheUserById(user.id, user);
 
     return {
       success: true,

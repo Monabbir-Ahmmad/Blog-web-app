@@ -1,4 +1,4 @@
-import UserType from "./models/userTypeModel.js";
+import UserType from "./src/models/userTypeModel.js";
 
 const initialUserTypes = ["Administrator", "Normal"];
 

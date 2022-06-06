@@ -1,4 +1,4 @@
-import { database } from "../config/database.js";
+import { database } from "../config/databaseConfig.js";
 import { DataTypes } from "sequelize";
 import User from "./userModel.js";
 import Blog from "./blogModel.js";

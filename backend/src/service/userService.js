@@ -1,14 +1,15 @@
+import userCache from "../repository/cache_repository/userCache.js";
+import userDb from "../repository/db_repository/userDb.js";
 import deleteUploadedFile from "../utils/deleteUploadedFile.js";
 import generateToken from "../utils/generateToken.js";
 import HttpError from "../utils/httpError.js";
 import { hashPassword, verifyPassword } from "../utils/passwordEncryption.js";
-import userCacheService from "./cache_service/userCacheService.js";
-import userDbService from "./db_service/userDbService.js";
 
 const getProfileDetails = async (userId) => {
-  const user =
-    userCacheService.getUserById(userId) ||
-    (await userDbService.findUserById(userId));
+  const user = await userCache.getUserById(
+    userId,
+    async () => await userDb.findUserById(userId)
+  );
 
   if (user?.id) {
     const userDetails = {
@@ -20,8 +21,6 @@ const getProfileDetails = async (userId) => {
       profileImage: user.profileImage,
       privilege: user.privilege,
     };
-
-    userCacheService.cacheUserById(userDetails.id, userDetails);
 
     return {
       success: true,
@@ -44,10 +43,10 @@ const updateProfile = async (
   dateOfBirth,
   profileImage
 ) => {
-  const user = await userDbService.findUserById(userId);
+  const user = await userDb.findUserById(userId);
 
   if (user?.id && (await verifyPassword(user?.password, password))) {
-    if (await userDbService.emailInUse(email, userId)) {
+    if (await userDb.emailInUse(email, userId)) {
       return {
         success: false,
         error: new HttpError(409, "Email is already in use."),
@@ -60,7 +59,7 @@ const updateProfile = async (
     gender = gender || user.gender;
     profileImage = profileImage || user.profileImage;
 
-    const updatedRecord = await userDbService.updateProfile(
+    const updatedRecord = await userDb.updateProfile(
       userId,
       name,
       email,
@@ -73,7 +72,7 @@ const updateProfile = async (
       deleteUploadedFile(user.profileImage);
 
     const userDetails = {
-      id: userId,
+      id: user.id,
       name,
       email,
       gender,
@@ -82,14 +81,14 @@ const updateProfile = async (
       privilege: user.privilege,
     };
 
-    userCacheService.cacheUserById(userId, userDetails);
+    updatedRecord && userCache.cacheUserById(userId, userDetails);
 
     return updatedRecord
       ? {
           success: true,
           body: {
             ...userDetails,
-            token: generateToken(userId, name, email, user.privilege),
+            token: generateToken(user.id, name, email, user.privilege),
           },
         }
       : { success: false, error: new HttpError(400, "Unable to update.") };
@@ -101,12 +100,12 @@ const updateProfile = async (
 };
 
 const updatePassword = async (userId, oldPassword, newPassword) => {
-  const user = await userDbService.findUserById(userId);
+  const user = await userDb.findUserById(userId);
   const passwordVerified =
     user?.id && (await verifyPassword(user?.password, oldPassword));
 
   if (passwordVerified && oldPassword !== newPassword) {
-    await userDbService.updatePassword(userId, await hashPassword(newPassword));
+    await userDb.updatePassword(userId, await hashPassword(newPassword));
 
     return {
       success: true,

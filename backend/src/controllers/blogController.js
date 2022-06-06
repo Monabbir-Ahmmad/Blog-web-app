@@ -1,7 +1,5 @@
 import asyncHandler from "express-async-handler";
 import blogService from "../service/blogService.js";
-import blogDbService from "../service/db_service/blogDbService.js";
-import userDbService from "../service/db_service/userDbService.js";
 
 // @desc Create blog
 // @route POST /api/v1/blog/create
@@ -33,6 +31,7 @@ const getBlogList = asyncHandler(async (req, res) => {
   let { page, limit } = req.query;
   page = parseInt(page > 0 ? page : 1);
   limit = parseInt(limit > 0 ? limit : 12);
+
   const result = await blogService.getBlogList(page, limit);
 
   if (result.success) {
@@ -97,7 +96,7 @@ const getPersonalBlogList = asyncHandler(async (req, res) => {
 const getBlog = asyncHandler(async (req, res) => {
   const blogId = req.params?.blogId;
 
-  const result = await blogService.getBlog(blogId);
+  const result = await blogService.getBlogDetails(blogId);
 
   if (result.success) {
     res.status(200).json(result.body);

@@ -101,6 +101,7 @@ const findBlogListByUserId = async (userId) => {
     ],
   });
 };
+
 const updateBlog = async (blogId, title, content, coverImage) => {
   return await Blog.update(
     {
@@ -126,7 +127,6 @@ const updateBlogLikeStatus = async (userId, blogId) => {
 
   return {
     userId,
-    blogId,
     hasLiked: !like[0]?.hasLiked,
   };
 };
