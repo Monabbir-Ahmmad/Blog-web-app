@@ -19,7 +19,7 @@ const errorHandler = (err, req, res, next) => {
   }
 
   res.status(err.statusCode).json({
-    status: err.statusCode,
+    statusCode: err.statusCode,
     message: err.message,
   });
 };

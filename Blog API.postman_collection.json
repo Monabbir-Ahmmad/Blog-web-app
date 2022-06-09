@@ -34,30 +34,36 @@
 										{
 											"key": "name",
 											"value": "test",
+											"description": "Required",
 											"type": "default"
 										},
 										{
 											"key": "email",
 											"value": "test@example.com",
+											"description": "Required",
 											"type": "default"
 										},
 										{
 											"key": "gender",
 											"value": "Male",
+											"description": "Required",
 											"type": "default"
 										},
 										{
 											"key": "dateOfBirth",
 											"value": "2000-01-01",
+											"description": "Required",
 											"type": "default"
 										},
 										{
 											"key": "password",
 											"value": "12345Aa!",
+											"description": "Required",
 											"type": "default"
 										},
 										{
 											"key": "userProfileImage",
+											"description": "Optional",
 											"type": "file",
 											"src": "/G:/Image/4k-gaming-wallpapers-19.jpg"
 										}
@@ -177,15 +183,18 @@
 									"query": [
 										{
 											"key": "page",
-											"value": "1"
+											"value": "1",
+											"description": "Default = 1"
 										},
 										{
 											"key": "limit",
-											"value": "12"
+											"value": "12",
+											"description": "Default = 12"
 										},
 										{
 											"key": "nameDesc",
-											"value": "0"
+											"value": "0",
+											"description": "boolean (0=false, 1=true)"
 										}
 									]
 								}
@@ -203,31 +212,37 @@
 										{
 											"key": "name",
 											"value": "test",
+											"description": "Optional",
 											"type": "default"
 										},
 										{
 											"key": "email",
 											"value": "test@example.com",
+											"description": "Optional",
 											"type": "default"
 										},
 										{
 											"key": "gender",
 											"value": "Male",
+											"description": "Optional",
 											"type": "default"
 										},
 										{
 											"key": "dateOfBirth",
 											"value": "1998-01-31",
+											"description": "Optional",
 											"type": "default"
 										},
 										{
 											"key": "userProfileImage",
+											"description": "Optional",
 											"type": "file",
 											"src": "/G:/Image/dDahPNh.png"
 										},
 										{
 											"key": "password",
 											"value": "12345Aa!",
+											"description": "Required",
 											"type": "default"
 										}
 									]
@@ -307,15 +322,18 @@
 										{
 											"key": "title",
 											"value": "Random title",
+											"description": "Required",
 											"type": "default"
 										},
 										{
 											"key": "content",
 											"value": "Random content",
+											"description": "Required",
 											"type": "default"
 										},
 										{
 											"key": "blogCoverImage",
+											"description": "Optional",
 											"type": "file",
 											"src": "/G:/Image/spiderman-into-the-spider-verse-2018-movie-ey.jpg"
 										}
@@ -351,11 +369,13 @@
 									"query": [
 										{
 											"key": "page",
-											"value": "1"
+											"value": "1",
+											"description": "Default = 1"
 										},
 										{
 											"key": "limit",
-											"value": "24"
+											"value": "24",
+											"description": "Default = 12"
 										}
 									]
 								}
@@ -379,15 +399,18 @@
 									"query": [
 										{
 											"key": "page",
-											"value": "1"
+											"value": "1",
+											"description": "Default = 12"
 										},
 										{
 											"key": "limit",
-											"value": "12"
+											"value": "12",
+											"description": "Default = 12"
 										},
 										{
 											"key": "keyword",
-											"value": "test"
+											"value": "test",
+											"description": "Optional. Without keyword gets all within page and limit."
 										}
 									]
 								}
@@ -461,20 +484,24 @@
 										{
 											"key": "blogId",
 											"value": "1",
+											"description": "Required",
 											"type": "default"
 										},
 										{
 											"key": "title",
 											"value": "Title",
+											"description": "Optional",
 											"type": "default"
 										},
 										{
 											"key": "content",
 											"value": "Content",
+											"description": "Optional",
 											"type": "default"
 										},
 										{
 											"key": "blogCoverImage",
+											"description": "Optional",
 											"type": "file",
 											"src": "/G:/Image/1119564.jpg"
 										}

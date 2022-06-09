@@ -46,6 +46,7 @@ export const verifyToken = asyncHandler(async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    throw new HttpError(401, "Not authorized. Token failed.");
+    if (error.statusCode) throw error;
+    else throw new HttpError(401, "Not authorized. Token failed.");
   }
 });

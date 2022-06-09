@@ -16,6 +16,7 @@ blogRouter
     [
       check("title", "Title field can not be empty.")
         .notEmpty()
+        .withMessage("Title field can not be empty.")
         .isLength({ max: 200 })
         .withMessage("Title is too large. Maximum length is 200 characters."),
       check("content", "Content field can not be empty.").notEmpty(),
@@ -37,9 +38,11 @@ blogRouter
   .patch(
     filesUpload.single("blogCoverImage"),
     [
-      check("title", "Title field can not be empty.")
+      check("blogId", "Blog id required.").notEmpty(),
+      check("title")
         .optional({ nullable: true })
         .notEmpty()
+        .withMessage("Title field can not be empty.")
         .isLength({ max: 200 })
         .withMessage("Title is too large. Maximum length is 200 characters."),
       check("content", "Content field can not be empty.")
@@ -50,9 +53,21 @@ blogRouter
     blogController.updateBlog
   );
 
-blogRouter.route("/like").post(blogController.likeBlog);
+blogRouter
+  .route("/like")
+  .post(
+    [check("blogId", "Blog id required.").notEmpty()],
+    validationCheck,
+    blogController.likeBlog
+  );
 
-blogRouter.route("/delete").delete(blogController.deleteBlog);
+blogRouter
+  .route("/delete")
+  .delete(
+    [check("blogId", "Blog id required.").notEmpty()],
+    validationCheck,
+    blogController.deleteBlog
+  );
 
 blogRouter.route("/search").get(blogController.searchBlogs);
 

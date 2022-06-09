@@ -1,16 +1,11 @@
 import deleteUploadedFile from "../utils/deleteUploadedFile.js";
 import HttpError from "../utils/httpError.js";
-import { paginate } from "../utils/paginate.js";
 import blogDb from "../repository/db_repository/blogDb.js";
-import userDb from "../repository/db_repository/userDb.js";
-import userCache from "../repository/cache_repository/userCache.js";
 import blogCache from "../repository/cache_repository/blogCache.js";
+import userService from "./userService.js";
 
 const createBlog = async (userId, title, content, coverImage) => {
-  const user = await userCache.getUserById(
-    userId,
-    async () => await userDb.findUserById(userId)
-  );
+  const { body: user } = await userService.getProfileDetails(userId);
 
   if (user?.id) {
     const blog = await blogDb.createBlog(userId, title, content, coverImage);
@@ -82,135 +77,156 @@ const searchBlogs = async (keyword, page, limit) => {
 };
 
 const getUserBlogList = async (userId) => {
-  const blogList = await blogCache.getUserBlogList(
-    userId,
-    async () => await blogDb.findBlogListByUserId(userId)
-  );
+  const { body: user } = await userService.getProfileDetails(userId);
 
-  return {
-    success: true,
-    body: blogList,
-  };
+  if (user?.id) {
+    const blogList = await blogCache.getUserBlogList(
+      userId,
+      async () => await blogDb.findBlogListByUserId(userId)
+    );
+
+    return {
+      success: true,
+      body: blogList,
+    };
+  } else {
+    return { success: false, error: new HttpError(404, "User not found.") };
+  }
 };
 
 const updateBlog = async (userId, blogId, title, content, coverImage) => {
-  const blog = await blogCache.getBlogById(
-    blogId,
-    async () => await blogDb.findBlogById(blogId)
-  );
+  const { body: user } = await userService.getProfileDetails(userId);
 
-  const blogOwner = blog?.user?.id === userId;
+  if (user?.id) {
+    const { body: blog } = await getBlogDetails(blogId);
 
-  if (blog?.id && blogOwner) {
-    title = title || blog.title;
-    content = content || blog.content;
-    coverImage = coverImage || blog.coverImage;
+    const blogOwner = blog?.user?.id === userId;
 
-    const updatedBlog = await blogDb.updateBlog(
-      blogId,
-      title,
-      content,
-      coverImage
-    );
+    if (blog?.id && blogOwner) {
+      title = title || blog?.title;
+      content = content || blog?.content;
+      coverImage = coverImage || blog?.coverImage;
 
-    if (updateBlog && coverImage !== blog.coverImage)
-      deleteUploadedFile(blog.coverImage);
+      const updatedBlog = await blogDb.updateBlog(
+        blogId,
+        title,
+        content,
+        coverImage
+      );
 
-    const blogDetails = {
-      id: blog.id,
-      title,
-      content,
-      coverImage,
-      createdAt: blog.createdAt,
-      updatedAt: new Date(),
-      user: blog.user,
-      likes: blog.likes,
-    };
+      if (updateBlog && blog?.coverImage && coverImage !== blog?.coverImage)
+        deleteUploadedFile(blog?.coverImage);
 
-    blogCache.cacheBlogById(blog.id, blogDetails);
+      const blogDetails = {
+        id: blog?.id,
+        title,
+        content,
+        coverImage,
+        createdAt: blog?.createdAt,
+        updatedAt: new Date(),
+        user: blog?.user,
+        likes: blog?.likes,
+      };
 
-    return updatedBlog
-      ? {
-          success: true,
-          body: blogDetails,
-        }
-      : { success: false, error: new HttpError(400, "Failed to update blog.") };
-  } else if (!blog) {
-    return { success: false, error: new HttpError(404, "Blog not found.") };
+      blogCache.cacheBlogById(blog?.id, blogDetails);
+
+      return updatedBlog
+        ? {
+            success: true,
+            body: blogDetails,
+          }
+        : {
+            success: false,
+            error: new HttpError(400, "Failed to update blog."),
+          };
+    } else if (!blog?.id) {
+      return { success: false, error: new HttpError(404, "Blog not found.") };
+    } else {
+      return {
+        success: false,
+        error: new HttpError(401, "Unauthorized. Not the owner of the blog."),
+      };
+    }
   } else {
     return {
       success: false,
-      error: new HttpError(401, "Unauthorized. Not the owner of the blog."),
+      error: new HttpError(401, "Must be logged in to update your blogs."),
     };
   }
 };
 
 const updateBlogLikeStatus = async (userId, blogId) => {
-  const user = await userCache.getUserById(
-    userId,
-    async () => await userDb.findUserById(userId)
-  );
+  const { body: user } = await userService.getProfileDetails(userId);
 
-  const blog = await blogCache.getBlogById(
-    blogId,
-    async () => await blogDb.findBlogById(blogId)
-  );
+  if (user?.id) {
+    const { body: blog } = await getBlogDetails(blogId);
 
-  if (user?.id && blog?.id) {
-    const updatedLike = await blogDb.updateBlogLikeStatus(userId, blogId);
+    if (blog?.id) {
+      const updatedLike = await blogDb.updateBlogLikeStatus(userId, blogId);
 
-    const blogDetails = {
-      id: blog.id,
-      title: blog.title,
-      content: blog.content,
-      coverImage: blog.coverImage,
-      createdAt: blog.createdAt,
-      updatedAt: blog.updatedAt,
-      user: blog.user,
-      likes: [
-        ...blog.likes.filter((like) => like.userId != updatedLike.userId),
-        { ...updatedLike },
-      ],
-    };
+      const blogDetails = {
+        id: blog.id,
+        title: blog.title,
+        content: blog.content,
+        coverImage: blog.coverImage,
+        createdAt: blog.createdAt,
+        updatedAt: blog.updatedAt,
+        user: blog.user,
+        likes: [
+          ...blog.likes.filter((like) => like.userId != updatedLike.userId),
+          { ...updatedLike },
+        ],
+      };
 
-    blogCache.cacheBlogById(blog?.Id, blogDetails);
+      blogCache.cacheBlogById(blog?.Id, blogDetails);
 
-    return { success: true, body: blogDetails };
-  } else if (!user?.id) {
-    return { success: false, error: new HttpError(401, "Must be logged in.") };
+      return { success: true, body: blogDetails };
+    } else {
+      return { success: false, error: new HttpError(404, "Blog not found.") };
+    }
   } else {
-    return { success: false, error: new HttpError(404, "Blog not found.") };
+    return {
+      success: false,
+      error: new HttpError(401, "Must be logged in to like blogs."),
+    };
   }
 };
 
 const deleteBlog = async (userId, blogId) => {
-  const blog = await blogCache.getBlogById(
-    blogId,
-    async () => await blogDb.findBlogById(blogId)
-  );
+  const { body: user } = await userService.getProfileDetails(userId);
 
-  const blogOwner = blog?.user?.id === userId;
+  if (user?.id) {
+    const { body: blog } = await getBlogDetails(blogId);
 
-  if (blog?.id && blogOwner) {
-    const deletedBlog = await blogDb.deleteBlogById(blogId);
+    const blogOwner = blog?.user?.id === userId;
 
-    if (!deletedBlog) {
+    if (blog?.id && blogOwner) {
+      const deletedBlog = await blogDb.deleteBlogById(blogId);
+
+      if (deletedBlog && blog?.coverImage) {
+        deleteUploadedFile(blog?.coverImage);
+      }
+
+      blogCache.removeBlogById(blog?.id);
+
+      return deletedBlog
+        ? { success: true, body: { blogId, message: "Blog deleted." } }
+        : {
+            success: false,
+            error: new HttpError(400, "Failed to delete blog."),
+          };
+    } else if (!blog?.id) {
+      return { success: false, error: new HttpError(404, "Blog not found.") };
+    } else {
       return {
         success: false,
-        error: new HttpError(400, "Failed to delete blog."),
+        error: new HttpError(401, "Unauthorized. Not the owner of the blog."),
       };
     }
-
-    deleteUploadedFile(blog.coverImage);
-    blogCache.removeBlogById(blog.id);
-
-    return { success: true, body: { blogId, message: "Blog deleted." } };
-  } else if (!blog?.id) {
-    return { success: false, error: new HttpError(404, "Blog not found.") };
   } else {
     return {
       success: false,
-      error: new HttpError(401, "Unauthorized. Not the owner of the blog."),
+      error: new HttpError(401, "Must be logged in to delete your blogs."),
     };
   }
 };

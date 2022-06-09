@@ -44,7 +44,6 @@ const getBlogList = asyncHandler(async (req, res) => {
 // @desc Search for blogs by username or title
 // @route Get /api/v1/blog/search?page=number&limit=number&keyword=String
 // @access Protected
-// @needs keyword
 const searchBlogs = asyncHandler(async (req, res) => {
   let { page, limit, keyword } = req.query;
   page = parseInt(page > 0 ? page : 1);
