@@ -32,8 +32,8 @@ const createBlog = async (userId, title, content, coverImage) => {
   };
 };
 
-const findBlogList = async () => {
-  return await Blog.findAll({
+const findBlogList = async (page, limit) => {
+  const { count, rows } = await Blog.findAndCountAll({
     attributes: [
       "id",
       "title",
@@ -52,7 +52,11 @@ const findBlogList = async () => {
         attributes: ["userId", "hasLiked"],
       },
     ],
+    offset: limit * (page - 1),
+    limit: limit,
   });
+
+  return rows;
 };
 
 const findBlogById = async (id) => {
@@ -135,8 +139,9 @@ const deleteBlogById = async (id) => {
   return await Blog.destroy({ where: { id } });
 };
 
-const findBlogsByUsernameOrTitle = async (keyword) => {
-  return await Blog.findAll({
+const findBlogsByUsernameOrTitle = async (keyword, page, limit) => {
+  const { count, rows } = await Blog.findAndCountAll({
+    subQuery: false,
     attributes: [
       "id",
       "title",
@@ -145,12 +150,6 @@ const findBlogsByUsernameOrTitle = async (keyword) => {
       "createdAt",
       "updatedAt",
     ],
-    where: {
-      [Op.or]: [
-        { "$Blog.title$": { [Op.substring]: keyword } },
-        { "$User.name$": { [Op.substring]: keyword } },
-      ],
-    },
     include: [
       {
         model: User,
@@ -161,7 +160,17 @@ const findBlogsByUsernameOrTitle = async (keyword) => {
         attributes: ["userId", "hasLiked"],
       },
     ],
+    where: {
+      [Op.or]: [
+        { "$Blog.title$": { [Op.substring]: keyword } },
+        { "$User.name$": { [Op.substring]: keyword } },
+      ],
+    },
+    offset: limit * (page - 1),
+    limit: limit,
   });
+
+  return rows;
 };
 
 export default {

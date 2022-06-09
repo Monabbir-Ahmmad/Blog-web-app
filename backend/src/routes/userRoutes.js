@@ -80,4 +80,6 @@ userRouter
 
 userRouter.route("/profile/:id").get(verifyToken, userController.getOtherUser);
 
+userRouter.route("/").get(verifyToken, userController.getUserList);
+
 export default userRouter;

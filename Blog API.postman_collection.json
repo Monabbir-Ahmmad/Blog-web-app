@@ -1,500 +1,620 @@
 {
-  "info": {
-    "_postman_id": "541f79b7-42d3-4eaa-830e-ffd0111dc0ec",
-    "name": "Blog API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "Public api",
-      "item": [
-        {
-          "name": "User",
-          "item": [
-            {
-              "name": "User signup",
-              "event": [
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      "const res = JSON.parse(responseBody);\r",
-                      "pm.collectionVariables.set(\"token\", res.token);"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "request": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "formdata",
-                  "formdata": [
-                    {
-                      "key": "name",
-                      "value": "tajbir",
-                      "type": "default"
-                    },
-                    {
-                      "key": "email",
-                      "value": "tajbir@example.com",
-                      "type": "default"
-                    },
-                    {
-                      "key": "gender",
-                      "value": "Male",
-                      "type": "default"
-                    },
-                    {
-                      "key": "dateOfBirth",
-                      "value": "2000-01-01",
-                      "type": "default"
-                    },
-                    {
-                      "key": "password",
-                      "value": "12345Aa!",
-                      "type": "default"
-                    },
-                    {
-                      "key": "userProfileImage",
-                      "type": "file",
-                      "src": "/G:/Image/4k-gaming-wallpapers-19.jpg"
-                    }
-                  ]
-                },
-                "url": {
-                  "raw": "{{blogAPIv1}}/user/signup",
-                  "host": ["{{blogAPIv1}}"],
-                  "path": ["user", "signup"]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "User signin",
-              "event": [
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      "const res = JSON.parse(responseBody);\r",
-                      "pm.collectionVariables.set(\"token\", res.token);"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "request": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"12345Aa!\"\r\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{blogAPIv1}}/user/signin",
-                  "host": ["{{blogAPIv1}}"],
-                  "path": ["user", "signin"]
-                }
-              },
-              "response": []
-            }
-          ]
-        },
-        {
-          "name": "API base",
-          "request": {
-            "auth": {
-              "type": "bearer"
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{blogBaseURL}}",
-              "host": ["{{blogBaseURL}}"]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Protected api",
-      "item": [
-        {
-          "name": "User",
-          "item": [
-            {
-              "name": "View profile details",
-              "request": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                  "raw": "{{blogAPIv1}}/user/profile",
-                  "host": ["{{blogAPIv1}}"],
-                  "path": ["user", "profile"]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Update profile",
-              "request": {
-                "method": "PATCH",
-                "header": [],
-                "body": {
-                  "mode": "formdata",
-                  "formdata": [
-                    {
-                      "key": "name",
-                      "value": "test",
-                      "type": "default"
-                    },
-                    {
-                      "key": "email",
-                      "value": "test@example.com",
-                      "type": "default"
-                    },
-                    {
-                      "key": "gender",
-                      "value": "Male",
-                      "type": "default"
-                    },
-                    {
-                      "key": "dateOfBirth",
-                      "value": "1998-01-31",
-                      "type": "default"
-                    },
-                    {
-                      "key": "userProfileImage",
-                      "type": "file",
-                      "src": "/G:/Image/dDahPNh.png"
-                    },
-                    {
-                      "key": "password",
-                      "value": "12345Aa!",
-                      "type": "default"
-                    }
-                  ]
-                },
-                "url": {
-                  "raw": "{{blogAPIv1}}/user/profile",
-                  "host": ["{{blogAPIv1}}"],
-                  "path": ["user", "profile"]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Update password",
-              "request": {
-                "method": "PUT",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n    \"oldPassword\": \"12345Aa!\",\r\n    \"newPassword\": \"12345Aa@\"\r\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{blogAPIv1}}/user/profile",
-                  "host": ["{{blogAPIv1}}"],
-                  "path": ["user", "profile"]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "View other user profile",
-              "request": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                  "raw": "{{blogAPIv1}}/user/profile/1",
-                  "host": ["{{blogAPIv1}}"],
-                  "path": ["user", "profile", "1"]
-                }
-              },
-              "response": []
-            }
-          ]
-        },
-        {
-          "name": "Blog",
-          "item": [
-            {
-              "name": "Create blog",
-              "request": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "formdata",
-                  "formdata": [
-                    {
-                      "key": "title",
-                      "value": "Random title",
-                      "type": "default"
-                    },
-                    {
-                      "key": "content",
-                      "value": "Random content",
-                      "type": "default"
-                    },
-                    {
-                      "key": "blogCoverImage",
-                      "type": "file",
-                      "src": "/G:/Image/spiderman-into-the-spider-verse-2018-movie-ey.jpg"
-                    }
-                  ]
-                },
-                "url": {
-                  "raw": "{{blogAPIv1}}/blog/create",
-                  "host": ["{{blogAPIv1}}"],
-                  "path": ["blog", "create"]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Get blog list",
-              "request": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                  "raw": "{{blogAPIv1}}/blog/?page=1&limit=24",
-                  "host": ["{{blogAPIv1}}"],
-                  "path": ["blog", ""],
-                  "query": [
-                    {
-                      "key": "page",
-                      "value": "1"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "24"
-                    }
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Search blog by username or title",
-              "request": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                  "raw": "{{blogAPIv1}}/blog/search?page=1&limit=24&keyword=test",
-                  "host": ["{{blogAPIv1}}"],
-                  "path": ["blog", "search"],
-                  "query": [
-                    {
-                      "key": "page",
-                      "value": "1"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "24"
-                    },
-                    {
-                      "key": "keyword",
-                      "value": "test"
-                    }
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Get blog by  blogId",
-              "request": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                  "raw": "{{blogAPIv1}}/blog/find/1",
-                  "host": ["{{blogAPIv1}}"],
-                  "path": ["blog", "find", "1"]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Get blogs by userId",
-              "request": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                  "raw": "{{blogAPIv1}}/blog/user/1",
-                  "host": ["{{blogAPIv1}}"],
-                  "path": ["blog", "user", "1"]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Get personal blogs",
-              "request": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                  "raw": "{{blogAPIv1}}/blog/personal",
-                  "host": ["{{blogAPIv1}}"],
-                  "path": ["blog", "personal"]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Update blog",
-              "request": {
-                "method": "PATCH",
-                "header": [],
-                "body": {
-                  "mode": "formdata",
-                  "formdata": [
-                    {
-                      "key": "blogId",
-                      "value": "1",
-                      "type": "default"
-                    },
-                    {
-                      "key": "title",
-                      "value": "Title",
-                      "type": "default"
-                    },
-                    {
-                      "key": "content",
-                      "value": "Content",
-                      "type": "default"
-                    },
-                    {
-                      "key": "blogCoverImage",
-                      "type": "file",
-                      "src": "/G:/Image/1119564.jpg"
-                    }
-                  ]
-                },
-                "url": {
-                  "raw": "{{blogAPIv1}}/blog/update",
-                  "host": ["{{blogAPIv1}}"],
-                  "path": ["blog", "update"]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Like blog",
-              "request": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n    \"blogId\": 1\r\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{blogAPIv1}}/blog/like",
-                  "host": ["{{blogAPIv1}}"],
-                  "path": ["blog", "like"]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Delete blog",
-              "request": {
-                "method": "DELETE",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n    \"blogId\": 1\r\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{blogAPIv1}}/blog/delete",
-                  "host": ["{{blogAPIv1}}"],
-                  "path": ["blog", "delete"]
-                }
-              },
-              "response": []
-            }
-          ]
-        }
-      ],
-      "auth": {
-        "type": "bearer",
-        "bearer": [
-          {
-            "key": "token",
-            "value": "{{token}}",
-            "type": "string"
-          }
-        ]
-      },
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        },
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        }
-      ]
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    }
-  ],
-  "variable": [
-    {
-      "key": "blogBaseURL",
-      "value": "http://localhost:5000"
-    },
-    {
-      "key": "blogAPIv1",
-      "value": "http://localhost:5000/api/v1"
-    },
-    {
-      "key": "token",
-      "value": "---",
-      "type": "default"
-    }
-  ]
+	"info": {
+		"_postman_id": "541f79b7-42d3-4eaa-830e-ffd0111dc0ec",
+		"name": "Blog API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Public api",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "User signup",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const res = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"token\", res.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "test",
+											"type": "default"
+										},
+										{
+											"key": "email",
+											"value": "test@example.com",
+											"type": "default"
+										},
+										{
+											"key": "gender",
+											"value": "Male",
+											"type": "default"
+										},
+										{
+											"key": "dateOfBirth",
+											"value": "2000-01-01",
+											"type": "default"
+										},
+										{
+											"key": "password",
+											"value": "12345Aa!",
+											"type": "default"
+										},
+										{
+											"key": "userProfileImage",
+											"type": "file",
+											"src": "/G:/Image/4k-gaming-wallpapers-19.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{blogAPIv1}}/user/signup",
+									"host": [
+										"{{blogAPIv1}}"
+									],
+									"path": [
+										"user",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "User signin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const res = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"token\", res.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"12345Aa!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{blogAPIv1}}/user/signin",
+									"host": [
+										"{{blogAPIv1}}"
+									],
+									"path": [
+										"user",
+										"signin"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "API base",
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{blogBaseURL}}",
+							"host": [
+								"{{blogBaseURL}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Protected api",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "View profile details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{blogAPIv1}}/user/profile",
+									"host": [
+										"{{blogAPIv1}}"
+									],
+									"path": [
+										"user",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get user list",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{blogAPIv1}}/user/?page=1&limit=12&nameDesc=0",
+									"host": [
+										"{{blogAPIv1}}"
+									],
+									"path": [
+										"user",
+										""
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "12"
+										},
+										{
+											"key": "nameDesc",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update profile",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "test",
+											"type": "default"
+										},
+										{
+											"key": "email",
+											"value": "test@example.com",
+											"type": "default"
+										},
+										{
+											"key": "gender",
+											"value": "Male",
+											"type": "default"
+										},
+										{
+											"key": "dateOfBirth",
+											"value": "1998-01-31",
+											"type": "default"
+										},
+										{
+											"key": "userProfileImage",
+											"type": "file",
+											"src": "/G:/Image/dDahPNh.png"
+										},
+										{
+											"key": "password",
+											"value": "12345Aa!",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{blogAPIv1}}/user/profile",
+									"host": [
+										"{{blogAPIv1}}"
+									],
+									"path": [
+										"user",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update password",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"oldPassword\": \"12345Aa!\",\r\n    \"newPassword\": \"12345Aa@\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{blogAPIv1}}/user/profile",
+									"host": [
+										"{{blogAPIv1}}"
+									],
+									"path": [
+										"user",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "View other user profile",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{blogAPIv1}}/user/profile/1",
+									"host": [
+										"{{blogAPIv1}}"
+									],
+									"path": [
+										"user",
+										"profile",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Blog",
+					"item": [
+						{
+							"name": "Create blog",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "Random title",
+											"type": "default"
+										},
+										{
+											"key": "content",
+											"value": "Random content",
+											"type": "default"
+										},
+										{
+											"key": "blogCoverImage",
+											"type": "file",
+											"src": "/G:/Image/spiderman-into-the-spider-verse-2018-movie-ey.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{blogAPIv1}}/blog/create",
+									"host": [
+										"{{blogAPIv1}}"
+									],
+									"path": [
+										"blog",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get blog list",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{blogAPIv1}}/blog/?page=1&limit=24",
+									"host": [
+										"{{blogAPIv1}}"
+									],
+									"path": [
+										"blog",
+										""
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "24"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search blog by username or title",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{blogAPIv1}}/blog/search?page=1&limit=12&keyword=test",
+									"host": [
+										"{{blogAPIv1}}"
+									],
+									"path": [
+										"blog",
+										"search"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "12"
+										},
+										{
+											"key": "keyword",
+											"value": "test"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get blog by  blogId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{blogAPIv1}}/blog/find/1",
+									"host": [
+										"{{blogAPIv1}}"
+									],
+									"path": [
+										"blog",
+										"find",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get blogs by userId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{blogAPIv1}}/blog/user/1",
+									"host": [
+										"{{blogAPIv1}}"
+									],
+									"path": [
+										"blog",
+										"user",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get personal blogs",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{blogAPIv1}}/blog/personal",
+									"host": [
+										"{{blogAPIv1}}"
+									],
+									"path": [
+										"blog",
+										"personal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update blog",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "blogId",
+											"value": "1",
+											"type": "default"
+										},
+										{
+											"key": "title",
+											"value": "Title",
+											"type": "default"
+										},
+										{
+											"key": "content",
+											"value": "Content",
+											"type": "default"
+										},
+										{
+											"key": "blogCoverImage",
+											"type": "file",
+											"src": "/G:/Image/1119564.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{blogAPIv1}}/blog/update",
+									"host": [
+										"{{blogAPIv1}}"
+									],
+									"path": [
+										"blog",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Like blog",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"blogId\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{blogAPIv1}}/blog/like",
+									"host": [
+										"{{blogAPIv1}}"
+									],
+									"path": [
+										"blog",
+										"like"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete blog",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"blogId\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{blogAPIv1}}/blog/delete",
+									"host": [
+										"{{blogAPIv1}}"
+									],
+									"path": [
+										"blog",
+										"delete"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "blogBaseURL",
+			"value": "http://localhost:5000"
+		},
+		{
+			"key": "blogAPIv1",
+			"value": "http://localhost:5000/api/v1"
+		},
+		{
+			"key": "token",
+			"value": "---",
+			"type": "default"
+		}
+	]
 }

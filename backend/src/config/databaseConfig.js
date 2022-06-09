@@ -1,9 +1,23 @@
 import { Sequelize } from "sequelize";
 
-export const database = new Sequelize("blog_database", "root", "", {
-  dialect: "mysql",
-  logging: false,
-});
+export const config = {
+  host: "localhost",
+  port: "3306",
+  user: "root",
+  password: "",
+  databaseName: "blog_database",
+  databaseDialect: "mysql",
+};
+
+export const database = new Sequelize(
+  config.databaseName,
+  config.user,
+  config.password,
+  {
+    dialect: config.databaseDialect,
+    logging: false,
+  }
+);
 
 export const databaseConnect = () => {
   database

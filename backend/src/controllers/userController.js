@@ -5,9 +5,27 @@ import userService from "../service/userService.js";
 // @route GET /api/v1/user/profile
 // @access Protected
 const getUserProfile = asyncHandler(async (req, res) => {
-  const id = req.user.id;
+  const userId = req.user?.id;
 
-  const result = await userService.getProfileDetails(id);
+  const result = await userService.getProfileDetails(userId);
+
+  if (result.success) {
+    res.status(200).json(result.body);
+  } else {
+    throw result.error;
+  }
+});
+
+// @desc Get list of users
+// @route GET /api/v1/user/?page=number&limit=number&nameDesc=boolean(0,1)
+// @access Protected
+const getUserList = asyncHandler(async (req, res) => {
+  let { page, limit, nameDesc } = req.query;
+  page = parseInt(page > 0 ? page : 1);
+  limit = parseInt(limit > 0 ? limit : 12);
+  nameDesc = nameDesc == 1;
+
+  const result = await userService.getUserList(page, limit, nameDesc);
 
   if (result.success) {
     res.status(200).json(result.body);
@@ -21,7 +39,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @access Protected
 // @needs password and fields to update
 const updateUserProfile = asyncHandler(async (req, res) => {
-  const id = req.user.id;
+  const id = req.user?.id;
   const { name, email, dateOfBirth, gender, password } = req.body;
   const profileImage = req.file?.filename;
 
@@ -47,7 +65,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 // @access Protected
 // @needs oldPassword, newPassword
 const updateUserPassword = asyncHandler(async (req, res) => {
-  const id = req.user.id;
+  const id = req.user?.id;
   const { oldPassword, newPassword } = req.body;
 
   const result = await userService.updatePassword(id, oldPassword, newPassword);
@@ -63,9 +81,9 @@ const updateUserPassword = asyncHandler(async (req, res) => {
 // @route GET /api/v1/user/profile/:id
 // @access Protected
 const getOtherUser = asyncHandler(async (req, res) => {
-  const id = req.params.id;
+  const userId = req.params?.id;
 
-  const result = await userService.getProfileDetails(id);
+  const result = await userService.getProfileDetails(userId);
 
   if (result.success) {
     res.status(200).json(result.body);
@@ -76,6 +94,7 @@ const getOtherUser = asyncHandler(async (req, res) => {
 
 export default {
   getUserProfile,
+  getUserList,
   updateUserProfile,
   updateUserPassword,
   getOtherUser,

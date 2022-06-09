@@ -6,7 +6,7 @@ import blogService from "../service/blogService.js";
 // @access Protected
 // @needs title, content, ?blogCoverImage
 const createBlog = asyncHandler(async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user?.id;
   const { title, content } = req.body;
   const coverImage = req.file?.filename;
 
@@ -79,7 +79,7 @@ const getUserBlogList = asyncHandler(async (req, res) => {
 // @route GET /api/v1/blog/personal
 // @access Protected
 const getPersonalBlogList = asyncHandler(async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user?.id;
 
   const result = await blogService.getUserBlogList(userId);
 
@@ -110,7 +110,7 @@ const getBlog = asyncHandler(async (req, res) => {
 // @access Protected
 // @needs blogId, title, content, ?blogCoverImage
 const updateBlog = asyncHandler(async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user?.id;
   const { blogId, title, content } = req.body;
   const coverImage = req.file?.filename;
 
@@ -134,7 +134,7 @@ const updateBlog = asyncHandler(async (req, res) => {
 // @access Protected
 // @needs blogId
 const likeBlog = asyncHandler(async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user?.id;
   const { blogId } = req.body;
 
   const result = await blogService.updateBlogLikeStatus(userId, blogId);
@@ -151,7 +151,7 @@ const likeBlog = asyncHandler(async (req, res) => {
 // @access Protected
 // @needs blogId
 const deleteBlog = asyncHandler(async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user?.id;
   const { blogId } = req.body;
 
   const result = await blogService.deleteBlog(userId, blogId);

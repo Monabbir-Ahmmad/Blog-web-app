@@ -5,6 +5,15 @@ import generateToken from "../utils/generateToken.js";
 import HttpError from "../utils/httpError.js";
 import { hashPassword, verifyPassword } from "../utils/passwordEncryption.js";
 
+const getUserList = async (page, limit, nameDesc) => {
+  const userList = await userDb.findAllUsers(page, limit, nameDesc);
+
+  return {
+    success: true,
+    body: userList,
+  };
+};
+
 const getProfileDetails = async (userId) => {
   const user = await userCache.getUserById(
     userId,
@@ -131,4 +140,9 @@ const updatePassword = async (userId, oldPassword, newPassword) => {
   }
 };
 
-export default { getProfileDetails, updateProfile, updatePassword };
+export default {
+  getUserList,
+  getProfileDetails,
+  updateProfile,
+  updatePassword,
+};

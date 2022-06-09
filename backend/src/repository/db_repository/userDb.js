@@ -37,6 +37,34 @@ const createUser = async (
   };
 };
 
+const emailInUse = async (email = "", id = null) => {
+  return await User.findOne({
+    where: { email: email, id: { [Op.not]: id } },
+  });
+};
+
+const findAllUsers = async (page = 1, limit = 12, nameDesc = false) => {
+  const { count, rows } = await User.findAndCountAll({
+    include: {
+      model: UserType,
+      attributes: ["privilege"],
+    },
+    offset: limit * (page - 1),
+    limit: limit,
+    order: [["name", nameDesc ? "DESC" : "ASC"]],
+  });
+
+  return rows.map((user) => ({
+    id: user?.id,
+    name: user?.name,
+    email: user?.email,
+    gender: user?.gender,
+    dateOfBirth: user?.dateOfBirth,
+    profileImage: user?.profileImage,
+    privilege: user?.userType?.privilege,
+  }));
+};
+
 const findUserById = async (id) => {
   const user = await User.findByPk(id, {
     include: {
@@ -78,12 +106,6 @@ const findUserByEmail = async (email) => {
   };
 };
 
-const emailInUse = async (email = "", id = null) => {
-  return await User.findOne({
-    where: { email: email, id: { [Op.not]: id } },
-  });
-};
-
 const updateProfile = async (
   id,
   name,
@@ -114,6 +136,7 @@ const updatePassword = async (userId, newPassword) => {
 export default {
   createUser,
   emailInUse,
+  findAllUsers,
   findUserById,
   findUserByEmail,
   updateProfile,

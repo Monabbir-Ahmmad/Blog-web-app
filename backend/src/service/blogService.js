@@ -54,20 +54,30 @@ const getBlogDetails = async (blogId) => {
 };
 
 const getBlogList = async (page, limit) => {
-  const blogList = await blogDb.findBlogList();
+  const blogList = await blogCache.getSearchedBlogs(
+    page,
+    limit,
+    "",
+    async () => await blogDb.findBlogList(page, limit)
+  );
 
   return {
     success: true,
-    body: paginate(blogList, page, limit),
+    body: blogList,
   };
 };
 
 const searchBlogs = async (keyword, page, limit) => {
-  const blogList = await blogDb.findBlogsByUsernameOrTitle(keyword);
+  const blogList = await blogCache.getSearchedBlogs(
+    page,
+    limit,
+    keyword,
+    async () => await blogDb.findBlogsByUsernameOrTitle(keyword, page, limit)
+  );
 
   return {
     success: true,
-    body: paginate(blogList, page, limit),
+    body: blogList,
   };
 };
 
@@ -192,7 +202,7 @@ const deleteBlog = async (userId, blogId) => {
     }
 
     deleteUploadedFile(blog.coverImage);
-    blogCache.deleteBlogById(blog.id);
+    blogCache.removeBlogById(blog.id);
 
     return { success: true, body: { blogId, message: "Blog deleted." } };
   } else if (!blog?.id) {
