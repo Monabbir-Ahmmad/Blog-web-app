@@ -25,6 +25,7 @@
 - Before starting the program make sure that the database is running.
 - Use "npm start" on both the frontend and backend separately to start the client and server programs.
 - For testing the backend api a Postman collection file named "Blog API.postman_collection" is provided.
+- The postman collection provides dynamic token variable for protected api routes that auto updates when you signin or signup in the blog api using the public routes. So you don't need to worry about copying and pasting the token in the authorization header. The token will be automatically inherited for the protected routes.
 
 [reactjs]: https://reactjs.org/
 [redux]: https://redux.js.org/
