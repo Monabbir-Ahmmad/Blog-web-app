@@ -63,7 +63,7 @@ const getBlogListByIds = async (blogIdArray = []) => {
 };
 
 const cacheBlogIdArray = (keyword, keyNumber, blogIdArray = []) => {
-  const result = cache.set(keyword + keyNumber, blogIdArray, 0);
+  const result = cache.set(keyword + keyNumber, blogIdArray);
   console.log(result ? "Blog id array cached" : "Blog id array caching failed");
   return result;
 };
