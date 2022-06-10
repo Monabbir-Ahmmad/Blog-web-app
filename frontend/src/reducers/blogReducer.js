@@ -27,7 +27,7 @@ export const postBlogReducer = (state = {}, action) => {
     case POST_BLOG_SUCCESS:
       return { loading: false, success: true, blog: action.payload };
     case POST_BLOG_SUCCESS_RESET:
-      return { loading: false, success: false };
+      return { ...state, loading: false, success: false };
     case POST_BLOG_FAIL:
       return { loading: false, success: false, error: action.payload };
     default:

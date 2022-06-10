@@ -77,8 +77,12 @@ const updateProfile = async (
       profileImage
     );
 
-    if (updateProfile && profileImage !== user.profileImage)
-      deleteUploadedFile(user.profileImage);
+    if (
+      updateProfile &&
+      user?.profileImage &&
+      profileImage !== user?.profileImage
+    )
+      deleteUploadedFile(user?.profileImage);
 
     const userDetails = {
       id: user.id,

@@ -1,7 +1,13 @@
 import { PhotoCamera } from "@mui/icons-material";
 import { Avatar, IconButton, Input } from "@mui/material";
 
-function ProfileImagePicker({ onImageSelect, image }) {
+function ProfileImagePicker({
+  onImageSelect,
+  image,
+  defaultImage = "broken.png",
+  isEditable = true,
+  size = 150,
+}) {
   return (
     <label htmlFor="contained-button-file" style={{ alignSelf: "center" }}>
       <Input
@@ -11,11 +17,13 @@ function ProfileImagePicker({ onImageSelect, image }) {
         accept=".png, .jpg, .jpeg"
         onChange={onImageSelect}
         sx={{ display: "none" }}
+        disabled={!isEditable}
       />
       <IconButton component="span" sx={{ position: "relative" }}>
         <PhotoCamera
           sx={{
-            fontSize: 100,
+            display: isEditable ? "flex" : "none",
+            fontSize: size * 0.7,
             color: "contrastText",
             opacity: 0,
             position: "absolute",
@@ -28,9 +36,8 @@ function ProfileImagePicker({ onImageSelect, image }) {
           }}
         />
         <Avatar
-          alt="Profile Picture"
-          src={image && URL.createObjectURL(image)}
-          sx={{ width: 150, height: 150, alignSelf: "center" }}
+          src={(image && URL.createObjectURL(image)) || defaultImage}
+          sx={{ width: size, height: size, alignSelf: "center" }}
         />
       </IconButton>
     </label>

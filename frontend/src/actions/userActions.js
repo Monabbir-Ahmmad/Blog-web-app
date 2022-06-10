@@ -22,6 +22,8 @@ import {
   USER_PASSWORD_UPDATE_REQUEST,
   USER_PASSWORD_UPDATE_SUCCESS,
   USER_PASSWORD_UPDATE_FAIL,
+  USER_PROFILE_UPDATE_SUCCESS_RESET,
+  USER_PASSWORD_UPDATE_SUCCESS_RESET,
 } from "../constants/userConstants";
 
 export const register = (registrationData) => async (dispatch) => {
@@ -46,7 +48,13 @@ export const register = (registrationData) => async (dispatch) => {
       payload: res.data,
     });
 
-    saveToLocalStorage(res.data);
+    saveToLocalStorage(
+      res.data.id,
+      res.data.name,
+      res.data.email,
+      res.data.profileImage,
+      res.data.token
+    );
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
@@ -75,7 +83,13 @@ export const login = (email, password) => async (dispatch) => {
       payload: res.data,
     });
 
-    saveToLocalStorage(res.data);
+    saveToLocalStorage(
+      res.data.id,
+      res.data.name,
+      res.data.email,
+      res.data.profileImage,
+      res.data.token
+    );
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
@@ -89,6 +103,7 @@ export const login = (email, password) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem("userAuthInfo");
+
   dispatch({
     type: USER_LOGOUT,
   });
@@ -109,10 +124,7 @@ export const getUserDetails = () => async (dispatch, getState) => {
       },
     };
 
-    const res = await axios.get(
-      `${GET_USER_PROFILE}/${userAuthInfo.id}`,
-      config
-    );
+    const res = await axios.get(GET_USER_PROFILE, config);
 
     dispatch({
       type: USER_DETAILS_SUCCESS,
@@ -144,16 +156,35 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       },
     };
 
-    const res = await axios.patch(
-      `${UPDATE_USER_PROFILE}/${userAuthInfo.id}`,
-      user,
-      config
-    );
+    const res = await axios.patch(UPDATE_USER_PROFILE, user, config);
 
     dispatch({
       type: USER_PROFILE_UPDATE_SUCCESS,
       payload: res.data,
     });
+
+    dispatch({
+      type: USER_DETAILS_SUCCESS,
+      payload: res.data,
+    });
+
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      payload: res.data,
+    });
+
+    saveToLocalStorage(
+      res.data.id,
+      res.data.name,
+      res.data.email,
+      res.data.profileImage,
+      res.data.token
+    );
+
+    setTimeout(
+      () => dispatch({ type: USER_PROFILE_UPDATE_SUCCESS_RESET }),
+      2000
+    );
   } catch (error) {
     dispatch({
       type: USER_PROFILE_UPDATE_FAIL,
@@ -182,7 +213,7 @@ export const updateUserPassword =
       };
 
       const res = await axios.put(
-        `${UPDATE_USER_PROFILE}/${userAuthInfo.id}`,
+        UPDATE_USER_PROFILE,
         { oldPassword, newPassword },
         config
       );
@@ -191,6 +222,11 @@ export const updateUserPassword =
         type: USER_PASSWORD_UPDATE_SUCCESS,
         payload: res.data,
       });
+
+      setTimeout(
+        () => dispatch({ type: USER_PASSWORD_UPDATE_SUCCESS_RESET }),
+        2000
+      );
     } catch (error) {
       dispatch({
         type: USER_PASSWORD_UPDATE_FAIL,
@@ -202,9 +238,9 @@ export const updateUserPassword =
     }
   };
 
-function saveToLocalStorage(userAuthInfo, role) {
+function saveToLocalStorage(id, name, email, profileImage, token) {
   localStorage.setItem(
     "userAuthInfo",
-    JSON.stringify({ ...userAuthInfo, role: role })
+    JSON.stringify({ id, name, email, profileImage, token })
   );
 }

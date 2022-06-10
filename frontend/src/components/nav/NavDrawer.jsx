@@ -9,12 +9,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material";
 import NavItems from "./NavItems";
-import { randomColor } from "../../utils/utilities";
 import AppIcon from "../icon/AppIcon";
 
 const drawerWidth = 300;
-
-const profileColor = randomColor();
 
 function NavDrawer({ window }) {
   const theme = useTheme();
@@ -79,7 +76,7 @@ function NavDrawer({ window }) {
             },
           }}
         >
-          <NavItems profileColor={profileColor} />
+          <NavItems />
         </Drawer>
         <Drawer
           variant="permanent"
@@ -92,7 +89,7 @@ function NavDrawer({ window }) {
             },
           }}
         >
-          <NavItems profileColor={profileColor} />
+          <NavItems />
         </Drawer>
       </Box>
       <Box

@@ -5,6 +5,7 @@ import RegisterForm from "../components/authentication/RegisterForm";
 import AuthPageChanger from "../components/authentication/AuthPageChanger";
 import styled from "@emotion/styled";
 import { Stack } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const LoginFormContainer = styled.div`
   display: flex;
@@ -40,21 +41,22 @@ const RegFormContainer = styled.div`
 
 function LoginRegPage() {
   const navigate = useNavigate();
-
   const [searchParams] = useSearchParams();
 
   const page = searchParams.get("page");
+  const redirect = searchParams.get("redirect");
 
+  const { userAuthInfo } = useSelector((state) => state.userLogin);
   const [signupOpen, setSignupOpen] = useState(page === "sign-up");
 
   const loginSectionRef = useRef(null);
-
   const regSectionRef = useRef(null);
 
-  const pageChangeHandler = (e) => {
-    setSignupOpen(!signupOpen);
-    navigate(`/?page=${signupOpen ? "sign-in" : "sign-up"}`);
-  };
+  useEffect(() => {
+    if (userAuthInfo?.token) {
+      navigate(redirect ? `/${redirect}` : "/home");
+    }
+  }, [navigate, redirect, userAuthInfo]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -64,7 +66,16 @@ function LoginRegPage() {
         regSectionRef.current?.scrollIntoView({ behavior: "smooth" });
       }
     }, 600);
-  }, [page]);
+  }, [page, signupOpen]);
+
+  const pageChangeHandler = (e) => {
+    setSignupOpen(!signupOpen);
+    navigate(
+      `/?page=${signupOpen ? "sign-in" : "sign-up"}${
+        redirect ? `&redirect=${redirect}` : ""
+      }`
+    );
+  };
 
   return (
     <Stack direction={{ xs: "column", md: "row" }} minHeight={"100vh"}>

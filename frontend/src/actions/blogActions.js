@@ -51,14 +51,7 @@ export const writeBlog = (blog) => async (dispatch, getState) => {
       payload: res.data,
     });
 
-    setTimeout(
-      () =>
-        dispatch({
-          type: POST_BLOG_SUCCESS_RESET,
-          payload: res.data,
-        }),
-      2000
-    );
+    setTimeout(() => dispatch({ type: POST_BLOG_SUCCESS_RESET }), 2000);
   } catch (error) {
     dispatch({
       type: POST_BLOG_FAIL,

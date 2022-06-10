@@ -12,11 +12,14 @@ const imageArray = [
   "https://www.hostinger.com.br/tutoriais/wp-content/uploads/sites/12/2021/03/O-Que-E-Um-Blog-Uma-Introducao-ao-Blogging.png",
 ];
 
-export const randomColor = () => {
-  let hex = Math.ceil(Math.random() * 0xffffff);
-  return "#" + hex.toString(16);
-};
-
 export const randomImageById = (id) => {
   return imageArray[id % 10];
+};
+
+export const stringToColour = (str) => {
+  str = str ? str : "";
+  const stringUniqueHash = [...str].reduce((acc, char) => {
+    return char.charCodeAt(0) + ((acc << 5) - acc);
+  }, 0);
+  return `hsl(${stringUniqueHash % 360}, 95%, 35%)`;
 };

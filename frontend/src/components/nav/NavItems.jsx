@@ -16,8 +16,9 @@ import { navItemsGroup } from "./navItemGroups";
 import { useDispatch, useSelector } from "react-redux";
 import { API_HOST } from "../../constants/apiLinks";
 import { logout } from "../../actions/userActions";
+import { stringToColour } from "../../utils/utilities";
 
-function NavItems({ profileColor }) {
+function NavItems() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -49,7 +50,12 @@ function NavItems({ profileColor }) {
               ? `${API_HOST}/${userAuthInfo?.profileImage}`
               : "broken.png"
           }
-          sx={{ width: 100, height: 100, fontSize: 60, bgcolor: profileColor }}
+          sx={{
+            width: 100,
+            height: 100,
+            fontSize: 60,
+            bgcolor: stringToColour(userAuthInfo?.name),
+          }}
         />
         <Typography variant="h6">{userAuthInfo?.name}</Typography>
       </Toolbar>

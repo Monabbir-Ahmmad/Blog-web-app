@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { API_HOST, LIKE_BLOG } from "../../constants/apiLinks";
-import { randomColor, randomImageById } from "../../utils/utilities";
+import { randomImageById, stringToColour } from "../../utils/utilities";
 import BlogItemMenu from "./BlogItemMenu";
 
 function BlogItem({ blog }) {
@@ -71,7 +71,7 @@ function BlogItem({ blog }) {
                 ? `${API_HOST}/${blog?.user?.profileImage}`
                 : "broken.png"
             }
-            sx={{ bgcolor: randomColor() }}
+            sx={{ bgcolor: stringToColour(blog?.user?.name) }}
           />
         }
         action={

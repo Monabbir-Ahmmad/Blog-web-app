@@ -9,9 +9,11 @@ import {
   USER_PASSWORD_UPDATE_FAIL,
   USER_PASSWORD_UPDATE_REQUEST,
   USER_PASSWORD_UPDATE_SUCCESS,
+  USER_PASSWORD_UPDATE_SUCCESS_RESET,
   USER_PROFILE_UPDATE_FAIL,
   USER_PROFILE_UPDATE_REQUEST,
   USER_PROFILE_UPDATE_SUCCESS,
+  USER_PROFILE_UPDATE_SUCCESS_RESET,
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
@@ -66,6 +68,8 @@ export const userProfileUpdateReducer = (state = {}, action) => {
       return { ...state, loading: true };
     case USER_PROFILE_UPDATE_SUCCESS:
       return { loading: false, success: true, userAuthInfo: action.payload };
+    case USER_PROFILE_UPDATE_SUCCESS_RESET:
+      return { ...state, loading: false, success: false };
     case USER_PROFILE_UPDATE_FAIL:
       return { loading: false, success: false, error: action.payload };
     default:
@@ -79,6 +83,8 @@ export const userPasswordUpdateReducer = (state = {}, action) => {
       return { ...state, loading: true };
     case USER_PASSWORD_UPDATE_SUCCESS:
       return { loading: false, success: true, userAuthInfo: action.payload };
+    case USER_PASSWORD_UPDATE_SUCCESS_RESET:
+      return { ...state, loading: false, success: false };
     case USER_PASSWORD_UPDATE_FAIL:
       return { loading: false, success: false, error: action.payload };
     default:

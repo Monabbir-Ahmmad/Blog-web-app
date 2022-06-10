@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import { login } from "../../actions/userActions";
 
 const FormContainer = styled.form`
@@ -27,12 +26,6 @@ const FormContainer = styled.form`
 function LoginForm({ reset }) {
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
-
-  const [searchParams] = useSearchParams();
-
-  const redirect = searchParams.get("redirect");
-
   const [valueMissing, setValueMissing] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -42,9 +35,7 @@ function LoginForm({ reset }) {
     password: "",
   });
 
-  const { loading, error, userAuthInfo } = useSelector(
-    (state) => state.userLogin
-  );
+  const { loading, error } = useSelector((state) => state.userLogin);
 
   useEffect(() => {
     if (reset) {
@@ -55,12 +46,6 @@ function LoginForm({ reset }) {
       });
     }
   }, [reset]);
-
-  useEffect(() => {
-    if (userAuthInfo && Object.keys(userAuthInfo).length) {
-      navigate(redirect ? `/${redirect}` : "/home");
-    }
-  }, [navigate, redirect, userAuthInfo]);
 
   const handleChange = (prop) => (e) => {
     setValues({ ...values, [prop]: e.target.value });

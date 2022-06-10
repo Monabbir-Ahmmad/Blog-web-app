@@ -17,7 +17,6 @@ import {
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { register } from "../../actions/userActions";
 import ProfileImagePicker from "../imagePicker/ProfileImagePicker";
 
@@ -36,8 +35,6 @@ const FormContainer = styled.form`
 function RegisterForm({ reset }) {
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
-
   const [valueMissing, setValueMissing] = useState(false);
 
   const [showPassword, setShowPassword] = useState({
@@ -53,9 +50,7 @@ function RegisterForm({ reset }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const { loading, error, userInfo } = useSelector(
-    (state) => state.userRegister
-  );
+  const { loading, error } = useSelector((state) => state.userRegister);
 
   useEffect(() => {
     if (reset) {
@@ -69,12 +64,6 @@ function RegisterForm({ reset }) {
       setConfirmPassword("");
     }
   }, [reset]);
-
-  useEffect(() => {
-    if (userInfo && Object.keys(userInfo).length) {
-      navigate("/");
-    }
-  }, [navigate, userInfo]);
 
   const handleClickShowPassword = (prop) => (e) => {
     setShowPassword({ ...showPassword, [prop]: !showPassword[prop] });
