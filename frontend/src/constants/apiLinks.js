@@ -9,17 +9,19 @@ export const GET_USER_PROFILE = `${API_HOST}/api/v1/user/profile`;
 
 export const UPDATE_USER_PROFILE = `${API_HOST}/api/v1/user/profile`;
 
+export const UPDATE_USER_PASSWORD = `${API_HOST}/api/v1/user/profile`;
+
 export const POST_BLOG = `${API_HOST}/api/v1/blog/create`;
 
 export const UPDATE_BLOG = `${API_HOST}/api/v1/blog/update`;
 
-export const GET_SINGLE_BLOG = `${API_HOST}/api/v1/blog`;
+export const GET_SINGLE_BLOG = `${API_HOST}/api/v1/blog/find`;
 
 export const GET_BLOG_LIST = `${API_HOST}/api/v1/blog`;
 
 export const GET_PERSONAL_BLOG_LIST = `${API_HOST}/api/v1/blog/personal`;
 
-export const LIKE_BLOG = `${API_HOST}/api/v1/blog/like`;
+export const POST_BLOG_LIKE = `${API_HOST}/api/v1/blog/like`;
 
 export const POST_BLOG_COMMENT = `${API_HOST}/api/v1/blog/comment`;
 

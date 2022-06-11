@@ -178,7 +178,7 @@ const updateBlogLikeStatus = async (userId, blogId) => {
         ],
       };
 
-      blogCache.cacheBlogById(blog?.Id, blogDetails);
+      blogCache.cacheBlogById(blog?.id, blogDetails);
 
       return { success: true, body: blogDetails };
     } else {

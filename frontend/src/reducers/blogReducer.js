@@ -61,6 +61,19 @@ export const singleBlogReducer = (state = {}, action) => {
   }
 };
 
+export const personalBlogsReducer = (state = { blogs: [] }, action) => {
+  switch (action.type) {
+    case GET_PERSONAL_BLOGS_REQUEST:
+      return { loading: true, blogs: [] };
+    case GET_PERSONAL_BLOGS_SUCCESS:
+      return { loading: false, blogs: action.payload };
+    case GET_PERSONAL_BLOGS_FAIL:
+      return { loading: false, blogs: [], error: action.payload };
+    default:
+      return state;
+  }
+};
+
 export const singleBlogCommentsReducer = (
   state = { blogComments: [] },
   action
@@ -85,19 +98,6 @@ export const writeBlogCommentReducer = (state = {}, action) => {
       return { loading: false, success: true, blogComment: action.payload };
     case POST_BLOG_COMMENT_FAIL:
       return { loading: false, success: false, error: action.payload };
-    default:
-      return state;
-  }
-};
-
-export const personalBlogsReducer = (state = { blogs: [] }, action) => {
-  switch (action.type) {
-    case GET_PERSONAL_BLOGS_REQUEST:
-      return { loading: true, blogs: [] };
-    case GET_PERSONAL_BLOGS_SUCCESS:
-      return { loading: false, blogs: action.payload };
-    case GET_PERSONAL_BLOGS_FAIL:
-      return { loading: false, blogs: [], error: action.payload };
     default:
       return state;
   }

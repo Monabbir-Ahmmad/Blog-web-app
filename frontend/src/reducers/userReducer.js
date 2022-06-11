@@ -82,7 +82,7 @@ export const userPasswordUpdateReducer = (state = {}, action) => {
     case USER_PASSWORD_UPDATE_REQUEST:
       return { ...state, loading: true };
     case USER_PASSWORD_UPDATE_SUCCESS:
-      return { loading: false, success: true, userAuthInfo: action.payload };
+      return { loading: false, success: true };
     case USER_PASSWORD_UPDATE_SUCCESS_RESET:
       return { ...state, loading: false, success: false };
     case USER_PASSWORD_UPDATE_FAIL:

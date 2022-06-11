@@ -5,6 +5,7 @@ import BlogWritePage from "./pages/BlogWritePage";
 import NavDrawer from "./components/nav/NavDrawer";
 import ProfilePage from "./pages/ProfilePage";
 import PersonalBlogPage from "./pages/PersonalBlogPage";
+import SingleBlogPage from "./pages/SingleBlogPage";
 
 function App() {
   return (
@@ -13,6 +14,8 @@ function App() {
 
       <Route path="/" element={<NavDrawer />}>
         <Route path="home" element={<HomePage />} />
+
+        <Route path="blog/:blogId" element={<SingleBlogPage />} />
 
         <Route path="profile" element={<ProfilePage />} />
 

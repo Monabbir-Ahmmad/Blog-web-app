@@ -26,7 +26,13 @@ function NavDrawer({ window }) {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{
+        display: "flex",
+        minHeight: "100vh",
+        bgcolor: theme.palette.backgroundColor,
+      }}
+    >
       <AppBar
         position="fixed"
         sx={{

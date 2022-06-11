@@ -6,6 +6,7 @@ import {
   GET_SINGLE_BLOG,
   POST_BLOG,
   POST_BLOG_COMMENT,
+  POST_BLOG_LIKE,
 } from "../constants/apiLinks";
 import {
   GET_BLOGS_FAIL,
@@ -44,14 +45,14 @@ export const writeBlog = (blog) => async (dispatch, getState) => {
       },
     };
 
-    const res = await axios.post(`${POST_BLOG}`, blog, config);
+    const res = await axios.post(POST_BLOG, blog, config);
 
     dispatch({
       type: POST_BLOG_SUCCESS,
       payload: res.data,
     });
 
-    setTimeout(() => dispatch({ type: POST_BLOG_SUCCESS_RESET }), 2000);
+    setTimeout(() => dispatch({ type: POST_BLOG_SUCCESS_RESET }), 4000);
   } catch (error) {
     dispatch({
       type: POST_BLOG_FAIL,
@@ -97,7 +98,7 @@ export const getBlogList =
     }
   };
 
-export const getSingleBlog = (id) => async (dispatch, getState) => {
+export const getSingleBlog = (blogId) => async (dispatch, getState) => {
   try {
     dispatch({ type: GET_SINGLE_BLOG_REQUEST });
 
@@ -112,7 +113,7 @@ export const getSingleBlog = (id) => async (dispatch, getState) => {
       },
     };
 
-    const res = await axios.get(`${GET_SINGLE_BLOG}/${id}`, config);
+    const res = await axios.get(`${GET_SINGLE_BLOG}/${blogId}`, config);
 
     dispatch({
       type: GET_SINGLE_BLOG_SUCCESS,
@@ -121,6 +122,50 @@ export const getSingleBlog = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: GET_SINGLE_BLOG_FAIL,
+      payload:
+        error.response && error.response.data?.message
+          ? error.response.data?.message
+          : error.message,
+    });
+  }
+};
+
+export const postBlogLike = async (token, blogId) => {
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const res = await axios.post(POST_BLOG_LIKE, { blogId }, config);
+  return res.data;
+};
+
+export const getPersonalBlogs = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_PERSONAL_BLOGS_REQUEST });
+
+    const {
+      userLogin: { userAuthInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userAuthInfo.token}`,
+      },
+    };
+
+    const res = await axios.get(GET_PERSONAL_BLOG_LIST, config);
+
+    dispatch({
+      type: GET_PERSONAL_BLOGS_SUCCESS,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_PERSONAL_BLOGS_FAIL,
       payload:
         error.response && error.response.data?.message
           ? error.response.data?.message
@@ -174,38 +219,6 @@ export const postBlogComment =
       });
     }
   };
-
-export const getPersonalBlogs = () => async (dispatch, getState) => {
-  try {
-    dispatch({ type: GET_PERSONAL_BLOGS_REQUEST });
-
-    const {
-      userLogin: { userAuthInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userAuthInfo.token}`,
-      },
-    };
-
-    const res = await axios.get(`${GET_PERSONAL_BLOG_LIST}`, config);
-
-    dispatch({
-      type: GET_PERSONAL_BLOGS_SUCCESS,
-      payload: res.data,
-    });
-  } catch (error) {
-    dispatch({
-      type: GET_PERSONAL_BLOGS_FAIL,
-      payload:
-        error.response && error.response.data?.message
-          ? error.response.data?.message
-          : error.message,
-    });
-  }
-};
 
 export const getBlogComments = (blogId) => async (dispatch, getState) => {
   try {

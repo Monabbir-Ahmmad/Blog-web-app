@@ -8,14 +8,17 @@ import {
   LinearProgress,
   Stack,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { writeBlog } from "../actions/blogActions";
+import AlertSnackbar from "../components/snackbar/AlertSnackbar";
 import SunEditor from "../components/sun_editor/SunEditor";
 
 function BlogCreatePage() {
+  const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
@@ -28,7 +31,6 @@ function BlogCreatePage() {
 
   useEffect(() => {
     if (success) {
-      //setTimeout(() => navigate("/home"), 1000);
       setTitle("");
       setCoverImage(null);
       setContentLen(0);
@@ -86,7 +88,11 @@ function BlogCreatePage() {
 
       {error && <Alert severity="error">{error}</Alert>}
 
-      {success && <Alert severity="success">Successful</Alert>}
+      <AlertSnackbar
+        open={success}
+        severity={"success"}
+        message={"Blog published successfully"}
+      />
 
       <Input
         placeholder="Blog title"
@@ -132,6 +138,7 @@ function BlogCreatePage() {
             variant="outlined"
             component="span"
             startIcon={<AddPhotoAlternate />}
+            sx={{ backgroundColor: theme.palette.background.paper }}
           >
             {coverImage ? "Change cover image" : "Add cover image"}
           </Button>

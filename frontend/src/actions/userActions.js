@@ -4,6 +4,7 @@ import {
   POST_USER_REGISTER,
   GET_USER_PROFILE,
   UPDATE_USER_PROFILE,
+  UPDATE_USER_PASSWORD,
 } from "../constants/apiLinks";
 import {
   USER_LOGIN_FAIL,
@@ -183,7 +184,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 
     setTimeout(
       () => dispatch({ type: USER_PROFILE_UPDATE_SUCCESS_RESET }),
-      2000
+      4000
     );
   } catch (error) {
     dispatch({
@@ -212,20 +213,17 @@ export const updateUserPassword =
         },
       };
 
-      const res = await axios.put(
-        UPDATE_USER_PROFILE,
+      await axios.put(
+        UPDATE_USER_PASSWORD,
         { oldPassword, newPassword },
         config
       );
 
-      dispatch({
-        type: USER_PASSWORD_UPDATE_SUCCESS,
-        payload: res.data,
-      });
+      dispatch({ type: USER_PASSWORD_UPDATE_SUCCESS });
 
       setTimeout(
         () => dispatch({ type: USER_PASSWORD_UPDATE_SUCCESS_RESET }),
-        2000
+        4000
       );
     } catch (error) {
       dispatch({

@@ -1,6 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
-import { blogListReducer, postBlogReducer } from "./reducers/blogReducer";
+import {
+  blogListReducer,
+  personalBlogsReducer,
+  postBlogReducer,
+  singleBlogReducer,
+} from "./reducers/blogReducer";
 import {
   userRegisterReducer,
   userLoginReducer,
@@ -17,6 +22,8 @@ const reducer = combineReducers({
   userPasswordUpdate: userPasswordUpdateReducer,
   postBlog: postBlogReducer,
   blogList: blogListReducer,
+  singleBlog: singleBlogReducer,
+  personalBlogs: personalBlogsReducer,
 });
 
 const userAuthInfoFromStorage = localStorage.getItem("userAuthInfo")

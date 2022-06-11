@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { DatePicker, LocalizationProvider } from "@mui/lab";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import AdapterMoment from "@mui/lab/AdapterMoment";
 import {
   Alert,

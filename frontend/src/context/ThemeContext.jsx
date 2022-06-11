@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useMemo, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useMediaQuery } from "@mui/material";
@@ -45,6 +45,7 @@ function ThemeContextProvider({ children }) {
           accent: {
             main: "#1976d220",
           },
+          backgroundColor: mode === "light" ? "#f9f9f9" : "#1c1c1c",
         },
       }),
     [mode]
