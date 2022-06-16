@@ -11,7 +11,7 @@ const ThemeContext = createContext({
 function ThemeContextProvider({ children }) {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
-  const [mode, setMode] = useState("light");
+  const [mode, setMode] = useState("dark");
 
   // useEffect(() => {
   //   setMode(prefersDarkMode ? "dark" : "light");

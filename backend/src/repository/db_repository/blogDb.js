@@ -54,6 +54,7 @@ const findBlogList = async (page, limit) => {
     ],
     offset: limit * (page - 1),
     limit: limit,
+    order: [["id", "DESC"]],
   });
 
   return rows;
@@ -92,7 +93,6 @@ const findBlogListByUserId = async (userId) => {
       "createdAt",
       "updatedAt",
     ],
-    where: { userId },
     include: [
       {
         model: User,
@@ -103,6 +103,8 @@ const findBlogListByUserId = async (userId) => {
         attributes: ["userId", "hasLiked"],
       },
     ],
+    where: { userId },
+    order: [["id", "DESC"]],
   });
 };
 
@@ -168,6 +170,7 @@ const findBlogsByUsernameOrTitle = async (keyword, page, limit) => {
     },
     offset: limit * (page - 1),
     limit: limit,
+    order: [["id", "DESC"]],
   });
 
   return rows;

@@ -1,4 +1,8 @@
-import { AddPhotoAlternate, Delete, Publish } from "@mui/icons-material";
+import {
+  FiImage as AddPhotoIcon,
+  FiTrash as DeleteIcon,
+  FiUpload as UploadIcon,
+} from "react-icons/fi";
 import {
   Alert,
   Box,
@@ -76,7 +80,7 @@ function BlogCreatePage() {
         <Typography variant="h6">Add New Post</Typography>
         <Button
           variant="contained"
-          startIcon={<Publish />}
+          startIcon={<UploadIcon />}
           disabled={!(title && contentLen)}
           onClick={handlePublishClick}
         >
@@ -137,7 +141,7 @@ function BlogCreatePage() {
             fullWidth
             variant="outlined"
             component="span"
-            startIcon={<AddPhotoAlternate />}
+            startIcon={<AddPhotoIcon />}
             sx={{ backgroundColor: theme.palette.background.paper }}
           >
             {coverImage ? "Change cover image" : "Add cover image"}
@@ -146,8 +150,11 @@ function BlogCreatePage() {
         <Button
           variant="outlined"
           color="error"
-          startIcon={<Delete />}
-          sx={{ display: coverImage ? "flex" : "none" }}
+          startIcon={<DeleteIcon />}
+          sx={{
+            display: coverImage ? "flex" : "none",
+            backgroundColor: theme.palette.background.paper,
+          }}
           onClick={handleRemoveCoverImageClick}
         >
           Remove cover image

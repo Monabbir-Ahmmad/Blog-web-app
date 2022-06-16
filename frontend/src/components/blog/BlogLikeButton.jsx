@@ -1,4 +1,4 @@
-import { ThumbUp } from "@mui/icons-material";
+import { RiThumbUpFill as LikeIcon } from "react-icons/ri";
 import { Box, IconButton, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -38,7 +38,7 @@ function BlogLikeButton({ blog }) {
         color={hasLiked ? "primary" : "default"}
         onClick={handleLikeClick}
       >
-        <ThumbUp />
+        <LikeIcon />
       </IconButton>
       <Typography variant="body2" color={"text.secondary"}>
         {likedBy?.length} likes

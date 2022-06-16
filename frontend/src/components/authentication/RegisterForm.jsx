@@ -1,5 +1,9 @@
 import styled from "@emotion/styled";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  FiEye as Visibility,
+  FiEyeOff as VisibilityOff,
+  FiCalendar as CalenderIcon,
+} from "react-icons/fi";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import AdapterMoment from "@mui/lab/AdapterMoment";
 import {
@@ -171,6 +175,7 @@ function RegisterForm({ reset }) {
             label="Date of Birth"
             value={dateOfBirth}
             onChange={(newValue) => setDateOfBirth(newValue)}
+            components={{ OpenPickerIcon: CalenderIcon }}
             renderInput={(params) => (
               <TextField
                 {...params}

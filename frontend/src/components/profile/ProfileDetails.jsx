@@ -1,5 +1,19 @@
-import { Cake, CalendarMonth, Edit, Email, Key, Wc } from "@mui/icons-material";
-import { Avatar, Button, Divider, Stack, Typography } from "@mui/material";
+import {
+  FiCalendar as CalendarIcon,
+  FiEdit as EditIcon,
+  FiMail as EmailIcon,
+  FiKey as KeyIcon,
+} from "react-icons/fi";
+import { BiCake as CakeIcon } from "react-icons/bi";
+import { BsGenderAmbiguous as GenderIcon } from "react-icons/bs";
+import {
+  Avatar,
+  Button,
+  Divider,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import moment from "moment";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -9,6 +23,7 @@ import ProfileItem from "./ProfileItem";
 
 function ProfileDetails({ handleEditProfileClick, handleEditPasswordClick }) {
   const { user } = useSelector((state) => state.userDetails);
+  const theme = useTheme();
 
   return (
     <Stack spacing={2} p={3}>
@@ -28,14 +43,14 @@ function ProfileDetails({ handleEditProfileClick, handleEditPasswordClick }) {
         }}
       />
 
-      <Typography variant="h4" color="primary" textAlign={"center"}>
+      <Typography variant="h4" color={"primary"} textAlign={"center"}>
         {user?.name}
       </Typography>
 
       <Divider />
 
       <ProfileItem
-        icon={<Email color="primary" fontSize="large" />}
+        icon={<EmailIcon color={theme.palette.primary.main} fontSize={24} />}
         header={"Email"}
         text={user?.email}
       />
@@ -43,7 +58,7 @@ function ProfileDetails({ handleEditProfileClick, handleEditPasswordClick }) {
       <Divider />
 
       <ProfileItem
-        icon={<CalendarMonth color="primary" fontSize="large" />}
+        icon={<CalendarIcon color={theme.palette.primary.main} fontSize={24} />}
         header={"Age"}
         text={moment().diff(user?.dateOfBirth, "years", false) + " years"}
       />
@@ -51,7 +66,7 @@ function ProfileDetails({ handleEditProfileClick, handleEditPasswordClick }) {
       <Divider />
 
       <ProfileItem
-        icon={<Wc color="primary" fontSize="large" />}
+        icon={<GenderIcon color={theme.palette.primary.main} fontSize={24} />}
         header={"Gender"}
         text={user?.gender}
       />
@@ -59,7 +74,7 @@ function ProfileDetails({ handleEditProfileClick, handleEditPasswordClick }) {
       <Divider />
 
       <ProfileItem
-        icon={<Cake color="primary" fontSize="large" />}
+        icon={<CakeIcon color={theme.palette.primary.main} fontSize={24} />}
         header={"Date of Birth"}
         text={moment(user?.dateOfBirth).format("MMMM Do, YYYY")}
       />
@@ -69,7 +84,7 @@ function ProfileDetails({ handleEditProfileClick, handleEditPasswordClick }) {
       <Button
         fullWidth
         variant="outlined"
-        startIcon={<Edit />}
+        startIcon={<EditIcon />}
         onClick={handleEditProfileClick}
       >
         Edit Profile
@@ -78,7 +93,7 @@ function ProfileDetails({ handleEditProfileClick, handleEditPasswordClick }) {
       <Button
         fullWidth
         variant="outlined"
-        startIcon={<Key />}
+        startIcon={<KeyIcon />}
         onClick={handleEditPasswordClick}
       >
         Change Password

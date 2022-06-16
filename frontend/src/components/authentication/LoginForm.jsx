@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { FiEye as Visibility, FiEyeOff as VisibilityOff } from "react-icons/fi";
 import {
   Alert,
   Button,

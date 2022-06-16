@@ -1,4 +1,9 @@
-import { Delete, Edit, MoreHoriz, MoreVert } from "@mui/icons-material";
+import {
+  FiTrash as DeleteIcon,
+  FiEdit3 as EditIcon,
+  FiMoreHorizontal as MoreHorizIcon,
+  FiMoreVertical as MoreVertIcon,
+} from "react-icons/fi";
 import { IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 
@@ -16,7 +21,7 @@ function BlogItemMenu({ isPersonal }) {
   return (
     <>
       <IconButton onClick={handleClick}>
-        <MoreVert />
+        <MoreVertIcon />
       </IconButton>
       <Menu
         anchorEl={anchor}
@@ -30,7 +35,7 @@ function BlogItemMenu({ isPersonal }) {
         {isPersonal && (
           <MenuItem>
             <ListItemIcon>
-              <Edit fontSize="small" />
+              <EditIcon size={16} />
             </ListItemIcon>
             Edit blog
           </MenuItem>
@@ -38,14 +43,14 @@ function BlogItemMenu({ isPersonal }) {
         {isPersonal && (
           <MenuItem>
             <ListItemIcon>
-              <Delete fontSize="small" />
+              <DeleteIcon size={16} />
             </ListItemIcon>
             Delete blog
           </MenuItem>
         )}
         <MenuItem>
           <ListItemIcon>
-            <MoreHoriz fontSize="small" />
+            <MoreHorizIcon size={16} />
           </ListItemIcon>
           More
         </MenuItem>

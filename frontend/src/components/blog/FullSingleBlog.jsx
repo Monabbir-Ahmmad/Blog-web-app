@@ -40,7 +40,7 @@ function FullSingleBlog({ blog }) {
       />
 
       <CardContent>
-        <Typography variant="h3">{blog?.title}</Typography>
+        <Typography variant="h4">{blog?.title}</Typography>
       </CardContent>
 
       <CardMedia

@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { FiEye as Visibility, FiEyeOff as VisibilityOff } from "react-icons/fi";
 import { updateUserPassword } from "../../actions/userActions";
 
 function UpdatePassword({ openPasswordEdit, handlePasswordEditCancel }) {
@@ -89,6 +89,9 @@ function UpdatePassword({ openPasswordEdit, handlePasswordEditCancel }) {
       maxWidth={"sm"}
       open={openPasswordEdit}
       onClose={resetEdit}
+      PaperProps={{
+        sx: { bgcolor: "background.paper", backgroundImage: "none" },
+      }}
     >
       <DialogTitle>Change Password</DialogTitle>
       <DialogContent>

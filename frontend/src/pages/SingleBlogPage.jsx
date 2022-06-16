@@ -35,7 +35,12 @@ function SingleBlogPage() {
           {error}
         </Alert>
       )}
-      <Box width={800} alignSelf={"center"} justifyContent={"center"}>
+      <Box
+        maxWidth={800}
+        width={"100%"}
+        alignSelf={"center"}
+        justifyContent={"center"}
+      >
         {blog?.id && <FullSingleBlog blog={blog} />}
       </Box>
     </Stack>

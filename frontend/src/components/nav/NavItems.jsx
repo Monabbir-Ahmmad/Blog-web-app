@@ -11,7 +11,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
-import LogoutOutlined from "@mui/icons-material/LogoutOutlined";
+import { RiShutDownLine as LogoutIcon } from "react-icons/ri";
 import { navItemsGroup } from "./navItemGroups";
 import { useDispatch, useSelector } from "react-redux";
 import { API_HOST } from "../../constants/apiLinks";
@@ -92,7 +92,7 @@ function NavItems() {
       <Button
         variant="outlined"
         size="large"
-        startIcon={<LogoutOutlined />}
+        startIcon={<LogoutIcon />}
         sx={{ m: 4 }}
         onClick={handleLogoutClick}
       >

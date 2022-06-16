@@ -1,5 +1,9 @@
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { DatePicker, LocalizationProvider } from "@mui/lab";
+import {
+  FiEye as Visibility,
+  FiEyeOff as VisibilityOff,
+  FiCalendar as CalenderIcon,
+} from "react-icons/fi";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import DateAdapter from "@mui/lab/AdapterMoment";
 import {
   Alert,
@@ -117,6 +121,9 @@ function UpdateProfile({ openProfileEdit, handleProfileEditCancel }) {
       maxWidth={"sm"}
       open={openProfileEdit}
       onClose={resetEdit}
+      PaperProps={{
+        sx: { bgcolor: "background.paper", backgroundImage: "none" },
+      }}
     >
       <DialogTitle>Edit Profile</DialogTitle>
       <DialogContent>
@@ -188,6 +195,7 @@ function UpdateProfile({ openProfileEdit, handleProfileEditCancel }) {
                 disableFuture
                 label="Date of Birth"
                 value={dateOfBirth}
+                components={{ OpenPickerIcon: CalenderIcon }}
                 onChange={(newValue) => setDateOfBirth(newValue)}
                 renderInput={(params) => (
                   <TextField
