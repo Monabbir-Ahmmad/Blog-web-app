@@ -61,13 +61,7 @@ blogRouter
     blogController.likeBlog
   );
 
-blogRouter
-  .route("/delete")
-  .delete(
-    [check("blogId", "Blog id required.").notEmpty()],
-    validationCheck,
-    blogController.deleteBlog
-  );
+blogRouter.route("/delete/:blogId").delete(blogController.deleteBlog);
 
 blogRouter.route("/search").get(blogController.searchBlogs);
 

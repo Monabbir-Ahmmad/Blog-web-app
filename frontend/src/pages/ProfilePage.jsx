@@ -1,29 +1,18 @@
 import { Alert, Grid, LinearProgress, Paper, Stack } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getPersonalBlogs } from "../actions/blogActions";
 import { getUserDetails } from "../actions/userActions";
 import BlogItem from "../components/blog/BlogItem";
 import ProfileDetails from "../components/profile/ProfileDetails";
-import UpdatePassword from "../components/profile/UpdatePassword";
-import UpdateProfile from "../components/profile/UpdateProfile";
-import AlertSnackbar from "../components/snackbar/AlertSnackbar";
 
 function ProfilePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userAuthInfo } = useSelector((state) => state.userLogin);
-  const { success: profileUpdated } = useSelector(
-    (state) => state.userProfileUpdate
-  );
-  const { success: passwordUpdated } = useSelector(
-    (state) => state.userPasswordUpdate
-  );
-  const { loading, error, blogs } = useSelector((state) => state.personalBlogs);
 
-  const [openProfileEdit, setOpenProfileEdit] = useState(false);
-  const [openPasswordEdit, setOpenPasswordEdit] = useState(false);
+  const { userAuthInfo } = useSelector((state) => state.userLogin);
+  const { loading, error, blogs } = useSelector((state) => state.personalBlogs);
 
   useEffect(() => {
     if (userAuthInfo?.token) {
@@ -37,58 +26,31 @@ function ProfilePage() {
     dispatch(getPersonalBlogs());
   }, [dispatch]);
 
-  const handleEditProfileClick = () => {
-    setOpenProfileEdit(!openProfileEdit);
-  };
-
-  const handleEditPasswordClick = () => {
-    setOpenPasswordEdit(!openPasswordEdit);
-  };
-
   return (
     <Stack
-      direction={{ xs: "column", md: "row" }}
-      alignItems={{ xs: "center", md: "start" }}
+      direction={{ xs: "column", lg: "row" }}
+      alignItems={{ xs: "center", lg: "start" }}
       spacing={3}
     >
       <Paper
         variant="outlined"
         sx={{
-          maxWidth: { xs: "100%", md: 400 },
+          maxWidth: { xs: "100%", lg: 400 },
           width: "100%",
           height: "min-content",
+          position: { xs: "relative", lg: "sticky" },
+          top: { xs: 0, lg: 88 },
         }}
       >
-        <ProfileDetails
-          handleEditProfileClick={handleEditProfileClick}
-          handleEditPasswordClick={handleEditPasswordClick}
-        />
-        <UpdateProfile
-          openProfileEdit={openProfileEdit}
-          handleProfileEditCancel={handleEditProfileClick}
-        />
-        <UpdatePassword
-          openPasswordEdit={openPasswordEdit}
-          handlePasswordEditCancel={handleEditPasswordClick}
-        />
-        <AlertSnackbar
-          open={profileUpdated}
-          severity={"success"}
-          message={"Profile updated successfully"}
-        />
-        <AlertSnackbar
-          open={passwordUpdated}
-          severity={"success"}
-          message={"Password updated successfully"}
-        />
+        <ProfileDetails />
       </Paper>
 
       <Stack width={"100%"}>
-        {loading && <LinearProgress width={100} />}
+        {loading && <LinearProgress />}
 
         {error && <Alert severity="error">{error}</Alert>}
 
-        <Grid container spacing={3} columns={{ xs: 1, lg: 2 }}>
+        <Grid container spacing={3} columns={{ xs: 1, md: 2 }}>
           {blogs.map((blog, index) => (
             <Grid key={index} item xs={1}>
               <BlogItem blog={blog} />

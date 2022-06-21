@@ -552,23 +552,15 @@
 							"request": {
 								"method": "DELETE",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"blogId\": 1\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "{{blogAPIv1}}/blog/delete",
+									"raw": "{{blogAPIv1}}/blog/delete/1",
 									"host": [
 										"{{blogAPIv1}}"
 									],
 									"path": [
 										"blog",
-										"delete"
+										"delete",
+										"1"
 									]
 								}
 							},

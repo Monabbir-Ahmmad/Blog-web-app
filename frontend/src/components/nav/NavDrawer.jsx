@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material";
 import NavItems from "./NavItems";
 import AppIcon from "../icon/AppIcon";
+import FloatingAlerts from "../snackbar/FloatingAlerts";
 
 const drawerWidth = 300;
 
@@ -53,9 +54,7 @@ function NavDrawer({ window }) {
           >
             <MenuIcon />
           </IconButton>
-
           <AppIcon sx={{ fontSize: 40 }} />
-
           <Typography variant="h6" color={"text.primary"} fontSize={26} mx={1}>
             Writer
           </Typography>
@@ -65,14 +64,13 @@ function NavDrawer({ window }) {
         component="nav"
         sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
       >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           container={container}
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", md: "none" },
@@ -108,6 +106,7 @@ function NavDrawer({ window }) {
       >
         <Toolbar />
         <Outlet />
+        <FloatingAlerts />
       </Box>
     </Box>
   );

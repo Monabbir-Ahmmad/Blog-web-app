@@ -6,8 +6,11 @@ import {
 } from "react-icons/fi";
 import { IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { deletePersonalBlog } from "../../actions/blogActions";
 
-function BlogItemMenu({ isPersonal }) {
+function BlogItemMenu({ isPersonal, blogId }) {
+  const dispatch = useDispatch();
   const [anchor, setAnchor] = useState(null);
 
   const handleClick = (e) => {
@@ -16,6 +19,10 @@ function BlogItemMenu({ isPersonal }) {
 
   const handleClose = () => {
     setAnchor(null);
+  };
+
+  const handleDelete = () => {
+    dispatch(deletePersonalBlog(blogId));
   };
 
   return (
@@ -41,7 +48,7 @@ function BlogItemMenu({ isPersonal }) {
           </MenuItem>
         )}
         {isPersonal && (
-          <MenuItem>
+          <MenuItem onClick={handleDelete}>
             <ListItemIcon>
               <DeleteIcon size={16} />
             </ListItemIcon>

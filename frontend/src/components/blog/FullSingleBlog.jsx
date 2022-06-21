@@ -33,7 +33,10 @@ function FullSingleBlog({ blog }) {
           />
         }
         action={
-          <BlogItemMenu isPersonal={blog?.user?.id === userAuthInfo?.id} />
+          <BlogItemMenu
+            isPersonal={blog?.user?.id === userAuthInfo?.id}
+            blogId={blog?.id}
+          />
         }
         title={blog?.user?.name}
         subheader={moment(new Date(blog?.updatedAt)).fromNow()}

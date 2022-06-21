@@ -25,4 +25,6 @@ export const POST_BLOG_LIKE = `${API_HOST}/api/v1/blog/like`;
 
 export const POST_BLOG_COMMENT = `${API_HOST}/api/v1/blog/comment`;
 
+export const DELETE_PERSONAL_BLOG = `${API_HOST}/api/v1/blog/delete`;
+
 export const GET_BLOG_COMMENTS = `${API_HOST}/api/v1/blog/comment`;

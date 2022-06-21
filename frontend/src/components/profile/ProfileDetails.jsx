@@ -15,15 +15,29 @@ import {
   useTheme,
 } from "@mui/material";
 import moment from "moment";
-import React from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { API_HOST } from "../../constants/apiLinks";
 import { stringToColour } from "../../utils/utilities";
 import ProfileItem from "./ProfileItem";
+import UpdateProfile from "./UpdateProfile";
+import UpdatePassword from "./UpdatePassword";
 
-function ProfileDetails({ handleEditProfileClick, handleEditPasswordClick }) {
-  const { user } = useSelector((state) => state.userDetails);
+function ProfileDetails() {
   const theme = useTheme();
+
+  const { user } = useSelector((state) => state.userDetails);
+
+  const [openProfileEdit, setOpenProfileEdit] = useState(false);
+  const [openPasswordEdit, setOpenPasswordEdit] = useState(false);
+
+  const handleEditProfileClick = () => {
+    setOpenProfileEdit(!openProfileEdit);
+  };
+
+  const handleEditPasswordClick = () => {
+    setOpenPasswordEdit(!openPasswordEdit);
+  };
 
   return (
     <Stack spacing={2} p={3}>
@@ -98,6 +112,15 @@ function ProfileDetails({ handleEditProfileClick, handleEditPasswordClick }) {
       >
         Change Password
       </Button>
+
+      <UpdateProfile
+        openProfileEdit={openProfileEdit}
+        handleProfileEditCancel={handleEditProfileClick}
+      />
+      <UpdatePassword
+        openPasswordEdit={openPasswordEdit}
+        handlePasswordEditCancel={handleEditPasswordClick}
+      />
     </Stack>
   );
 }

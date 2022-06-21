@@ -18,7 +18,6 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { writeBlog } from "../actions/blogActions";
-import AlertSnackbar from "../components/snackbar/AlertSnackbar";
 import SunEditor from "../components/sun_editor/SunEditor";
 
 function BlogCreatePage() {
@@ -75,7 +74,7 @@ function BlogCreatePage() {
   };
 
   return (
-    <Stack spacing={4}>
+    <Stack spacing={3}>
       <Stack direction={"row"} spacing={2} justifyContent={"space-between"}>
         <Typography variant="h6">Add New Post</Typography>
         <Button
@@ -91,12 +90,6 @@ function BlogCreatePage() {
       {loading && <LinearProgress />}
 
       {error && <Alert severity="error">{error}</Alert>}
-
-      <AlertSnackbar
-        open={success}
-        severity={"success"}
-        message={"Blog published successfully"}
-      />
 
       <Input
         placeholder="Blog title"

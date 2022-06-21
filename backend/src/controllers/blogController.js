@@ -146,12 +146,12 @@ const likeBlog = asyncHandler(async (req, res) => {
 });
 
 // @desc Delete single blog
-// @route Delete /api/v1/blog/delete
+// @route Delete /api/v1/blog/delete/:blogId
 // @access Protected
 // @needs blogId
 const deleteBlog = asyncHandler(async (req, res) => {
   const userId = req.user?.id;
-  const { blogId } = req.body;
+  const { blogId } = req.params;
 
   const result = await blogService.deleteBlog(userId, blogId);
 

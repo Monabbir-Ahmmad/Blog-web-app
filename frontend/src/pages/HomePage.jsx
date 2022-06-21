@@ -24,18 +24,13 @@ function HomePage() {
   }, [navigate, userAuthInfo, blogs]);
 
   return (
-    <Stack>
-      <Typography variant="h5" mb={2}>
-        Blogs
-      </Typography>
+    <Stack rowGap={3}>
+      <Typography variant="h5">Blogs</Typography>
 
-      {loading && <LinearProgress sx={{ width: "100%" }} />}
+      {loading && <LinearProgress />}
 
-      {error && (
-        <Alert severity="error" sx={{ width: "100%" }}>
-          {error}
-        </Alert>
-      )}
+      {error && <Alert severity="error">{error}</Alert>}
+
       <Grid container spacing={3} columns={{ xs: 1, sm: 2, lg: 3, xl: 4 }}>
         {blogs.map((blog, index) => (
           <Grid key={index} item xs={1}>

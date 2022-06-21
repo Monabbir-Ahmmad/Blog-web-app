@@ -1,4 +1,8 @@
 import {
+  DELETE_PERSONAL_BLOG_FAIL,
+  DELETE_PERSONAL_BLOG_REQUEST,
+  DELETE_PERSONAL_BLOG_SUCCESS,
+  DELETE_PERSONAL_BLOG_SUCCESS_RESET,
   GET_BLOGS_FAIL,
   GET_BLOGS_REQUEST,
   GET_BLOGS_SUCCESS,
@@ -69,6 +73,21 @@ export const personalBlogsReducer = (state = { blogs: [] }, action) => {
       return { loading: false, blogs: action.payload };
     case GET_PERSONAL_BLOGS_FAIL:
       return { loading: false, blogs: [], error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const personalBlogDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case DELETE_PERSONAL_BLOG_REQUEST:
+      return { loading: true };
+    case DELETE_PERSONAL_BLOG_SUCCESS:
+      return { loading: false, success: true };
+    case DELETE_PERSONAL_BLOG_SUCCESS_RESET:
+      return { loading: false, success: false };
+    case DELETE_PERSONAL_BLOG_FAIL:
+      return { loading: false, success: false, error: action.payload };
     default:
       return state;
   }
