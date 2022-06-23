@@ -46,7 +46,7 @@ function BlogItem({ blog }) {
           />
         }
         title={blog?.user?.name}
-        subheader={moment(new Date(blog?.updatedAt)).fromNow()}
+        subheader={moment(new Date(blog?.createdAt)).fromNow()}
       />
       <CardActionArea onClick={onItemClick}>
         <CardMedia

@@ -50,6 +50,10 @@ function ProfilePage() {
 
         {error && <Alert severity="error">{error}</Alert>}
 
+        {!loading && !error && !blogs.length && (
+          <Alert severity="info">Nothing To Show</Alert>
+        )}
+
         <Grid container spacing={3} columns={{ xs: 1, md: 2 }}>
           {blogs.map((blog, index) => (
             <Grid key={index} item xs={1}>

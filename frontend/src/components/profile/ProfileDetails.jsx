@@ -4,6 +4,7 @@ import {
   FiMail as EmailIcon,
   FiKey as KeyIcon,
 } from "react-icons/fi";
+import { RiNewspaperLine as BlogCountIcon } from "react-icons/ri";
 import { BiCake as CakeIcon } from "react-icons/bi";
 import { BsGenderAmbiguous as GenderIcon } from "react-icons/bs";
 import {
@@ -91,6 +92,16 @@ function ProfileDetails() {
         icon={<CakeIcon color={theme.palette.primary.main} fontSize={24} />}
         header={"Date of Birth"}
         text={moment(user?.dateOfBirth).format("MMMM Do, YYYY")}
+      />
+
+      <Divider />
+
+      <ProfileItem
+        icon={
+          <BlogCountIcon color={theme.palette.primary.main} fontSize={24} />
+        }
+        header={"Total Posts"}
+        text={user?.blogCount}
       />
 
       <Divider />

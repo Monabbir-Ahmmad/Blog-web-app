@@ -48,7 +48,7 @@ const searchBlogs = asyncHandler(async (req, res) => {
   let { page, limit, keyword } = req.query;
   page = parseInt(page > 0 ? page : 1);
   limit = parseInt(limit > 0 ? limit : 12);
-  keyword = keyword || "";
+  keyword = decodeURIComponent(keyword || "");
 
   const result = await blogService.searchBlogs(keyword, page, limit);
 
@@ -60,12 +60,15 @@ const searchBlogs = asyncHandler(async (req, res) => {
 });
 
 // @desc Get blogs of other user
-// @route GET /api/v1/blog/user/:userId
+// @route GET /api/v1/blog/user/:userId?page=Number&limit=Number
 // @access Protected
 const getUserBlogList = asyncHandler(async (req, res) => {
   const userId = req.params?.userId;
+  let { page, limit } = req.query;
+  page = parseInt(page > 0 ? page : 1);
+  limit = parseInt(limit > 0 ? limit : 12);
 
-  const result = await blogService.getUserBlogList(userId);
+  const result = await blogService.getUserBlogList(userId, page, limit);
 
   if (result.success) {
     res.status(200).json(result.body);
@@ -75,12 +78,15 @@ const getUserBlogList = asyncHandler(async (req, res) => {
 });
 
 // @desc Get blogs of current user
-// @route GET /api/v1/blog/personal
+// @route GET /api/v1/blog/personal?page=Number&limit=Number
 // @access Protected
 const getPersonalBlogList = asyncHandler(async (req, res) => {
   const userId = req.user?.id;
+  let { page, limit } = req.query;
+  page = parseInt(page > 0 ? page : 1);
+  limit = parseInt(limit > 0 ? limit : 12);
 
-  const result = await blogService.getUserBlogList(userId);
+  const result = await blogService.getUserBlogList(userId, page, limit);
 
   if (result.success) {
     res.status(200).json(result.body);

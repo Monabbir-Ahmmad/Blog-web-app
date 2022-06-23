@@ -1,7 +1,6 @@
-import { createContext, useMemo, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { useMediaQuery } from "@mui/material";
 
 const ThemeContext = createContext({
   toggleColorMode: () => {},
@@ -9,13 +8,7 @@ const ThemeContext = createContext({
 });
 
 function ThemeContextProvider({ children }) {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-
-  const [mode, setMode] = useState("dark");
-
-  // useEffect(() => {
-  //   setMode(prefersDarkMode ? "dark" : "light");
-  // }, [prefersDarkMode]);
+  const [mode, setMode] = useState(localStorage.getItem("appTheme") || "light");
 
   const themeMode = useMemo(
     () => ({
@@ -26,6 +19,10 @@ function ThemeContextProvider({ children }) {
     }),
     []
   );
+
+  useEffect(() => {
+    localStorage.setItem("appTheme", mode);
+  }, [mode]);
 
   const theme = useMemo(
     () =>

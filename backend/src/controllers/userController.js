@@ -23,7 +23,7 @@ const getUserList = asyncHandler(async (req, res) => {
   let { page, limit, nameDesc } = req.query;
   page = parseInt(page > 0 ? page : 1);
   limit = parseInt(limit > 0 ? limit : 12);
-  nameDesc = nameDesc == 1;
+  nameDesc = parseInt(nameDesc) === 1;
 
   const result = await userService.getUserList(page, limit, nameDesc);
 

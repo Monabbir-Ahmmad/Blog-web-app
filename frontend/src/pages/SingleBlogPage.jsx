@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getSingleBlog } from "../actions/blogActions";
-import FullSingleBlog from "../components/blog/FullSingleBlog";
+import SingleBlogDetails from "../components/blog/SingleBlogDetails";
 
 function SingleBlogPage() {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ function SingleBlogPage() {
         alignSelf={"center"}
         justifyContent={"center"}
       >
-        {blog?.id && <FullSingleBlog blog={blog} />}
+        {blog?.id && <SingleBlogDetails blog={blog} />}
       </Box>
     </Stack>
   );

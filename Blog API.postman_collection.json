@@ -442,7 +442,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{blogAPIv1}}/blog/user/1",
+									"raw": "{{blogAPIv1}}/blog/user/1?page=1&limit=12",
 									"host": [
 										"{{blogAPIv1}}"
 									],
@@ -450,6 +450,16 @@
 										"blog",
 										"user",
 										"1"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "12"
+										}
 									]
 								}
 							},
@@ -461,13 +471,23 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{blogAPIv1}}/blog/personal",
+									"raw": "{{blogAPIv1}}/blog/personal?page=1&limit=12",
 									"host": [
 										"{{blogAPIv1}}"
 									],
 									"path": [
 										"blog",
 										"personal"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "12"
+										}
 									]
 								}
 							},

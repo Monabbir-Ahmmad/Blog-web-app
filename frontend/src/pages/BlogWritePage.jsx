@@ -51,7 +51,7 @@ function BlogCreatePage() {
     if (title && editor?.current?.getCharCount()) {
       const formData = new FormData();
 
-      formData.append("title", title);
+      formData.append("title", title.trim());
       formData.append("content", editor?.current?.getContents());
       formData.append("blogCoverImage", coverImage);
 

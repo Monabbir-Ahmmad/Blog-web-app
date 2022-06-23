@@ -1,4 +1,5 @@
 import { Op } from "sequelize";
+import Blog from "../../models/blogModel.js";
 import User from "../../models/userModel.js";
 import UserType from "../../models/userTypeModel.js";
 
@@ -45,10 +46,16 @@ const emailInUse = async (email = "", id = null) => {
 
 const findAllUsers = async (page = 1, limit = 12, nameDesc = false) => {
   const { count, rows } = await User.findAndCountAll({
-    include: {
-      model: UserType,
-      attributes: ["privilege"],
-    },
+    include: [
+      {
+        model: UserType,
+        attributes: ["privilege"],
+      },
+      {
+        model: Blog,
+        attributes: ["id"],
+      },
+    ],
     offset: limit * (page - 1),
     limit: limit,
     order: [["name", nameDesc ? "DESC" : "ASC"]],
@@ -62,15 +69,22 @@ const findAllUsers = async (page = 1, limit = 12, nameDesc = false) => {
     dateOfBirth: user?.dateOfBirth,
     profileImage: user?.profileImage,
     privilege: user?.userType?.privilege,
+    blogCount: user?.blogs?.length,
   }));
 };
 
 const findUserById = async (id) => {
   const user = await User.findByPk(id, {
-    include: {
-      model: UserType,
-      attributes: ["privilege"],
-    },
+    include: [
+      {
+        model: UserType,
+        attributes: ["privilege"],
+      },
+      {
+        model: Blog,
+        attributes: ["id"],
+      },
+    ],
   });
 
   return {
@@ -82,6 +96,7 @@ const findUserById = async (id) => {
     profileImage: user?.profileImage,
     password: user?.password,
     privilege: user?.userType?.privilege,
+    blogCount: user?.blogs?.length,
   };
 };
 

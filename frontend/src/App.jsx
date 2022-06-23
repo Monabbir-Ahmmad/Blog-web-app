@@ -4,8 +4,9 @@ import HomePage from "./pages/HomePage";
 import BlogWritePage from "./pages/BlogWritePage";
 import NavDrawer from "./components/nav/NavDrawer";
 import ProfilePage from "./pages/ProfilePage";
-import PersonalBlogPage from "./pages/PersonalBlogPage";
+import PeoplePage from "./pages/PeoplePage";
 import SingleBlogPage from "./pages/SingleBlogPage";
+import { Typography } from "@mui/material";
 
 function App() {
   return (
@@ -17,13 +18,16 @@ function App() {
 
         <Route path="blog/:blogId" element={<SingleBlogPage />} />
 
-        <Route path="profile" element={<ProfilePage />} />
+        <Route path="profile/:userId" element={<ProfilePage />} />
 
         <Route path="write" element={<BlogWritePage />} />
 
-        <Route path="personal-blogs" element={<PersonalBlogPage />} />
+        <Route path="people" element={<PeoplePage />} />
 
-        <Route path="*" element={<div>Page Not Found</div>} />
+        <Route
+          path="*"
+          element={<Typography variant="h4">Sorry! Page Not Found</Typography>}
+        />
       </Route>
     </Routes>
   );

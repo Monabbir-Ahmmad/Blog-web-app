@@ -1,25 +1,26 @@
 import {
   Avatar,
   Button,
-  ListItemIcon,
-  ListItemText,
-  MenuItem,
   MenuList,
   Stack,
   Toolbar,
   Typography,
-  useTheme,
 } from "@mui/material";
-import { NavLink, useNavigate } from "react-router-dom";
-import { RiShutDownLine as LogoutIcon } from "react-icons/ri";
-import { navItemsGroup } from "./navItemGroups";
+import { useNavigate } from "react-router-dom";
+import {
+  RiShutDownLine as LogoutIcon,
+  RiHome5Line as DiscoverIcon,
+  RiUser6Line as UserIcon,
+  RiPenNibLine as WriteIcon,
+  RiTeamLine as PeopleIcon,
+} from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { API_HOST } from "../../constants/apiLinks";
 import { logout } from "../../actions/userActions";
 import { stringToColour } from "../../utils/utilities";
+import NavLinkItem from "./NavLinkItem";
 
-function NavItems() {
-  const theme = useTheme();
+function NavMenu() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -61,32 +62,26 @@ function NavItems() {
       </Toolbar>
 
       <MenuList sx={{ flex: 1 }}>
-        {navItemsGroup.map((item, index) => (
-          <MenuItem
-            key={index}
-            component={NavLink}
-            to={item.link}
-            sx={{
-              padding: 2,
-              transition: "background-color 500ms ease",
-            }}
-            style={({ isActive }) =>
-              isActive
-                ? {
-                    color: theme.palette.primary.main,
-                    backgroundColor: theme.palette.accent.main,
-                    borderRight: "4px solid",
-                    borderColor: theme.palette.primary.main,
-                  }
-                : undefined
-            }
-          >
-            <ListItemIcon sx={{ mx: 2, color: "inherit" }}>
-              {item.icon}
-            </ListItemIcon>
-            <ListItemText primary={item.title} />
-          </MenuItem>
-        ))}
+        <NavLinkItem
+          title={"Home"}
+          link={"/home"}
+          icon={<DiscoverIcon fontSize={24} />}
+        />
+        <NavLinkItem
+          title={"Profile"}
+          link={`/profile/${userAuthInfo?.id}`}
+          icon={<UserIcon fontSize={24} />}
+        />
+        <NavLinkItem
+          title={"Write Blog"}
+          link={"/write"}
+          icon={<WriteIcon fontSize={24} />}
+        />
+        <NavLinkItem
+          title={"People"}
+          link={"/people"}
+          icon={<PeopleIcon fontSize={24} />}
+        />
       </MenuList>
 
       <Button
@@ -102,4 +97,4 @@ function NavItems() {
   );
 }
 
-export default NavItems;
+export default NavMenu;

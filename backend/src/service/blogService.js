@@ -76,13 +76,15 @@ const searchBlogs = async (keyword, page, limit) => {
   };
 };
 
-const getUserBlogList = async (userId) => {
+const getUserBlogList = async (userId, page, limit) => {
   const { body: user } = await userService.getProfileDetails(userId);
 
   if (user?.id) {
     const blogList = await blogCache.getUserBlogList(
       userId,
-      async () => await blogDb.findBlogListByUserId(userId)
+      page,
+      limit,
+      async () => await blogDb.findBlogListByUserId(userId, page, limit)
     );
 
     return {

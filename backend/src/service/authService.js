@@ -2,7 +2,6 @@ import generateToken from "../utils/generateToken.js";
 import HttpError from "../utils/httpError.js";
 import { hashPassword, verifyPassword } from "../utils/passwordEncryption.js";
 import userDb from "../repository/db_repository/userDb.js";
-import userCache from "../repository/cache_repository/userCache.js";
 
 const signup = async (
   name,
@@ -28,8 +27,6 @@ const signup = async (
     profileImage
   );
 
-  userCache.cacheUserById(user.id, user);
-
   return {
     success: true,
     body: {
@@ -47,8 +44,6 @@ const signin = async (email, password) => {
   const user = await userDb.findUserByEmail(email);
 
   if (user?.id && (await verifyPassword(user?.password, password))) {
-    userCache.cacheUserById(user.id, user);
-
     return {
       success: true,
       body: {

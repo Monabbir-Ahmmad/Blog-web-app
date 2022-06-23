@@ -1,7 +1,7 @@
 import { cache } from "../../config/cacheConfig.js";
 
 const blogKey = "blogId";
-const userBlogListKey = "userBlogIds";
+const userBlogsKey = "userBlogIds";
 const searchBlogIdArrayKey = (page, limit, keyword = "") => {
   return `blog_p${page}_l${limit}_k${keyword}`;
 };
@@ -74,9 +74,10 @@ const getBlogIdArray = (keyword, keyNumber) => {
   return result;
 };
 
-const cacheUserBlogList = (userId, blogList = []) => {
+const cacheUserBlogList = (userId, page, limit, blogList = []) => {
+  const key = searchBlogIdArrayKey(page, limit, userBlogsKey);
   const result = cacheBlogIdArray(
-    userBlogListKey,
+    key,
     userId,
     blogList.map((blog) => blog?.id)
   );
@@ -86,8 +87,12 @@ const cacheUserBlogList = (userId, blogList = []) => {
   return result && listResult;
 };
 
-const getUserBlogList = async (userId, callback) => {
-  const userBlogIdArray = getBlogIdArray(userBlogListKey, userId);
+const getUserBlogList = async (userId, page, limit, callback) => {
+  const userBlogIdArray = getBlogIdArray(
+    searchBlogIdArrayKey(page, limit, userBlogsKey),
+    userId
+  );
+
   let blogList = [];
 
   blogList = await getBlogListByIds(userBlogIdArray);
@@ -97,7 +102,7 @@ const getUserBlogList = async (userId, callback) => {
   }
 
   blogList = await callback();
-  cacheUserBlogList(userId, blogList);
+  cacheUserBlogList(userId, page, limit, blogList);
   return blogList;
 };
 

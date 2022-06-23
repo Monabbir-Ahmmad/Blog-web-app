@@ -15,7 +15,7 @@ import BlogItemMenu from "./BlogItemMenu";
 import SunContentDisplayer from "../sun_editor/SunContentDisplayer";
 import BlogLikeButton from "./BlogLikeButton";
 
-function FullSingleBlog({ blog }) {
+function SingleBlogDetails({ blog }) {
   const { userAuthInfo } = useSelector((state) => state.userLogin);
 
   return (
@@ -67,4 +67,4 @@ function FullSingleBlog({ blog }) {
   );
 }
 
-export default FullSingleBlog;
+export default SingleBlogDetails;

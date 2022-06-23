@@ -70,7 +70,7 @@ export const writeBlog = (blog) => async (dispatch, getState) => {
 };
 
 export const getBlogList =
-  (page = 1, filter) =>
+  (page = 1, keyword = "", limit = 12) =>
   async (dispatch, getState) => {
     try {
       dispatch({ type: GET_BLOGS_REQUEST });
@@ -86,7 +86,10 @@ export const getBlogList =
         },
       };
 
-      const res = await axios.get(`${GET_BLOG_LIST}?page=${page}`, config);
+      const res = await axios.get(
+        `${GET_BLOG_LIST}?page=${page}&limit=${limit}&keyword=${keyword}`,
+        config
+      );
 
       dispatch({
         type: GET_BLOGS_SUCCESS,
@@ -232,6 +235,11 @@ export const deletePersonalBlog = (blogId) => async (dispatch, getState) => {
           ? error.response.data?.message
           : error.message,
     });
+
+    setTimeout(
+      () => dispatch({ type: DELETE_PERSONAL_BLOG_SUCCESS_RESET }),
+      4000
+    );
   }
 };
 

@@ -54,7 +54,7 @@ const findBlogList = async (page, limit) => {
     ],
     offset: limit * (page - 1),
     limit: limit,
-    order: [["id", "DESC"]],
+    order: [["createdAt", "DESC"]],
   });
 
   return rows;
@@ -83,8 +83,9 @@ const findBlogById = async (id) => {
   });
 };
 
-const findBlogListByUserId = async (userId) => {
-  return await Blog.findAll({
+const findBlogListByUserId = async (userId, page, limit) => {
+  const { count, rows } = await Blog.findAndCountAll({
+    subQuery: false,
     attributes: [
       "id",
       "title",
@@ -104,8 +105,12 @@ const findBlogListByUserId = async (userId) => {
       },
     ],
     where: { userId },
-    order: [["id", "DESC"]],
+    offset: limit * (page - 1),
+    limit: limit,
+    order: [["createdAt", "DESC"]],
   });
+
+  return rows;
 };
 
 const updateBlog = async (blogId, title, content, coverImage) => {
@@ -170,7 +175,7 @@ const findBlogsByUsernameOrTitle = async (keyword, page, limit) => {
     },
     offset: limit * (page - 1),
     limit: limit,
-    order: [["id", "DESC"]],
+    order: [["createdAt", "DESC"]],
   });
 
   return rows;

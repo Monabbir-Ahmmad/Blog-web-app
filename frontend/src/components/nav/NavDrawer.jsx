@@ -8,9 +8,10 @@ import { FiMenu as MenuIcon } from "react-icons/fi";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material";
-import NavItems from "./NavItems";
+import NavMenu from "./NavMenu";
 import AppIcon from "../icon/AppIcon";
 import FloatingAlerts from "../snackbar/FloatingAlerts";
+import ThemeSwitcher from "../themeSwitch/ThemeSwitcher";
 
 const drawerWidth = 300;
 
@@ -55,9 +56,17 @@ function NavDrawer({ window }) {
             <MenuIcon />
           </IconButton>
           <AppIcon sx={{ fontSize: 40 }} />
-          <Typography variant="h6" color={"text.primary"} fontSize={26} mx={1}>
+          <Typography
+            variant="h6"
+            color={"text.primary"}
+            fontSize={26}
+            mx={1}
+            flexGrow={1}
+          >
             Writer
           </Typography>
+
+          <ThemeSwitcher />
         </Toolbar>
       </AppBar>
       <Box
@@ -80,7 +89,7 @@ function NavDrawer({ window }) {
             },
           }}
         >
-          <NavItems />
+          <NavMenu />
         </Drawer>
         <Drawer
           variant="permanent"
@@ -93,7 +102,7 @@ function NavDrawer({ window }) {
             },
           }}
         >
-          <NavItems />
+          <NavMenu />
         </Drawer>
       </Box>
       <Box

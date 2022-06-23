@@ -29,6 +29,7 @@ const getProfileDetails = async (userId) => {
       dateOfBirth: user.dateOfBirth,
       profileImage: user.profileImage,
       privilege: user.privilege,
+      blogCount: user.blogCount,
     };
 
     return {
@@ -92,6 +93,7 @@ const updateProfile = async (
       dateOfBirth,
       profileImage,
       privilege: user.privilege,
+      blogCount: user.blogCount,
     };
 
     updatedRecord && userCache.cacheUserById(userId, userDetails);
