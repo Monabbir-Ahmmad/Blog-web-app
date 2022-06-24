@@ -1,19 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
+import { userLoginReducer, userRegisterReducer } from "./reducers/authReducer";
 import {
   blogListReducer,
   personalBlogDeleteReducer,
-  personalBlogsReducer,
   postBlogReducer,
   singleBlogReducer,
+  userBlogListReducer,
 } from "./reducers/blogReducer";
 import {
-  userRegisterReducer,
-  userLoginReducer,
   userDetailsReducer,
   userProfileUpdateReducer,
   userPasswordUpdateReducer,
 } from "./reducers/userReducer";
+import TokenService from "./service/token.service";
 
 const reducer = combineReducers({
   userRegister: userRegisterReducer,
@@ -24,16 +24,12 @@ const reducer = combineReducers({
   postBlog: postBlogReducer,
   blogList: blogListReducer,
   singleBlog: singleBlogReducer,
-  personalBlogs: personalBlogsReducer,
+  userBlogList: userBlogListReducer,
   personalBlogDelete: personalBlogDeleteReducer,
 });
 
-const userAuthInfoFromStorage = localStorage.getItem("userAuthInfo")
-  ? JSON.parse(localStorage.getItem("userAuthInfo"))
-  : {};
-
 const initialState = {
-  userLogin: { userAuthInfo: userAuthInfoFromStorage },
+  userLogin: { userAuthInfo: TokenService.getUser() },
 };
 
 const reduxStore = configureStore({ reducer, preloadedState: initialState });

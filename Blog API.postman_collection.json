@@ -9,17 +9,18 @@
 			"name": "Public api",
 			"item": [
 				{
-					"name": "User",
+					"name": "Auth",
 					"item": [
 						{
-							"name": "User signup",
+							"name": "Signup",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
 											"const res = JSON.parse(responseBody);\r",
-											"pm.collectionVariables.set(\"token\", res.token);"
+											"pm.collectionVariables.set(\"accessToken\", res.accessToken);\r",
+											"pm.collectionVariables.set(\"refreshToken\", res.refreshToken)"
 										],
 										"type": "text/javascript"
 									}
@@ -70,12 +71,12 @@
 									]
 								},
 								"url": {
-									"raw": "{{blogAPIv1}}/user/signup",
+									"raw": "{{blogAPI}}/auth/signup",
 									"host": [
-										"{{blogAPIv1}}"
+										"{{blogAPI}}"
 									],
 									"path": [
-										"user",
+										"auth",
 										"signup"
 									]
 								}
@@ -83,14 +84,15 @@
 							"response": []
 						},
 						{
-							"name": "User signin",
+							"name": "Signin",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
 											"const res = JSON.parse(responseBody);\r",
-											"pm.collectionVariables.set(\"token\", res.token);"
+											"pm.collectionVariables.set(\"accessToken\", res.accessToken);\r",
+											"pm.collectionVariables.set(\"refreshToken\", res.refreshToken)"
 										],
 										"type": "text/javascript"
 									}
@@ -109,13 +111,52 @@
 									}
 								},
 								"url": {
-									"raw": "{{blogAPIv1}}/user/signin",
+									"raw": "{{blogAPI}}/auth/signin",
 									"host": [
-										"{{blogAPIv1}}"
+										"{{blogAPI}}"
 									],
 									"path": [
-										"user",
+										"auth",
 										"signin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Refresh token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const res = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"accessToken\", res.accessToken);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"refreshToken\": \"{{refreshToken}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{blogAPI}}/auth/refreshtoken",
+									"host": [
+										"{{blogAPI}}"
+									],
+									"path": [
+										"auth",
+										"refreshtoken"
 									]
 								}
 							},
@@ -154,9 +195,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{blogAPIv1}}/user/profile",
+									"raw": "{{blogAPI}}/user/profile",
 									"host": [
-										"{{blogAPIv1}}"
+										"{{blogAPI}}"
 									],
 									"path": [
 										"user",
@@ -172,9 +213,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{blogAPIv1}}/user/?page=1&limit=12&nameDesc=0",
+									"raw": "{{blogAPI}}/user/?page=1&limit=12&nameDesc=0",
 									"host": [
-										"{{blogAPIv1}}"
+										"{{blogAPI}}"
 									],
 									"path": [
 										"user",
@@ -248,9 +289,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{blogAPIv1}}/user/profile",
+									"raw": "{{blogAPI}}/user/profile",
 									"host": [
-										"{{blogAPIv1}}"
+										"{{blogAPI}}"
 									],
 									"path": [
 										"user",
@@ -275,9 +316,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{blogAPIv1}}/user/profile",
+									"raw": "{{blogAPI}}/user/profile",
 									"host": [
-										"{{blogAPIv1}}"
+										"{{blogAPI}}"
 									],
 									"path": [
 										"user",
@@ -293,9 +334,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{blogAPIv1}}/user/profile/1",
+									"raw": "{{blogAPI}}/user/profile/1",
 									"host": [
-										"{{blogAPIv1}}"
+										"{{blogAPI}}"
 									],
 									"path": [
 										"user",
@@ -340,9 +381,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{blogAPIv1}}/blog/create",
+									"raw": "{{blogAPI}}/blog/create",
 									"host": [
-										"{{blogAPIv1}}"
+										"{{blogAPI}}"
 									],
 									"path": [
 										"blog",
@@ -358,9 +399,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{blogAPIv1}}/blog/?page=1&limit=24",
+									"raw": "{{blogAPI}}/blog/?page=1&limit=24",
 									"host": [
-										"{{blogAPIv1}}"
+										"{{blogAPI}}"
 									],
 									"path": [
 										"blog",
@@ -388,9 +429,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{blogAPIv1}}/blog/search?page=1&limit=12&keyword=test",
+									"raw": "{{blogAPI}}/blog/search?page=1&limit=12&keyword=test",
 									"host": [
-										"{{blogAPIv1}}"
+										"{{blogAPI}}"
 									],
 									"path": [
 										"blog",
@@ -423,9 +464,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{blogAPIv1}}/blog/find/1",
+									"raw": "{{blogAPI}}/blog/find/1",
 									"host": [
-										"{{blogAPIv1}}"
+										"{{blogAPI}}"
 									],
 									"path": [
 										"blog",
@@ -442,9 +483,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{blogAPIv1}}/blog/user/1?page=1&limit=12",
+									"raw": "{{blogAPI}}/blog/user/1?page=1&limit=12",
 									"host": [
-										"{{blogAPIv1}}"
+										"{{blogAPI}}"
 									],
 									"path": [
 										"blog",
@@ -471,9 +512,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{blogAPIv1}}/blog/personal?page=1&limit=12",
+									"raw": "{{blogAPI}}/blog/personal?page=1&limit=12",
 									"host": [
-										"{{blogAPIv1}}"
+										"{{blogAPI}}"
 									],
 									"path": [
 										"blog",
@@ -528,9 +569,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{blogAPIv1}}/blog/update",
+									"raw": "{{blogAPI}}/blog/update",
 									"host": [
-										"{{blogAPIv1}}"
+										"{{blogAPI}}"
 									],
 									"path": [
 										"blog",
@@ -555,9 +596,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{blogAPIv1}}/blog/like",
+									"raw": "{{blogAPI}}/blog/like",
 									"host": [
-										"{{blogAPIv1}}"
+										"{{blogAPI}}"
 									],
 									"path": [
 										"blog",
@@ -573,9 +614,9 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{blogAPIv1}}/blog/delete/1",
+									"raw": "{{blogAPI}}/blog/delete/1",
 									"host": [
-										"{{blogAPIv1}}"
+										"{{blogAPI}}"
 									],
 									"path": [
 										"blog",
@@ -594,7 +635,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "{{token}}",
+						"value": "{{accessToken}}",
 						"type": "string"
 					}
 				]
@@ -647,12 +688,17 @@
 			"value": "http://localhost:5000"
 		},
 		{
-			"key": "blogAPIv1",
-			"value": "http://localhost:5000/api/v1"
+			"key": "blogAPI",
+			"value": "http://localhost:5000/api"
 		},
 		{
-			"key": "token",
+			"key": "accessToken",
 			"value": "---",
+			"type": "default"
+		},
+		{
+			"key": "refreshToken",
+			"value": "",
 			"type": "default"
 		}
 	]

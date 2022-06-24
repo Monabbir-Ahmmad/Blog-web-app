@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import blogService from "../service/blogService.js";
 
 // @desc Create blog
-// @route POST /api/v1/blog/create
+// @route POST /api/blog/create
 // @access Protected
 // @needs title, content, ?blogCoverImage
 const createBlog = asyncHandler(async (req, res) => {
@@ -25,7 +25,7 @@ const createBlog = asyncHandler(async (req, res) => {
 });
 
 // @desc Get blog list by page number
-// @route GET /api/v1/blog/?page=number&limit=number
+// @route GET /api/blog/?page=number&limit=number
 // @access Protected
 const getBlogList = asyncHandler(async (req, res) => {
   let { page, limit } = req.query;
@@ -42,7 +42,7 @@ const getBlogList = asyncHandler(async (req, res) => {
 });
 
 // @desc Search for blogs by username or title
-// @route Get /api/v1/blog/search?page=number&limit=number&keyword=String
+// @route Get /api/blog/search?page=number&limit=number&keyword=String
 // @access Protected
 const searchBlogs = asyncHandler(async (req, res) => {
   let { page, limit, keyword } = req.query;
@@ -60,7 +60,7 @@ const searchBlogs = asyncHandler(async (req, res) => {
 });
 
 // @desc Get blogs of other user
-// @route GET /api/v1/blog/user/:userId?page=Number&limit=Number
+// @route GET /api/blog/user/:userId?page=Number&limit=Number
 // @access Protected
 const getUserBlogList = asyncHandler(async (req, res) => {
   const userId = req.params?.userId;
@@ -78,7 +78,7 @@ const getUserBlogList = asyncHandler(async (req, res) => {
 });
 
 // @desc Get blogs of current user
-// @route GET /api/v1/blog/personal?page=Number&limit=Number
+// @route GET /api/blog/personal?page=Number&limit=Number
 // @access Protected
 const getPersonalBlogList = asyncHandler(async (req, res) => {
   const userId = req.user?.id;
@@ -96,7 +96,7 @@ const getPersonalBlogList = asyncHandler(async (req, res) => {
 });
 
 // @desc Get single blog
-// @route GET /api/v1/blog/find/:blogId
+// @route GET /api/blog/find/:blogId
 // @access Protected
 const getBlog = asyncHandler(async (req, res) => {
   const blogId = req.params?.blogId;
@@ -111,7 +111,7 @@ const getBlog = asyncHandler(async (req, res) => {
 });
 
 // @desc Update blog
-// @route PATCH /api/v1/blog/update
+// @route PATCH /api/blog/update
 // @access Protected
 // @needs blogId, title, content, ?blogCoverImage
 const updateBlog = asyncHandler(async (req, res) => {
@@ -135,7 +135,7 @@ const updateBlog = asyncHandler(async (req, res) => {
 });
 
 // @desc Like blog
-// @route POST /api/v1/blog/like
+// @route POST /api/blog/like
 // @access Protected
 // @needs blogId
 const likeBlog = asyncHandler(async (req, res) => {
@@ -152,7 +152,7 @@ const likeBlog = asyncHandler(async (req, res) => {
 });
 
 // @desc Delete single blog
-// @route Delete /api/v1/blog/delete/:blogId
+// @route Delete /api/blog/delete/:blogId
 // @access Protected
 // @needs blogId
 const deleteBlog = asyncHandler(async (req, res) => {

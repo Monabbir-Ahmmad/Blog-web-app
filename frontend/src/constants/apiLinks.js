@@ -1,30 +1,28 @@
 //Host of the api
 export const API_HOST = "http://localhost:5000";
 
-export const POST_USER_REGISTER = `${API_HOST}/api/v1/user/signup`;
+export const POST_USER_REGISTER = `/auth/signup`;
 
-export const POST_USER_LOGIN = `${API_HOST}/api/v1/user/signin`;
+export const POST_USER_LOGIN = `/auth/signin`;
 
-export const GET_USER_PROFILE = `${API_HOST}/api/v1/user/profile`;
+export const POST_REFRESH_TOKEN = "/auth/refreshtoken";
 
-export const UPDATE_USER_PROFILE = `${API_HOST}/api/v1/user/profile`;
+export const GET_USER_PROFILE = "/user/profile";
 
-export const UPDATE_USER_PASSWORD = `${API_HOST}/api/v1/user/profile`;
+export const UPDATE_USER_PROFILE = "/user/profile";
 
-export const POST_BLOG = `${API_HOST}/api/v1/blog/create`;
+export const UPDATE_USER_PASSWORD = "/user/profile";
 
-export const UPDATE_BLOG = `${API_HOST}/api/v1/blog/update`;
+export const POST_BLOG = "/blog/create";
 
-export const GET_SINGLE_BLOG = `${API_HOST}/api/v1/blog/find`;
+export const UPDATE_BLOG = "/blog/update";
 
-export const GET_BLOG_LIST = `${API_HOST}/api/v1/blog/search`;
+export const GET_SINGLE_BLOG = "/blog/find";
 
-export const GET_PERSONAL_BLOG_LIST = `${API_HOST}/api/v1/blog/personal`;
+export const GET_BLOG_LIST = "/blog/search";
 
-export const POST_BLOG_LIKE = `${API_HOST}/api/v1/blog/like`;
+export const GET_USER_BLOG_LIST = "/blog/user";
 
-export const POST_BLOG_COMMENT = `${API_HOST}/api/v1/blog/comment`;
+export const POST_BLOG_LIKE = "/blog/like";
 
-export const DELETE_PERSONAL_BLOG = `${API_HOST}/api/v1/blog/delete`;
-
-export const GET_BLOG_COMMENTS = `${API_HOST}/api/v1/blog/comment`;
+export const DELETE_PERSONAL_BLOG = "/blog/delete";

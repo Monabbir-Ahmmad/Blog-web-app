@@ -18,7 +18,7 @@ function BlogLikeButton({ blog }) {
 
   const handleLikeClick = async () => {
     try {
-      const likedBlog = await postBlogLike(userAuthInfo?.token, blog?.id);
+      const likedBlog = await postBlogLike(blog?.id);
 
       setLikedBy(
         likedBlog.likes?.filter((e) => e.hasLiked).map((e) => e.userId)

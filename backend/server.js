@@ -7,6 +7,7 @@ import blogRouter from "./src/routes/blogRoutes.js";
 import dotenv from "dotenv";
 import { databaseConnect } from "./src/config/databaseConfig.js";
 import seedDatabase from "./seedDatabase.js";
+import authRouter from "./src/routes/authRoutes.js";
 
 const app = express();
 
@@ -26,9 +27,11 @@ app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
-app.use("/api/v1/user", userRouter);
+app.use("/api/auth", authRouter);
 
-app.use("/api/v1/blog", blogRouter);
+app.use("/api/user", userRouter);
+
+app.use("/api/blog", blogRouter);
 
 app.use(errorMiddleware.notFound);
 

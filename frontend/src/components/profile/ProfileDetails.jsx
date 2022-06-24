@@ -27,6 +27,7 @@ import UpdatePassword from "./UpdatePassword";
 function ProfileDetails() {
   const theme = useTheme();
 
+  const { userAuthInfo } = useSelector((state) => state.userLogin);
   const { user } = useSelector((state) => state.userDetails);
 
   const [openProfileEdit, setOpenProfileEdit] = useState(false);
@@ -75,7 +76,10 @@ function ProfileDetails() {
       <ProfileItem
         icon={<CalendarIcon color={theme.palette.primary.main} fontSize={24} />}
         header={"Age"}
-        text={moment().diff(user?.dateOfBirth, "years", false) + " years"}
+        text={
+          user?.dateOfBirth &&
+          moment().diff(user?.dateOfBirth, "years", false) + " years"
+        }
       />
 
       <Divider />
@@ -91,7 +95,9 @@ function ProfileDetails() {
       <ProfileItem
         icon={<CakeIcon color={theme.palette.primary.main} fontSize={24} />}
         header={"Date of Birth"}
-        text={moment(user?.dateOfBirth).format("MMMM Do, YYYY")}
+        text={
+          user?.dateOfBirth && moment(user?.dateOfBirth).format("MMMM Do, YYYY")
+        }
       />
 
       <Divider />
@@ -104,34 +110,38 @@ function ProfileDetails() {
         text={user?.blogCount}
       />
 
-      <Divider />
+      {userAuthInfo?.id === user?.id && (
+        <>
+          <Divider />
 
-      <Button
-        fullWidth
-        variant="outlined"
-        startIcon={<EditIcon />}
-        onClick={handleEditProfileClick}
-      >
-        Edit Profile
-      </Button>
+          <Button
+            fullWidth
+            variant="outlined"
+            startIcon={<EditIcon />}
+            onClick={handleEditProfileClick}
+          >
+            Edit Profile
+          </Button>
 
-      <Button
-        fullWidth
-        variant="outlined"
-        startIcon={<KeyIcon />}
-        onClick={handleEditPasswordClick}
-      >
-        Change Password
-      </Button>
+          <Button
+            fullWidth
+            variant="outlined"
+            startIcon={<KeyIcon />}
+            onClick={handleEditPasswordClick}
+          >
+            Change Password
+          </Button>
 
-      <UpdateProfile
-        openProfileEdit={openProfileEdit}
-        handleProfileEditCancel={handleEditProfileClick}
-      />
-      <UpdatePassword
-        openPasswordEdit={openPasswordEdit}
-        handlePasswordEditCancel={handleEditPasswordClick}
-      />
+          <UpdateProfile
+            openProfileEdit={openProfileEdit}
+            handleProfileEditCancel={handleEditProfileClick}
+          />
+          <UpdatePassword
+            openPasswordEdit={openPasswordEdit}
+            handlePasswordEditCancel={handleEditPasswordClick}
+          />
+        </>
+      )}
     </Stack>
   );
 }

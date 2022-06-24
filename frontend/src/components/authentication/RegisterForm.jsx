@@ -21,7 +21,7 @@ import {
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../../actions/userActions";
+import { register } from "../../actions/authActions";
 import ProfileImagePicker from "../imagePicker/ProfileImagePicker";
 
 const genders = ["Male", "Female", "Other"];

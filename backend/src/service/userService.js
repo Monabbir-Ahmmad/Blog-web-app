@@ -1,7 +1,10 @@
 import userCache from "../repository/cache_repository/userCache.js";
 import userDb from "../repository/db_repository/userDb.js";
 import deleteUploadedFile from "../utils/deleteUploadedFile.js";
-import generateToken from "../utils/generateToken.js";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../utils/generateToken.js";
 import HttpError from "../utils/httpError.js";
 import { hashPassword, verifyPassword } from "../utils/passwordEncryption.js";
 
@@ -103,7 +106,18 @@ const updateProfile = async (
           success: true,
           body: {
             ...userDetails,
-            token: generateToken(user.id, name, email, user.privilege),
+            refreshToken: generateRefreshToken(
+              user.id,
+              name,
+              email,
+              user.privilege
+            ),
+            accessToken: generateAccessToken(
+              user.id,
+              name,
+              email,
+              user.privilege
+            ),
           },
         }
       : { success: false, error: new HttpError(400, "Unable to update.") };
@@ -129,7 +143,7 @@ const updatePassword = async (userId, oldPassword, newPassword) => {
   } else if (!user?.id) {
     return { success: false, error: new HttpError(404, "User not found.") };
   } else if (!passwordVerified) {
-    return { success: false, error: new HttpError(401, "Wrong password.") };
+    return { success: false, error: new HttpError(403, "Wrong password.") };
   } else if (passwordVerified && oldPassword === newPassword) {
     return {
       success: false,

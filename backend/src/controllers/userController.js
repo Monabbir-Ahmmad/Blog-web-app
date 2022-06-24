@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import userService from "../service/userService.js";
 
 // @desc Get user profile
-// @route GET /api/v1/user/profile
+// @route GET /api/user/profile
 // @access Protected
 const getUserProfile = asyncHandler(async (req, res) => {
   const userId = req.user?.id;
@@ -17,7 +17,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 // @desc Get list of users
-// @route GET /api/v1/user/?page=number&limit=number&nameDesc=boolean(0,1)
+// @route GET /api/user/?page=number&limit=number&nameDesc=boolean(0,1)
 // @access Protected
 const getUserList = asyncHandler(async (req, res) => {
   let { page, limit, nameDesc } = req.query;
@@ -78,10 +78,10 @@ const updateUserPassword = asyncHandler(async (req, res) => {
 });
 
 // @desc Get user profile
-// @route GET /api/v1/user/profile/:id
+// @route GET /api/user/profile/:userId
 // @access Protected
 const getOtherUser = asyncHandler(async (req, res) => {
-  const userId = req.params?.id;
+  const userId = req.params?.userId;
 
   const result = await userService.getProfileDetails(userId);
 

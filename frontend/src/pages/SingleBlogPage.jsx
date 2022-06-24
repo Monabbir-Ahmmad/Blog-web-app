@@ -7,18 +7,9 @@ import SingleBlogDetails from "../components/blog/SingleBlogDetails";
 
 function SingleBlogPage() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { blogId } = useParams();
 
-  const { userAuthInfo } = useSelector((state) => state.userLogin);
-
   const { loading, error, blog } = useSelector((state) => state.singleBlog);
-
-  useEffect(() => {
-    if (!userAuthInfo?.token) {
-      navigate("/?page=sign-in&redirect=blog/" + blogId);
-    }
-  }, [blogId, navigate, userAuthInfo]);
 
   useEffect(() => {
     if (blogId) {

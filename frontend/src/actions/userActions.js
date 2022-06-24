@@ -1,19 +1,10 @@
-import axios from "axios";
 import {
-  POST_USER_LOGIN,
-  POST_USER_REGISTER,
   GET_USER_PROFILE,
   UPDATE_USER_PROFILE,
   UPDATE_USER_PASSWORD,
 } from "../constants/apiLinks";
+import { USER_LOGIN_SUCCESS } from "../constants/authConstants";
 import {
-  USER_LOGIN_FAIL,
-  USER_LOGIN_REQUEST,
-  USER_LOGIN_SUCCESS,
-  USER_LOGOUT,
-  USER_REGISTER_FAIL,
-  USER_REGISTER_REQUEST,
-  USER_REGISTER_SUCCESS,
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
@@ -26,106 +17,14 @@ import {
   USER_PROFILE_UPDATE_SUCCESS_RESET,
   USER_PASSWORD_UPDATE_SUCCESS_RESET,
 } from "../constants/userConstants";
+import api from "../service/api";
+import TokenService from "../service/token.service";
 
-export const register = (registrationData) => async (dispatch) => {
-  try {
-    dispatch({ type: USER_REGISTER_REQUEST });
-
-    const config = {
-      headers: {
-        "Content-type": "multipart/form-data",
-      },
-    };
-
-    const res = await axios.post(POST_USER_REGISTER, registrationData, config);
-
-    dispatch({
-      type: USER_REGISTER_SUCCESS,
-      payload: res.data,
-    });
-
-    dispatch({
-      type: USER_LOGIN_SUCCESS,
-      payload: res.data,
-    });
-
-    saveToLocalStorage(
-      res.data.id,
-      res.data.name,
-      res.data.email,
-      res.data.profileImage,
-      res.data.token
-    );
-  } catch (error) {
-    dispatch({
-      type: USER_REGISTER_FAIL,
-      payload:
-        error.response && error.response.data?.message
-          ? error.response.data?.message
-          : error.message,
-    });
-  }
-};
-
-export const login = (email, password) => async (dispatch) => {
-  try {
-    dispatch({ type: USER_LOGIN_REQUEST });
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    const res = await axios.post(POST_USER_LOGIN, { email, password }, config);
-
-    dispatch({
-      type: USER_LOGIN_SUCCESS,
-      payload: res.data,
-    });
-
-    saveToLocalStorage(
-      res.data.id,
-      res.data.name,
-      res.data.email,
-      res.data.profileImage,
-      res.data.token
-    );
-  } catch (error) {
-    dispatch({
-      type: USER_LOGIN_FAIL,
-      payload:
-        error.response && error.response.data?.message
-          ? error.response.data?.message
-          : error.message,
-    });
-  }
-};
-
-export const logout = () => (dispatch) => {
-  localStorage.removeItem("userAuthInfo");
-
-  dispatch({
-    type: USER_LOGOUT,
-  });
-};
-
-export const getUserDetails = () => async (dispatch, getState) => {
+export const getUserDetails = (userId) => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_DETAILS_REQUEST });
 
-    const {
-      userLogin: { userAuthInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userAuthInfo.token}`,
-      },
-    };
-
-    const res = await axios.get(GET_USER_PROFILE, config);
+    const res = await api().get(`${GET_USER_PROFILE}/${userId}`);
 
     dispatch({
       type: USER_DETAILS_SUCCESS,
@@ -146,18 +45,10 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_PROFILE_UPDATE_REQUEST });
 
-    const {
-      userLogin: { userAuthInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userAuthInfo.token}`,
-      },
-    };
-
-    const res = await axios.patch(UPDATE_USER_PROFILE, user, config);
+    const res = await api("multipart/form-data").patch(
+      UPDATE_USER_PROFILE,
+      user
+    );
 
     dispatch({
       type: USER_PROFILE_UPDATE_SUCCESS,
@@ -174,13 +65,13 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       payload: res.data,
     });
 
-    saveToLocalStorage(
-      res.data.id,
-      res.data.name,
-      res.data.email,
-      res.data.profileImage,
-      res.data.token
-    );
+    TokenService.setUser({
+      id: res.data.id,
+      name: res.data.name,
+      profileImage: res.data.profileImage,
+      refreshToken: res.data.refreshToken,
+      accessToken: res.data.accessToken,
+    });
 
     setTimeout(
       () => dispatch({ type: USER_PROFILE_UPDATE_SUCCESS_RESET }),
@@ -202,22 +93,7 @@ export const updateUserPassword =
     try {
       dispatch({ type: USER_PASSWORD_UPDATE_REQUEST });
 
-      const {
-        userLogin: { userAuthInfo },
-      } = getState();
-
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userAuthInfo.token}`,
-        },
-      };
-
-      await axios.put(
-        UPDATE_USER_PASSWORD,
-        { oldPassword, newPassword },
-        config
-      );
+      await api().put(UPDATE_USER_PASSWORD, { oldPassword, newPassword });
 
       dispatch({ type: USER_PASSWORD_UPDATE_SUCCESS });
 
@@ -235,10 +111,3 @@ export const updateUserPassword =
       });
     }
   };
-
-function saveToLocalStorage(id, name, email, profileImage, token) {
-  localStorage.setItem(
-    "userAuthInfo",
-    JSON.stringify({ id, name, email, profileImage, token })
-  );
-}

@@ -24,7 +24,7 @@ const createBlog = async (userId, title, content, coverImage) => {
   } else {
     return {
       success: false,
-      error: new HttpError(401, "Must be logged in to post blogs."),
+      error: new HttpError(403, "Must be logged in to post blogs."),
     };
   }
 };
@@ -146,13 +146,13 @@ const updateBlog = async (userId, blogId, title, content, coverImage) => {
     } else {
       return {
         success: false,
-        error: new HttpError(401, "Unauthorized. Not the owner of the blog."),
+        error: new HttpError(403, "Unauthorized. Not the owner of the blog."),
       };
     }
   } else {
     return {
       success: false,
-      error: new HttpError(401, "Must be logged in to update your blogs."),
+      error: new HttpError(403, "Must be logged in to update your blogs."),
     };
   }
 };
@@ -189,7 +189,7 @@ const updateBlogLikeStatus = async (userId, blogId) => {
   } else {
     return {
       success: false,
-      error: new HttpError(401, "Must be logged in to like blogs."),
+      error: new HttpError(403, "Must be logged in to like blogs."),
     };
   }
 };
@@ -222,13 +222,13 @@ const deleteBlog = async (userId, blogId) => {
     } else {
       return {
         success: false,
-        error: new HttpError(401, "Unauthorized. Not the owner of the blog."),
+        error: new HttpError(403, "Unauthorized. Not the owner of the blog."),
       };
     }
   } else {
     return {
       success: false,
-      error: new HttpError(401, "Must be logged in to delete your blogs."),
+      error: new HttpError(403, "Must be logged in to delete your blogs."),
     };
   }
 };

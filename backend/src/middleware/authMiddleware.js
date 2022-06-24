@@ -19,7 +19,7 @@ export const verifyToken = asyncHandler(async (req, res, next) => {
     ) {
       token = req.headers.authorization.split(" ")[1];
 
-      const decodedToken = jwt.verify(token, process.env.JWT_KEY);
+      const decodedToken = jwt.verify(token, process.env.JWT_ACCESS_KEY);
 
       user = await userCache.getUserById(
         decodedToken.id,

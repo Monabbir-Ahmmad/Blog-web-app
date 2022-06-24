@@ -6,11 +6,12 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
+  Link,
   Typography,
 } from "@mui/material";
 import moment from "moment";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RounterLink } from "react-router-dom";
 import { API_HOST } from "../../constants/apiLinks";
 import { randomImageById, stringToColour } from "../../utils/utilities";
 import BlogItemMenu from "./BlogItemMenu";
@@ -45,7 +46,19 @@ function BlogItem({ blog }) {
             blogId={blog?.id}
           />
         }
-        title={blog?.user?.name}
+        title={
+          <Link
+            component={RounterLink}
+            to={`/profile/${blog?.user?.id}`}
+            sx={{
+              textDecoration: "none",
+              color: "inherit",
+              "&:hover": { textDecoration: "underline" },
+            }}
+          >
+            {blog?.user?.name}
+          </Link>
+        }
         subheader={moment(new Date(blog?.createdAt)).fromNow()}
       />
       <CardActionArea onClick={onItemClick}>

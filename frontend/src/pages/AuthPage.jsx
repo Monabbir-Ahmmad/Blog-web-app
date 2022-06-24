@@ -53,7 +53,7 @@ function LoginRegPage() {
   const regSectionRef = useRef(null);
 
   useEffect(() => {
-    if (userAuthInfo?.token) {
+    if (userAuthInfo?.id) {
       navigate(redirect ? `/${redirect}` : "/home");
     }
   }, [navigate, redirect, userAuthInfo]);

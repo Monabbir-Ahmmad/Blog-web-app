@@ -1,30 +1,33 @@
-import { Alert, Grid, LinearProgress, Paper, Stack } from "@mui/material";
+import {
+  Alert,
+  Grid,
+  LinearProgress,
+  Pagination,
+  PaginationItem,
+  Paper,
+  Stack,
+} from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { getPersonalBlogs } from "../actions/blogActions";
+import { useParams, useSearchParams, Link } from "react-router-dom";
+import { getUserBlogs } from "../actions/blogActions";
 import { getUserDetails } from "../actions/userActions";
 import BlogItem from "../components/blog/BlogItem";
 import ProfileDetails from "../components/profile/ProfileDetails";
 
 function ProfilePage() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const { userAuthInfo } = useSelector((state) => state.userLogin);
-  const { loading, error, blogs } = useSelector((state) => state.personalBlogs);
+  const { userId } = useParams();
+  const [searchParams] = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "1");
 
-  useEffect(() => {
-    if (userAuthInfo?.token) {
-      dispatch(getUserDetails());
-    } else {
-      navigate("/?page=sign-in&redirect=profile");
-    }
-  }, [dispatch, navigate, userAuthInfo]);
+  const { loading, error, blogs } = useSelector((state) => state.userBlogList);
 
   useEffect(() => {
-    dispatch(getPersonalBlogs());
-  }, [dispatch]);
+    dispatch(getUserDetails(userId));
+    dispatch(getUserBlogs(userId, page));
+  }, [dispatch, page, userId]);
 
   return (
     <Stack
@@ -45,7 +48,7 @@ function ProfilePage() {
         <ProfileDetails />
       </Paper>
 
-      <Stack width={"100%"}>
+      <Stack width={"100%"} rowGap={3}>
         {loading && <LinearProgress />}
 
         {error && <Alert severity="error">{error}</Alert>}
@@ -61,6 +64,21 @@ function ProfilePage() {
             </Grid>
           ))}
         </Grid>
+
+        <Pagination
+          variant="outlined"
+          color="primary"
+          sx={{ alignSelf: "center", my: 5 }}
+          page={page}
+          count={10}
+          renderItem={(item) => (
+            <PaginationItem
+              component={Link}
+              to={`/profile/${userId}?page=${item.page}`}
+              {...item}
+            />
+          )}
+        />
       </Stack>
     </Stack>
   );

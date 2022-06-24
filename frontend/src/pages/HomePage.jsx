@@ -27,14 +27,7 @@ function HomePage() {
 
   const [searchText, setSearchText] = useState("");
 
-  const { userAuthInfo } = useSelector((state) => state.userLogin);
   const { loading, error, blogs } = useSelector((state) => state.blogList);
-
-  useEffect(() => {
-    if (!userAuthInfo?.token) {
-      navigate("/?page=sign-in&redirect=home");
-    }
-  }, [navigate, userAuthInfo, blogs]);
 
   useEffect(() => {
     setSearchText(decodeURIComponent(keyword));

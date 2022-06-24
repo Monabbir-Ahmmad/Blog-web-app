@@ -16,7 +16,7 @@ import {
 } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { API_HOST } from "../../constants/apiLinks";
-import { logout } from "../../actions/userActions";
+import { logout } from "../../actions/authActions";
 import { stringToColour } from "../../utils/utilities";
 import NavLinkItem from "./NavLinkItem";
 
