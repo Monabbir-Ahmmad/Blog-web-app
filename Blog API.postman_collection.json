@@ -646,6 +646,24 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"const options = {",
+							"  url: `${pm.collectionVariables.get(\"blogAPI\")}/auth/refreshtoken`,",
+							"  method: \"POST\",",
+							"  header: {",
+							"    \"Content-Type\": \"application/json\",",
+							"  },",
+							"  body: {",
+							"    mode: \"raw\",",
+							"    raw: JSON.stringify({",
+							"      refreshToken: pm.collectionVariables.get(\"refreshToken\"),",
+							"    }),",
+							"  },",
+							"};",
+							"",
+							"pm.sendRequest(options, (err, res) => {",
+							"  if (res.json().accessToken)",
+							"    pm.collectionVariables.set(\"accessToken\", res.json().accessToken);",
+							"});",
 							""
 						]
 					}
@@ -693,7 +711,7 @@
 		},
 		{
 			"key": "accessToken",
-			"value": "---",
+			"value": "",
 			"type": "default"
 		},
 		{
