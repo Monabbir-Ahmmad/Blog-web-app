@@ -276,9 +276,15 @@
 										},
 										{
 											"key": "userProfileImage",
-											"description": "Optional",
+											"description": "Optional image file",
 											"type": "file",
 											"src": "/G:/Image/dDahPNh.png"
+										},
+										{
+											"key": "removeProfileImage",
+											"value": "0",
+											"description": "Optional boolean (Only applies when userProfileImage is not sent)",
+											"type": "default"
 										},
 										{
 											"key": "password",
@@ -544,13 +550,13 @@
 									"formdata": [
 										{
 											"key": "blogId",
-											"value": "1",
+											"value": "14",
 											"description": "Required",
 											"type": "default"
 										},
 										{
 											"key": "title",
-											"value": "Title",
+											"value": "Titl",
 											"description": "Optional",
 											"type": "default"
 										},
@@ -562,9 +568,15 @@
 										},
 										{
 											"key": "blogCoverImage",
-											"description": "Optional",
+											"description": "Optional file",
 											"type": "file",
 											"src": "/G:/Image/1119564.jpg"
+										},
+										{
+											"key": "removeCoverImage",
+											"value": "0",
+											"description": "Optional boolean (Only applies when blogCoverImage is not sent)",
+											"type": "default"
 										}
 									]
 								},

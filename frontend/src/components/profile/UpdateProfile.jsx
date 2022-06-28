@@ -53,35 +53,44 @@ function UpdateProfile({ openProfileEdit, handleProfileEditCancel }) {
 
   useEffect(() => {
     if (updateSuccess) {
-      resetEdit();
+      closeEdit();
     }
   }, [updateSuccess]);
 
-  const onFileSelect = (e) => {
-    if (e.target.files[0]) {
-      setProfilePic(e.target.files[0]);
+  useEffect(() => {
+    resetState();
+  }, [user]);
+
+  const onImageSelect = (imageFile) => {
+    if (imageFile) {
+      setProfilePic({
+        file: imageFile,
+        image: URL.createObjectURL(imageFile),
+      });
     }
   };
 
-  useEffect(() => {
+  const onImageDelete = () => {
+    setProfilePic(null);
+  };
+
+  const resetState = () => {
+    setValueMissing(false);
+    setShowPassword(false);
+    setPassword("");
     if (user?.id) {
       setName(user?.name);
       setEmail(user?.email);
       setDateOfBirth(user?.dateOfBirth);
       setGender(user?.gender);
+      setProfilePic({
+        image: user?.profileImage && `${API_HOST}/${user?.profileImage}`,
+      });
     }
-  }, [user]);
+  };
 
-  const resetEdit = () => {
-    setValueMissing(false);
-    setShowPassword(false);
-    setName(user?.name);
-    setEmail(user?.email);
-    setDateOfBirth(user?.dateOfBirth);
-    setGender(user?.gender);
-    setProfilePic(null);
-    setPassword("");
-
+  const closeEdit = () => {
+    resetState();
     handleProfileEditCancel();
   };
 
@@ -105,8 +114,10 @@ function UpdateProfile({ openProfileEdit, handleProfileEditCancel }) {
         formData.append([item], values[item]);
       });
 
-      if (profilePic) {
-        formData.append("userProfileImage", profilePic);
+      if (profilePic?.file) {
+        formData.append("userProfileImage", profilePic.file);
+      } else if (!profilePic?.image) {
+        formData.append("removeProfileImage", 1);
       }
 
       dispatch(updateUserProfile(formData));
@@ -120,7 +131,7 @@ function UpdateProfile({ openProfileEdit, handleProfileEditCancel }) {
       fullWidth
       maxWidth={"sm"}
       open={openProfileEdit}
-      onClose={resetEdit}
+      onClose={closeEdit}
       PaperProps={{
         sx: { bgcolor: "background.paper", backgroundImage: "none" },
       }}
@@ -140,11 +151,10 @@ function UpdateProfile({ openProfileEdit, handleProfileEditCancel }) {
             )}
 
             <ProfileImagePicker
-              onImageSelect={onFileSelect}
-              image={profilePic}
-              defaultImage={
-                user?.profileImage && `${API_HOST}/${user?.profileImage}`
-              }
+              onImageSelect={onImageSelect}
+              onImageDelete={onImageDelete}
+              image={profilePic?.image}
+              sx={{ alignSelf: "center" }}
             />
 
             <TextField
@@ -240,7 +250,7 @@ function UpdateProfile({ openProfileEdit, handleProfileEditCancel }) {
         </form>
       </DialogContent>
       <DialogActions>
-        <Button onClick={resetEdit}>Cancel</Button>
+        <Button onClick={closeEdit}>Cancel</Button>
         <Button type="submit" form="profile-update-form">
           Confirm
         </Button>

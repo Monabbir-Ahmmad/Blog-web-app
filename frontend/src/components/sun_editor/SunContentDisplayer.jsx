@@ -1,12 +1,14 @@
-import "./SunEditor.css";
+import EditorTheme from "./EditorTheme";
 
 function SunContentDisplayer({ content }) {
   return (
-    <div
-      dangerouslySetInnerHTML={{ __html: content }}
-      className="sun-editor-editable"
-      style={{ fontFamily: "Montserrat", fontSize: "16px" }}
-    ></div>
+    <EditorTheme>
+      <div
+        dangerouslySetInnerHTML={{ __html: content }}
+        className="sun-editor-editable"
+        style={{ fontFamily: "Montserrat", fontSize: "16px" }}
+      ></div>
+    </EditorTheme>
   );
 }
 

@@ -54,7 +54,8 @@ const updateProfile = async (
   email,
   gender,
   dateOfBirth,
-  profileImage
+  profileImage,
+  removeProfileImage
 ) => {
   const user = await userDb.findUserById(userId);
 
@@ -71,6 +72,8 @@ const updateProfile = async (
     dateOfBirth = dateOfBirth || user.dateOfBirth;
     gender = gender || user.gender;
     profileImage = profileImage || user.profileImage;
+
+    if (removeProfileImage) profileImage = null;
 
     const updatedRecord = await userDb.updateProfile(
       userId,

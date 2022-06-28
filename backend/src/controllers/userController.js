@@ -42,6 +42,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   const id = req.user?.id;
   const { name, email, dateOfBirth, gender, password } = req.body;
   const profileImage = req.file?.filename;
+  const removeProfileImage =
+    !profileImage && parseInt(req.body.removeProfileImage) === 1;
 
   const result = await userService.updateProfile(
     id,
@@ -50,7 +52,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     email,
     gender,
     dateOfBirth,
-    profileImage
+    profileImage,
+    removeProfileImage
   );
 
   if (result.success) {

@@ -73,10 +73,17 @@ function RegisterForm({ reset }) {
     setShowPassword({ ...showPassword, [prop]: !showPassword[prop] });
   };
 
-  const onFileSelect = (e) => {
-    if (e.target.files[0]) {
-      setProfilePic(e.target.files[0]);
+  const onImageSelect = (imageFile) => {
+    if (imageFile) {
+      setProfilePic({
+        file: imageFile,
+        image: URL.createObjectURL(imageFile),
+      });
     }
+  };
+
+  const onImageDelete = () => {
+    setProfilePic(null);
   };
 
   const handleSubmit = (e) => {
@@ -85,7 +92,7 @@ function RegisterForm({ reset }) {
     const values = {
       name,
       email,
-      userProfileImage: profilePic,
+      userProfileImage: profilePic?.file,
       gender,
       dateOfBirth: moment(dateOfBirth).format("YYYY-MM-DD"),
       password,
@@ -129,7 +136,12 @@ function RegisterForm({ reset }) {
 
       {error && <Alert severity="error">{error}</Alert>}
 
-      <ProfileImagePicker onImageSelect={onFileSelect} image={profilePic} />
+      <ProfileImagePicker
+        onImageSelect={onImageSelect}
+        onImageDelete={onImageDelete}
+        image={profilePic?.image}
+        sx={{ alignSelf: "center" }}
+      />
 
       <TextField
         variant="outlined"

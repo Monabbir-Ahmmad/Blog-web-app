@@ -7,13 +7,21 @@ import ProfilePage from "./pages/ProfilePage";
 import PeoplePage from "./pages/PeoplePage";
 import SingleBlogPage from "./pages/SingleBlogPage";
 import { Typography } from "@mui/material";
+import Protected from "./components/route/Protected";
 
 function App() {
   return (
     <Routes>
       <Route index element={<AuthPage />} />
 
-      <Route path="/" element={<NavDrawer />}>
+      <Route
+        path="/"
+        element={
+          <Protected>
+            <NavDrawer />
+          </Protected>
+        }
+      >
         <Route path="home" element={<HomePage />} />
 
         <Route path="blog/:blogId" element={<SingleBlogPage />} />

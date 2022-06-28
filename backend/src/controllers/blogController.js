@@ -113,18 +113,21 @@ const getBlog = asyncHandler(async (req, res) => {
 // @desc Update blog
 // @route PATCH /api/blog/update
 // @access Protected
-// @needs blogId, title, content, ?blogCoverImage
+// @needs blogId, title, content, ?blogCoverImage, ?removeCoverImage
 const updateBlog = asyncHandler(async (req, res) => {
   const userId = req.user?.id;
   const { blogId, title, content } = req.body;
   const coverImage = req.file?.filename;
+  const removeCoverImage =
+    !coverImage && parseInt(req.body.removeCoverImage) === 1;
 
   const result = await blogService.updateBlog(
     userId,
     blogId,
     title,
     content,
-    coverImage
+    coverImage,
+    removeCoverImage
   );
 
   if (result.success) {

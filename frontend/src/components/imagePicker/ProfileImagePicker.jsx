@@ -1,53 +1,72 @@
-import { FaCamera } from "react-icons/fa";
-import { Avatar, IconButton, Input, useTheme } from "@mui/material";
-import styled from "@emotion/styled";
-
-const CameraIcon = styled(FaCamera)`
-  display: ${(props) => (props.editable ? "flex" : "none")};
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto;
-  opacity: 0;
-  z-index: 2;
-  transition: opacity 500ms ease;
-  :hover {
-    opacity: 0.5;
-  }
-`;
+import { FaCamera as CameraIcon } from "react-icons/fa";
+import { Avatar, Box, Fab, Menu, MenuItem } from "@mui/material";
+import { useState } from "react";
 
 function ProfileImagePicker({
   onImageSelect,
+  onImageDelete,
   image,
-  defaultImage = "broken.png",
-  isEditable = true,
   size = 150,
+  sx,
 }) {
-  const theme = useTheme();
+  const [anchor, setAnchor] = useState(null);
+
+  const handleClick = (e) => {
+    setAnchor(e.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchor(null);
+  };
 
   return (
-    <label htmlFor="contained-button-file" style={{ alignSelf: "center" }}>
-      <Input
-        id="contained-button-file"
-        type={"file"}
-        name="image"
-        accept=".png, .jpg, .jpeg"
-        onChange={onImageSelect}
-        sx={{ display: "none" }}
-        disabled={!isEditable}
-      />
-      <IconButton component="span" sx={{ position: "relative" }}>
-        <CameraIcon
-          editable={Number(isEditable)}
-          color={theme.palette.primary.contrastText}
-          size={size * 0.7}
-        />
-        <Avatar
-          src={(image && URL.createObjectURL(image)) || defaultImage}
-          sx={{ width: size, height: size, alignSelf: "center" }}
-        />
-      </IconButton>
-    </label>
+    <Box
+      position={"relative"}
+      width={"fit-content"}
+      height={"fit-content"}
+      sx={sx}
+    >
+      <Avatar src={image} sx={{ width: size, height: size }} />
+      <Fab
+        size="small"
+        color="primary"
+        sx={{ position: "absolute", right: 0, bottom: 15 }}
+        onClick={handleClick}
+      >
+        <CameraIcon size={20} />
+      </Fab>
+      <Menu
+        anchorEl={anchor}
+        open={Boolean(anchor)}
+        onClose={handleClose}
+        disableScrollLock={true}
+        transformOrigin={{ horizontal: "left", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        <MenuItem component={"label"}>
+          <input
+            id="image-picker"
+            type={"file"}
+            name="image"
+            accept=".png, .jpg, .jpeg"
+            hidden
+            onChange={(e) => {
+              onImageSelect(e.target.files[0]);
+              handleClose();
+            }}
+          />
+          Choose image
+        </MenuItem>
+        <MenuItem
+          onClick={(e) => {
+            onImageDelete();
+            handleClose();
+          }}
+        >
+          Remove image
+        </MenuItem>
+      </Menu>
+    </Box>
   );
 }
 

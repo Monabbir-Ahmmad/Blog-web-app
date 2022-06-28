@@ -12,28 +12,16 @@ import NavMenu from "./NavMenu";
 import AppIcon from "../icon/AppIcon";
 import FloatingAlerts from "../snackbar/FloatingAlerts";
 import ThemeSwitcher from "../themeSwitch/ThemeSwitcher";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 300;
 
 function NavDrawer({ window }) {
   const theme = useTheme();
-  const navigate = useNavigate();
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
-
-  const { userAuthInfo } = useSelector((state) => state.userLogin);
-
-  useEffect(() => {
-    if (!userAuthInfo?.id) {
-      navigate("/?page=sign-in");
-    }
-  }, [navigate, userAuthInfo]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

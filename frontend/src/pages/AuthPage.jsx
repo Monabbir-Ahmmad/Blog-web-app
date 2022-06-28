@@ -54,7 +54,7 @@ function LoginRegPage() {
 
   useEffect(() => {
     if (userAuthInfo?.id) {
-      navigate(redirect ? `/${redirect}` : "/home");
+      navigate(redirect ? `/${redirect}` : "/home", { replace: true });
     }
   }, [navigate, redirect, userAuthInfo]);
 

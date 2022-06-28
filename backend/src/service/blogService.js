@@ -96,7 +96,14 @@ const getUserBlogList = async (userId, page, limit) => {
   }
 };
 
-const updateBlog = async (userId, blogId, title, content, coverImage) => {
+const updateBlog = async (
+  userId,
+  blogId,
+  title,
+  content,
+  coverImage,
+  removeCoverImage
+) => {
   const { body: user } = await userService.getProfileDetails(userId);
 
   if (user?.id) {
@@ -108,6 +115,8 @@ const updateBlog = async (userId, blogId, title, content, coverImage) => {
       title = title || blog?.title;
       content = content || blog?.content;
       coverImage = coverImage || blog?.coverImage;
+
+      if (removeCoverImage) coverImage = null;
 
       const updatedBlog = await blogDb.updateBlog(
         blogId,
