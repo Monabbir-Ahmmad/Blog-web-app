@@ -10,9 +10,9 @@ import {
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { API_HOST } from "../../constants/apiLinks";
-import { randomImageById, stringToColour } from "../../utils/utilities";
+import { stringToColour } from "../../utils/utilities";
 import BlogItemMenu from "./BlogItemMenu";
-import SunContentDisplayer from "../sun_editor/SunContentDisplayer";
+import SunContentDisplayer from "../sunEditor/SunContentDisplayer";
 import BlogLikeButton from "./BlogLikeButton";
 
 function SingleBlogDetails({ blog }) {
@@ -41,21 +41,18 @@ function SingleBlogDetails({ blog }) {
         title={blog?.user?.name}
         subheader={moment(new Date(blog?.updatedAt)).fromNow()}
       />
-
       <CardContent>
         <Typography variant="h4">{blog?.title}</Typography>
       </CardContent>
 
-      <CardMedia
-        component="img"
-        height={300}
-        image={
-          blog?.coverImage
-            ? `${API_HOST}/${blog?.coverImage}`
-            : randomImageById(blog?.id)
-        }
-        alt={blog?.title}
-      />
+      {blog?.coverImage && (
+        <CardMedia
+          component="img"
+          height={400}
+          image={`${API_HOST}/${blog?.coverImage}`}
+          alt={blog?.title}
+        />
+      )}
 
       <CardContent>
         <SunContentDisplayer content={blog?.content} />

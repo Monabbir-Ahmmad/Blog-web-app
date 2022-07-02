@@ -15,7 +15,7 @@ export const UPDATE_USER_PASSWORD = "/user/profile";
 
 export const POST_BLOG = "/blog/create";
 
-export const UPDATE_BLOG = "/blog/update";
+export const UPDATE_PERSONAL_BLOG = "/blog/update";
 
 export const GET_SINGLE_BLOG = "/blog/find";
 

@@ -8,10 +8,13 @@ import { IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deletePersonalBlog } from "../../actions/blogActions";
+import BlogEditor from "./BlogEditor";
 
 function BlogItemMenu({ isPersonal, blogId }) {
   const dispatch = useDispatch();
+
   const [anchor, setAnchor] = useState(null);
+  const [openBlogEditor, setOpenBlogEditor] = useState(false);
 
   const handleClick = (e) => {
     setAnchor(e.currentTarget);
@@ -19,6 +22,14 @@ function BlogItemMenu({ isPersonal, blogId }) {
 
   const handleClose = () => {
     setAnchor(null);
+  };
+
+  const handleEdit = () => {
+    setOpenBlogEditor(true);
+  };
+
+  const handleBlogEditorClose = () => {
+    setOpenBlogEditor(false);
   };
 
   const handleDelete = () => {
@@ -30,6 +41,15 @@ function BlogItemMenu({ isPersonal, blogId }) {
       <IconButton onClick={handleClick}>
         <MoreVertIcon />
       </IconButton>
+
+      {openBlogEditor && (
+        <BlogEditor
+          dialogOpen={openBlogEditor}
+          handleDialogClose={handleBlogEditorClose}
+          blogId={blogId}
+        />
+      )}
+
       <Menu
         anchorEl={anchor}
         open={Boolean(anchor)}
@@ -40,13 +60,14 @@ function BlogItemMenu({ isPersonal, blogId }) {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         {isPersonal && (
-          <MenuItem>
+          <MenuItem onClick={handleEdit}>
             <ListItemIcon>
               <EditIcon size={16} />
             </ListItemIcon>
             Edit blog
           </MenuItem>
         )}
+
         {isPersonal && (
           <MenuItem onClick={handleDelete}>
             <ListItemIcon>
@@ -55,6 +76,7 @@ function BlogItemMenu({ isPersonal, blogId }) {
             Delete blog
           </MenuItem>
         )}
+
         <MenuItem>
           <ListItemIcon>
             <MoreHorizIcon size={16} />

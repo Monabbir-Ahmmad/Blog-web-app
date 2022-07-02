@@ -1,29 +1,19 @@
-import {
-  FiImage as AddPhotoIcon,
-  FiTrash as DeleteIcon,
-  FiUpload as UploadIcon,
-} from "react-icons/fi";
+import { FiUpload as UploadIcon } from "react-icons/fi";
 import {
   Alert,
-  Box,
   Button,
-  Input,
-  InputBase,
   LinearProgress,
   Stack,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { writeBlog } from "../actions/blogActions";
-import SunEditor from "../components/sun_editor/SunEditor";
+import BlogMaker from "../components/blog/BlogMaker";
 
-function BlogCreatePage() {
-  const theme = useTheme();
+function BlogWritePage() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
   const [title, setTitle] = useState("");
   const [contentLen, setContentLen] = useState(0);
   const [coverImage, setCoverImage] = useState(null);
@@ -39,38 +29,43 @@ function BlogCreatePage() {
       setContentLen(0);
       editor?.current?.setContents("");
     }
-  }, [navigate, success]);
+  }, [success]);
 
-  const getSunEditorInstance = (sunEditor) => {
-    editor.current = sunEditor;
+  const getEditorInstance = (instance) => {
+    editor.current = instance;
   };
 
-  const handleTitleChange = (e) => setTitle(e.target.value);
+  const handleTitleChange = (newValue) => {
+    setTitle(newValue);
+  };
+
+  const handleCoverImageSelect = (imageFile) => {
+    if (imageFile) {
+      setCoverImage({
+        file: imageFile,
+        image: URL.createObjectURL(imageFile),
+      });
+    }
+  };
+
+  const handleCoverImageRemove = () => {
+    setCoverImage(null);
+  };
+
+  const handleContentChange = (newValue) => {
+    setContentLen(editor?.current?.getCharCount());
+  };
 
   const handlePublishClick = () => {
     if (title && editor?.current?.getCharCount()) {
       const formData = new FormData();
 
-      formData.append("title", title.trim());
+      formData.append("title", title?.trim());
       formData.append("content", editor?.current?.getContents());
-      formData.append("blogCoverImage", coverImage);
+      formData.append("blogCoverImage", coverImage?.file);
 
       dispatch(writeBlog(formData));
     }
-  };
-
-  const handleCoverImageSelect = (e) => {
-    if (e.target.files[0]) {
-      setCoverImage(e.target.files[0]);
-    }
-  };
-
-  const handleRemoveCoverImageClick = (e) => {
-    setCoverImage(null);
-  };
-
-  const handleEditorContentChange = (newContent) => {
-    setContentLen(editor?.current?.getCharCount());
   };
 
   return (
@@ -91,75 +86,17 @@ function BlogCreatePage() {
 
       {error && <Alert severity="error">{error}</Alert>}
 
-      <Input
-        placeholder="Blog title"
-        sx={{ fontSize: 24 }}
-        value={title}
-        onChange={handleTitleChange}
-      />
-
-      <Box
-        sx={{
-          display: coverImage ? "flex" : "none",
-          width: "100%",
-          pt: "50%",
-          position: "relative",
-        }}
-      >
-        <img
-          alt="CoverImage"
-          src={coverImage && URL.createObjectURL(coverImage)}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            objectFit: "cover",
-            width: "100%",
-            height: "100%",
-          }}
-        />
-      </Box>
-
-      <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
-        <label htmlFor="contained-button-file">
-          <InputBase
-            id="contained-button-file"
-            type={"file"}
-            name="image"
-            accept=".png, .jpg, .jpeg"
-            onChange={handleCoverImageSelect}
-            sx={{ display: "none" }}
-          />
-          <Button
-            fullWidth
-            variant="outlined"
-            component="span"
-            startIcon={<AddPhotoIcon />}
-            sx={{ backgroundColor: theme.palette.background.paper }}
-          >
-            {coverImage ? "Change cover image" : "Add cover image"}
-          </Button>
-        </label>
-        <Button
-          variant="outlined"
-          color="error"
-          startIcon={<DeleteIcon />}
-          sx={{
-            display: coverImage ? "flex" : "none",
-            backgroundColor: theme.palette.background.paper,
-          }}
-          onClick={handleRemoveCoverImageClick}
-        >
-          Remove cover image
-        </Button>
-      </Stack>
-      <SunEditor
-        minHeight={600}
-        getSunEditorInstance={getSunEditorInstance}
-        onChange={handleEditorContentChange}
+      <BlogMaker
+        title={title}
+        coverImage={coverImage?.image}
+        getEditorInstance={getEditorInstance}
+        onTitleChange={handleTitleChange}
+        onContentChange={handleContentChange}
+        onCoverImageSelect={handleCoverImageSelect}
+        onCoverImageRemove={handleCoverImageRemove}
       />
     </Stack>
   );
 }
 
-export default BlogCreatePage;
+export default BlogWritePage;

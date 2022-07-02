@@ -17,6 +17,10 @@ function FloatingAlerts() {
     (state) => state.personalBlogDelete
   );
 
+  const { success: blogUpdateSuccess } = useSelector(
+    (state) => state.personalBlogUpdate
+  );
+
   return (
     <>
       <AlertSnackbar
@@ -43,6 +47,11 @@ function FloatingAlerts() {
         open={blogDeleteError}
         severity={"error"}
         message={blogDeleteError}
+      />
+      <AlertSnackbar
+        open={blogUpdateSuccess}
+        severity={"success"}
+        message={"Blog updated successfully"}
       />
     </>
   );

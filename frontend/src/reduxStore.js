@@ -4,6 +4,7 @@ import { userLoginReducer, userRegisterReducer } from "./reducers/authReducer";
 import {
   blogListReducer,
   personalBlogDeleteReducer,
+  personalBlogUpdateReducer,
   postBlogReducer,
   singleBlogReducer,
   userBlogListReducer,
@@ -26,6 +27,7 @@ const reducer = combineReducers({
   singleBlog: singleBlogReducer,
   userBlogList: userBlogListReducer,
   personalBlogDelete: personalBlogDeleteReducer,
+  personalBlogUpdate: personalBlogUpdateReducer,
 });
 
 const initialState = {

@@ -16,6 +16,10 @@ import {
   POST_BLOG_REQUEST,
   POST_BLOG_SUCCESS,
   POST_BLOG_SUCCESS_RESET,
+  UPDATE_PERSONAL_BLOG_REQUEST,
+  UPDATE_PERSONAL_BLOG_SUCCESS,
+  UPDATE_PERSONAL_BLOG_SUCCESS_RESET,
+  UPDATE_PERSONAL_BLOG_FAIL,
 } from "../constants/blogsConstants";
 
 export const postBlogReducer = (state = {}, action) => {
@@ -81,6 +85,21 @@ export const personalBlogDeleteReducer = (state = {}, action) => {
     case DELETE_PERSONAL_BLOG_SUCCESS_RESET:
       return { loading: false, success: false };
     case DELETE_PERSONAL_BLOG_FAIL:
+      return { loading: false, success: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const personalBlogUpdateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_PERSONAL_BLOG_REQUEST:
+      return { loading: true };
+    case UPDATE_PERSONAL_BLOG_SUCCESS:
+      return { loading: false, success: true };
+    case UPDATE_PERSONAL_BLOG_SUCCESS_RESET:
+      return { loading: false, success: false };
+    case UPDATE_PERSONAL_BLOG_FAIL:
       return { loading: false, success: false, error: action.payload };
     default:
       return state;

@@ -1,7 +1,7 @@
 import { Alert, Box, LinearProgress, Stack } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getSingleBlog } from "../actions/blogActions";
 import SingleBlogDetails from "../components/blog/SingleBlogDetails";
 
