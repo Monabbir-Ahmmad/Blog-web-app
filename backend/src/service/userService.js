@@ -8,12 +8,20 @@ import {
 import HttpError from "../utils/httpError.js";
 import { hashPassword, verifyPassword } from "../utils/passwordEncryption.js";
 
-const getUserList = async (page, limit, nameDesc) => {
-  const userList = await userDb.findAllUsers(page, limit, nameDesc);
+const getUserList = async (page, limit, sort, keyword) => {
+  const userList = await userCache.getUserList(
+    page,
+    limit,
+    sort,
+    keyword,
+    async () => await userDb.findAllUsers(page, limit, sort, keyword)
+  );
+
+  const pageCount = Math.ceil((await userDb.countUsers(keyword)) / limit);
 
   return {
     success: true,
-    body: userList,
+    body: { userList, pageCount },
   };
 };
 

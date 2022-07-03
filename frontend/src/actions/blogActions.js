@@ -146,22 +146,24 @@ export const deletePersonalBlog = (blogId) => async (dispatch, getState) => {
       type: DELETE_PERSONAL_BLOG_SUCCESS,
     });
 
-    const {
-      blogList: { blogs },
-    } = getState();
+    const { blogList } = getState();
 
-    const {
-      userBlogList: { blogs: userBlogs },
-    } = getState();
+    const { userBlogList } = getState();
 
     dispatch({
       type: GET_BLOGS_SUCCESS,
-      payload: blogs.filter((blog) => blog.id !== blogId),
+      payload: {
+        blogList: blogList.blogs.filter((blog) => blog.id !== blogId),
+        pageCount: blogList.pageCount,
+      },
     });
 
     dispatch({
       type: GET_USER_BLOGS_SUCCESS,
-      payload: userBlogs.filter((blog) => blog.id !== blogId),
+      payload: {
+        blogList: userBlogList.blogs.filter((blog) => blog.id !== blogId),
+        pageCount: userBlogList.pageCount,
+      },
     });
   } catch (error) {
     dispatch({
@@ -188,24 +190,28 @@ export const updatePersonalBlog = (blog) => async (dispatch, getState) => {
       type: UPDATE_PERSONAL_BLOG_SUCCESS,
     });
 
-    const {
-      blogList: { blogs },
-    } = getState();
+    const { blogList } = getState();
 
-    const {
-      userBlogList: { blogs: userBlogs },
-    } = getState();
+    const { userBlogList } = getState();
 
     dispatch({
       type: GET_BLOGS_SUCCESS,
-      payload: blogs.map((blog) => (blog.id === res.data.id ? res.data : blog)),
+      payload: {
+        blogList: blogList.blogs.map((blog) =>
+          blog.id === res.data.id ? res.data : blog
+        ),
+        pageCount: blogList.pageCount,
+      },
     });
 
     dispatch({
       type: GET_USER_BLOGS_SUCCESS,
-      payload: userBlogs.map((blog) =>
-        blog.id === res.data.id ? res.data : blog
-      ),
+      payload: {
+        blogList: userBlogList.blogs.map((blog) =>
+          blog.id === res.data.id ? res.data : blog
+        ),
+        pageCount: userBlogList.pageCount,
+      },
     });
 
     dispatch({

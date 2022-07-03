@@ -50,11 +50,8 @@ function BlogItem({ blog }) {
           <Link
             component={RounterLink}
             to={`/profile/${blog?.user?.id}`}
-            sx={{
-              textDecoration: "none",
-              color: "inherit",
-              "&:hover": { textDecoration: "underline" },
-            }}
+            underline="hover"
+            color={"inherit"}
           >
             {blog?.user?.name}
           </Link>

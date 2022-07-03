@@ -3,53 +3,45 @@ import { useSelector } from "react-redux";
 import AlertSnackbar from "./AlertSnackbar";
 
 function FloatingAlerts() {
-  const { success: profileUpdated } = useSelector(
-    (state) => state.userProfileUpdate
-  );
+  const profileUpdate = useSelector((state) => state.userProfileUpdate);
 
-  const { success: passwordUpdated } = useSelector(
-    (state) => state.userPasswordUpdate
-  );
+  const passwordUpdate = useSelector((state) => state.userPasswordUpdate);
 
-  const { success: blogPostSuccess } = useSelector((state) => state.postBlog);
+  const postBlog = useSelector((state) => state.postBlog);
 
-  const { error: blogDeleteError, success: blogDeleteSuccess } = useSelector(
-    (state) => state.personalBlogDelete
-  );
+  const personalBlogDelete = useSelector((state) => state.personalBlogDelete);
 
-  const { success: blogUpdateSuccess } = useSelector(
-    (state) => state.personalBlogUpdate
-  );
+  const personalBlogUpdate = useSelector((state) => state.personalBlogUpdate);
 
   return (
     <>
       <AlertSnackbar
-        open={profileUpdated}
+        open={profileUpdate?.success}
         severity={"success"}
         message={"Profile updated successfully"}
       />
       <AlertSnackbar
-        open={passwordUpdated}
+        open={passwordUpdate?.success}
         severity={"success"}
         message={"Password updated successfully"}
       />
       <AlertSnackbar
-        open={blogPostSuccess}
+        open={postBlog?.success}
         severity={"success"}
         message={"Blog published successfully"}
       />
       <AlertSnackbar
-        open={blogDeleteSuccess}
+        open={personalBlogDelete?.success}
         severity={"success"}
         message={"Blog deleted successfully"}
       />
       <AlertSnackbar
-        open={blogDeleteError}
+        open={personalBlogDelete?.error}
         severity={"error"}
-        message={blogDeleteError}
+        message={personalBlogDelete?.error}
       />
       <AlertSnackbar
-        open={blogUpdateSuccess}
+        open={personalBlogUpdate?.success}
         severity={"success"}
         message={"Blog updated successfully"}
       />

@@ -37,14 +37,21 @@ export const postBlogReducer = (state = {}, action) => {
   }
 };
 
-export const blogListReducer = (state = { blogs: [] }, action) => {
+export const blogListReducer = (
+  state = { blogs: [], pageCount: 0 },
+  action
+) => {
   switch (action.type) {
     case GET_BLOGS_REQUEST:
-      return { loading: true, blogs: [] };
+      return { loading: true, blogs: [], pageCount: 0 };
     case GET_BLOGS_SUCCESS:
-      return { loading: false, blogs: action.payload };
+      return {
+        loading: false,
+        blogs: action.payload.blogList,
+        pageCount: action.payload.pageCount,
+      };
     case GET_BLOGS_FAIL:
-      return { loading: false, blogs: [], error: action.payload };
+      return { loading: false, blogs: [], pageCount: 0, error: action.payload };
     default:
       return state;
   }
@@ -63,14 +70,21 @@ export const singleBlogReducer = (state = {}, action) => {
   }
 };
 
-export const userBlogListReducer = (state = { blogs: [] }, action) => {
+export const userBlogListReducer = (
+  state = { blogs: [], pageCount: 0 },
+  action
+) => {
   switch (action.type) {
     case GET_USER_BLOGS_REQUEST:
-      return { loading: true, blogs: [] };
+      return { loading: true, blogs: [], pageCount: 0 };
     case GET_USER_BLOGS_SUCCESS:
-      return { loading: false, blogs: action.payload };
+      return {
+        loading: false,
+        blogs: action.payload.blogList,
+        pageCount: action.payload.pageCount,
+      };
     case GET_USER_BLOGS_FAIL:
-      return { loading: false, blogs: [], error: action.payload };
+      return { loading: false, blogs: [], pageCount: 0, error: action.payload };
     default:
       return state;
   }

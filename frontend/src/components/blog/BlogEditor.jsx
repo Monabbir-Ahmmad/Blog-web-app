@@ -1,12 +1,12 @@
 import {
   Alert,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   IconButton,
-  LinearProgress,
   Typography,
   useMediaQuery,
   useTheme,
@@ -37,9 +37,17 @@ function BlogEditor({ dialogOpen, handleDialogClose, blogId }) {
 
   useEffect(() => {
     if (dialogOpen) {
+      const fetchBlogToUpdate = async () => {
+        try {
+          const blogData = await getBlogToUpdate(blogId);
+          setBlog(blogData);
+        } catch (error) {
+          console.log(error);
+        }
+      };
       fetchBlogToUpdate();
     }
-  }, [dialogOpen]);
+  }, [blogId, dialogOpen]);
 
   useEffect(() => {
     if (blog && editor?.current) {
@@ -59,16 +67,7 @@ function BlogEditor({ dialogOpen, handleDialogClose, blogId }) {
     if (success) {
       handleDialogClose();
     }
-  }, [success]);
-
-  const fetchBlogToUpdate = async () => {
-    try {
-      const blogData = await getBlogToUpdate(blogId);
-      setBlog(blogData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  }, [handleDialogClose, success]);
 
   const getEditorInstance = (instance) => {
     editor.current = instance;
@@ -120,6 +119,9 @@ function BlogEditor({ dialogOpen, handleDialogClose, blogId }) {
       maxWidth={"lg"}
       fullWidth
       fullScreen={largeScreen ? false : true}
+      PaperProps={{
+        sx: { bgcolor: "background.paper", backgroundImage: "none" },
+      }}
     >
       <DialogTitle
         component={"div"}
@@ -143,8 +145,6 @@ function BlogEditor({ dialogOpen, handleDialogClose, blogId }) {
           gap: 3,
         }}
       >
-        {loading && <LinearProgress />}
-
         {error && <Alert severity="error">{error}</Alert>}
 
         <BlogMaker
@@ -157,15 +157,27 @@ function BlogEditor({ dialogOpen, handleDialogClose, blogId }) {
           onCoverImageRemove={handleCoverImageRemove}
         />
       </DialogContent>
-      <DialogActions>
+      <DialogActions sx={{ position: "relative" }}>
         <Button
           variant="contained"
           fullWidth
-          disabled={!(title && contentLen)}
+          disabled={!(title && contentLen) || loading}
           onClick={handleEditSubmit}
         >
           Confirm
         </Button>
+        {loading && (
+          <CircularProgress
+            size={26}
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              marginTop: "-12px",
+              marginLeft: "-12px",
+            }}
+          />
+        )}
       </DialogActions>
     </Dialog>
   );

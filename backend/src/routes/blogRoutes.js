@@ -25,11 +25,9 @@ blogRouter
     blogController.createBlog
   );
 
-blogRouter.route("/").get(blogController.getBlogList);
+blogRouter.route("/search").get(blogController.searchBlogs);
 
 blogRouter.route("/user/:userId").get(blogController.getUserBlogList);
-
-blogRouter.route("/personal").get(blogController.getPersonalBlogList);
 
 blogRouter.route("/find/:blogId").get(blogController.getBlog);
 
@@ -62,7 +60,5 @@ blogRouter
   );
 
 blogRouter.route("/delete/:blogId").delete(blogController.deleteBlog);
-
-blogRouter.route("/search").get(blogController.searchBlogs);
 
 export default blogRouter;

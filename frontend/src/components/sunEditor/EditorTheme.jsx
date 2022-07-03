@@ -6,31 +6,30 @@ function EditorTheme({ children }) {
   const theme = useTheme();
 
   useEffect(() => {
-    if (theme.palette.mode === "dark") {
-      document.documentElement.style.setProperty("--bg-color", "#121212");
-      document.documentElement.style.setProperty(
-        "--btn-enabled-color",
-        "#2f2f2f"
-      );
-      document.documentElement.style.setProperty("--btn-icon-color", "#ffffff");
-      document.documentElement.style.setProperty(
-        "--btn-icon-disabled-color",
-        "#5e5e5e"
-      );
-      document.documentElement.style.setProperty("--txt-color", "#ffffff");
-    } else {
-      document.documentElement.style.setProperty("--bg-color", "#ffffff");
-      document.documentElement.style.setProperty(
-        "--btn-enabled-color",
-        "#d2d2d2"
-      );
-      document.documentElement.style.setProperty("--btn-icon-color", "#000000");
-      document.documentElement.style.setProperty(
-        "--btn-icon-disabled-color",
-        "#5e5e5e"
-      );
-      document.documentElement.style.setProperty("--txt-color", "#000000");
-    }
+    document.documentElement.style.setProperty(
+      "--bg-color",
+      theme.palette.background.paper
+    );
+
+    document.documentElement.style.setProperty(
+      "--txt-color",
+      theme.palette.text.primary
+    );
+
+    document.documentElement.style.setProperty(
+      "--btn-icon-color",
+      theme.palette.text.primary
+    );
+
+    document.documentElement.style.setProperty(
+      "--btn-enabled-color",
+      theme.palette.mode === "dark" ? "#2f2f2f" : "#d2d2d2"
+    );
+
+    document.documentElement.style.setProperty(
+      "--btn-icon-disabled-color",
+      "#5e5e5e"
+    );
   }, [theme]);
 
   return children;

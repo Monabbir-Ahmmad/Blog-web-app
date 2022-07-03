@@ -32,34 +32,6 @@ const createBlog = async (userId, title, content, coverImage) => {
   };
 };
 
-const findBlogList = async (page, limit) => {
-  const { count, rows } = await Blog.findAndCountAll({
-    attributes: [
-      "id",
-      "title",
-      "content",
-      "coverImage",
-      "createdAt",
-      "updatedAt",
-    ],
-    include: [
-      {
-        model: User,
-        attributes: ["id", "name", "profileImage"],
-      },
-      {
-        model: Like,
-        attributes: ["userId", "hasLiked"],
-      },
-    ],
-    offset: limit * (page - 1),
-    limit: limit,
-    order: [["createdAt", "DESC"]],
-  });
-
-  return rows;
-};
-
 const findBlogById = async (id) => {
   return await Blog.findByPk(id, {
     attributes: [
@@ -181,13 +153,34 @@ const findBlogsByUsernameOrTitle = async (keyword, page, limit) => {
   return rows;
 };
 
+const countBlogs = async (keyword) => {
+  return await Blog.count({
+    include: [
+      {
+        model: User,
+      },
+    ],
+    where: {
+      [Op.or]: [
+        { "$Blog.title$": { [Op.substring]: keyword } },
+        { "$User.name$": { [Op.substring]: keyword } },
+      ],
+    },
+  });
+};
+
+const countUserBlogs = async (userId) => {
+  return await Blog.count({ where: { userId } });
+};
+
 export default {
   createBlog,
   findBlogById,
-  findBlogList,
   findBlogListByUserId,
   updateBlog,
   updateBlogLikeStatus,
   deleteBlogById,
   findBlogsByUsernameOrTitle,
+  countBlogs,
+  countUserBlogs,
 };

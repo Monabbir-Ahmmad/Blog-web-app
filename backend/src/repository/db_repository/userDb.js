@@ -2,6 +2,7 @@ import { Op } from "sequelize";
 import Blog from "../../models/blogModel.js";
 import User from "../../models/userModel.js";
 import UserType from "../../models/userTypeModel.js";
+import { sortTypes } from "../../utils/sortTypes.js";
 
 const createUser = async (
   name,
@@ -44,7 +45,7 @@ const emailInUse = async (email = "", id = null) => {
   });
 };
 
-const findAllUsers = async (page = 1, limit = 12, nameDesc = false) => {
+const findAllUsers = async (page = 1, limit = 12, sort = 1, keyword = "") => {
   const { count, rows } = await User.findAndCountAll({
     include: [
       {
@@ -56,9 +57,10 @@ const findAllUsers = async (page = 1, limit = 12, nameDesc = false) => {
         attributes: ["id"],
       },
     ],
+    where: { name: { [Op.substring]: keyword } },
     offset: limit * (page - 1),
     limit: limit,
-    order: [["name", nameDesc ? "DESC" : "ASC"]],
+    order: [[sortTypes[sort].sortBy, sortTypes[sort].sortOrder]],
   });
 
   return rows.map((user) => ({
@@ -148,6 +150,10 @@ const updatePassword = async (userId, newPassword) => {
   );
 };
 
+const countUsers = async (keyword) => {
+  return await User.count({ where: { name: { [Op.substring]: keyword } } });
+};
+
 export default {
   createUser,
   emailInUse,
@@ -156,4 +162,5 @@ export default {
   findUserByEmail,
   updateProfile,
   updatePassword,
+  countUsers,
 };

@@ -70,9 +70,11 @@ const searchBlogs = async (keyword, page, limit) => {
     async () => await blogDb.findBlogsByUsernameOrTitle(keyword, page, limit)
   );
 
+  const pageCount = Math.ceil((await blogDb.countBlogs(keyword)) / limit);
+
   return {
     success: true,
-    body: blogList,
+    body: { blogList, pageCount },
   };
 };
 
@@ -87,9 +89,11 @@ const getUserBlogList = async (userId, page, limit) => {
       async () => await blogDb.findBlogListByUserId(userId, page, limit)
     );
 
+    const pageCount = Math.ceil((await blogDb.countUserBlogs(userId)) / limit);
+
     return {
       success: true,
-      body: blogList,
+      body: { blogList, pageCount },
     };
   } else {
     return { success: false, error: new HttpError(404, "User not found.") };

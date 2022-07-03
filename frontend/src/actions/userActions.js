@@ -2,6 +2,7 @@ import {
   GET_USER_PROFILE,
   UPDATE_USER_PROFILE,
   UPDATE_USER_PASSWORD,
+  GET_USER_LIST,
 } from "../constants/apiLinks";
 import { USER_LOGIN_SUCCESS } from "../constants/authConstants";
 import {
@@ -16,6 +17,9 @@ import {
   USER_PASSWORD_UPDATE_FAIL,
   USER_PROFILE_UPDATE_SUCCESS_RESET,
   USER_PASSWORD_UPDATE_SUCCESS_RESET,
+  GET_USER_LIST_REQUEST,
+  GET_USER_LIST_SUCCESS,
+  GET_USER_LIST_FAIL,
 } from "../constants/userConstants";
 import api from "../service/api";
 import TokenService from "../service/token.service";
@@ -104,6 +108,31 @@ export const updateUserPassword =
     } catch (error) {
       dispatch({
         type: USER_PASSWORD_UPDATE_FAIL,
+        payload:
+          error.response && error.response.data?.message
+            ? error.response.data?.message
+            : error.message,
+      });
+    }
+  };
+
+export const getUserList =
+  (page = 1, sort = 0, keyword = "", limit = 12) =>
+  async (dispatch, getState) => {
+    try {
+      dispatch({ type: GET_USER_LIST_REQUEST });
+
+      const res = await api().get(
+        `${GET_USER_LIST}/?page=${page}&limit=${limit}&sort=${sort}&keyword=${keyword}`
+      );
+
+      dispatch({
+        type: GET_USER_LIST_SUCCESS,
+        payload: res.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_USER_LIST_FAIL,
         payload:
           error.response && error.response.data?.message
             ? error.response.data?.message

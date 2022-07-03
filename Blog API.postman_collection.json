@@ -195,13 +195,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{blogAPI}}/user/profile",
+									"raw": "{{blogAPI}}/user/profile/1",
 									"host": [
 										"{{blogAPI}}"
 									],
 									"path": [
 										"user",
-										"profile"
+										"profile",
+										"1"
 									]
 								}
 							},
@@ -213,13 +214,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{blogAPI}}/user/?page=1&limit=12&nameDesc=0",
+									"raw": "{{blogAPI}}/user/users?page=1&limit=12&sort=0&keyword=test",
 									"host": [
 										"{{blogAPI}}"
 									],
 									"path": [
 										"user",
-										""
+										"users"
 									],
 									"query": [
 										{
@@ -233,9 +234,14 @@
 											"description": "Default = 12"
 										},
 										{
-											"key": "nameDesc",
+											"key": "sort",
 											"value": "0",
-											"description": "boolean (0=false, 1=true)"
+											"description": "Default = 0"
+										},
+										{
+											"key": "keyword",
+											"value": "test",
+											"description": "Optional search keyword (User name). Without keyword gets all within page and limit."
 										}
 									]
 								}
@@ -333,25 +339,6 @@
 								}
 							},
 							"response": []
-						},
-						{
-							"name": "View other user profile",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{blogAPI}}/user/profile/1",
-									"host": [
-										"{{blogAPI}}"
-									],
-									"path": [
-										"user",
-										"profile",
-										"1"
-									]
-								}
-							},
-							"response": []
 						}
 					]
 				},
@@ -405,36 +392,6 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{blogAPI}}/blog/?page=1&limit=24",
-									"host": [
-										"{{blogAPI}}"
-									],
-									"path": [
-										"blog",
-										""
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "1",
-											"description": "Default = 1"
-										},
-										{
-											"key": "limit",
-											"value": "24",
-											"description": "Default = 12"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Search blog by username or title",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
 									"raw": "{{blogAPI}}/blog/search?page=1&limit=12&keyword=test",
 									"host": [
 										"{{blogAPI}}"
@@ -457,7 +414,7 @@
 										{
 											"key": "keyword",
 											"value": "test",
-											"description": "Optional. Without keyword gets all within page and limit."
+											"description": "Optional search word (author name or title). Without keyword gets all within page and limit."
 										}
 									]
 								}
@@ -497,34 +454,6 @@
 										"blog",
 										"user",
 										"1"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "1"
-										},
-										{
-											"key": "limit",
-											"value": "12"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get personal blogs",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{blogAPI}}/blog/personal?page=1&limit=12",
-									"host": [
-										"{{blogAPI}}"
-									],
-									"path": [
-										"blog",
-										"personal"
 									],
 									"query": [
 										{

@@ -24,23 +24,6 @@ const createBlog = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc Get blog list by page number
-// @route GET /api/blog/?page=number&limit=number
-// @access Protected
-const getBlogList = asyncHandler(async (req, res) => {
-  let { page, limit } = req.query;
-  page = parseInt(page > 0 ? page : 1);
-  limit = parseInt(limit > 0 ? limit : 12);
-
-  const result = await blogService.getBlogList(page, limit);
-
-  if (result.success) {
-    res.status(200).json(result.body);
-  } else {
-    throw result.error;
-  }
-});
-
 // @desc Search for blogs by username or title
 // @route Get /api/blog/search?page=number&limit=number&keyword=String
 // @access Protected
@@ -64,24 +47,6 @@ const searchBlogs = asyncHandler(async (req, res) => {
 // @access Protected
 const getUserBlogList = asyncHandler(async (req, res) => {
   const userId = req.params?.userId;
-  let { page, limit } = req.query;
-  page = parseInt(page > 0 ? page : 1);
-  limit = parseInt(limit > 0 ? limit : 12);
-
-  const result = await blogService.getUserBlogList(userId, page, limit);
-
-  if (result.success) {
-    res.status(200).json(result.body);
-  } else {
-    throw result.error;
-  }
-});
-
-// @desc Get blogs of current user
-// @route GET /api/blog/personal?page=Number&limit=Number
-// @access Protected
-const getPersonalBlogList = asyncHandler(async (req, res) => {
-  const userId = req.user?.id;
   let { page, limit } = req.query;
   page = parseInt(page > 0 ? page : 1);
   limit = parseInt(limit > 0 ? limit : 12);
@@ -173,9 +138,7 @@ const deleteBlog = asyncHandler(async (req, res) => {
 
 export default {
   createBlog,
-  getBlogList,
   getUserBlogList,
-  getPersonalBlogList,
   getBlog,
   updateBlog,
   likeBlog,

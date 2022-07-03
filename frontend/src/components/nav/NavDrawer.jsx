@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Link as RouterLink, Outlet } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import { FiMenu as MenuIcon } from "react-icons/fi";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material";
+import { Link, useTheme } from "@mui/material";
 import NavMenu from "./NavMenu";
 import AppIcon from "../icon/AppIcon";
 import FloatingAlerts from "../snackbar/FloatingAlerts";
@@ -47,24 +47,31 @@ function NavDrawer({ window }) {
         }}
       >
         <Toolbar>
-          <IconButton
-            color="primary"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { md: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <AppIcon sx={{ fontSize: 40 }} />
-          <Typography
-            variant="h6"
-            color={"text.primary"}
-            fontSize={26}
-            mx={1}
-            flexGrow={1}
-          >
-            Writer
-          </Typography>
+          <Box flexGrow={1} display={"flex"} gap={1}>
+            <IconButton
+              color="primary"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ display: { md: "none" } }}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            <Link
+              component={RouterLink}
+              to="/home"
+              underline="none"
+              sx={{
+                display: "flex",
+                gap: 1,
+              }}
+            >
+              <AppIcon sx={{ fontSize: 40 }} />
+              <Typography variant="h6" color={"text.primary"} fontSize={26}>
+                Writer
+              </Typography>
+            </Link>
+          </Box>
 
           <ThemeSwitcher />
         </Toolbar>

@@ -13,6 +13,7 @@ import {
   userDetailsReducer,
   userProfileUpdateReducer,
   userPasswordUpdateReducer,
+  userListReducer,
 } from "./reducers/userReducer";
 import TokenService from "./service/token.service";
 
@@ -22,6 +23,7 @@ const reducer = combineReducers({
   userDetails: userDetailsReducer,
   userProfileUpdate: userProfileUpdateReducer,
   userPasswordUpdate: userPasswordUpdateReducer,
+  userList: userListReducer,
   postBlog: postBlogReducer,
   blogList: blogListReducer,
   singleBlog: singleBlogReducer,

@@ -5,10 +5,6 @@ import userCache from "../repository/cache_repository/userCache.js";
 import userDb from "../repository/db_repository/userDb.js";
 
 export const verifyToken = asyncHandler(async (req, res, next) => {
-  if (req.method === "OPTIONS") {
-    next();
-  }
-
   let token;
   let user;
 

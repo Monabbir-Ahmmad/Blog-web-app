@@ -1,4 +1,7 @@
 import {
+  GET_USER_LIST_FAIL,
+  GET_USER_LIST_REQUEST,
+  GET_USER_LIST_SUCCESS,
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
@@ -50,6 +53,26 @@ export const userPasswordUpdateReducer = (state = {}, action) => {
       return { ...state, loading: false, success: false };
     case USER_PASSWORD_UPDATE_FAIL:
       return { loading: false, success: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const userListReducer = (
+  state = { users: [], pageCount: 0 },
+  action
+) => {
+  switch (action.type) {
+    case GET_USER_LIST_REQUEST:
+      return { loading: true, users: [], pageCount: 0 };
+    case GET_USER_LIST_SUCCESS:
+      return {
+        loading: false,
+        users: action.payload.userList,
+        pageCount: action.payload.pageCount,
+      };
+    case GET_USER_LIST_FAIL:
+      return { loading: false, users: [], pageCount: 0, error: action.payload };
     default:
       return state;
   }

@@ -137,6 +137,17 @@
 .sun-editor .se-dialog-close > svg {
   width: 10px;
   height: 10px;
+  fill: #000;
+}
+
+.sun-editor .se-dialog-content .se-btn:enabled:active,
+.sun-editor .se-dialog-content .se-btn:enabled:focus,
+.sun-editor .se-dialog-content .se-btn:enabled:hover {
+  background-color: lightgray;
+}
+
+.sun-editor .se-dialog-content .se-btn > svg {
+  fill: #000;
 }
 
 .sun-editor .se-btn-select > svg {

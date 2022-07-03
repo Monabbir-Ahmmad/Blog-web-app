@@ -8,11 +8,15 @@ import calculateAge from "../utils/calculateAge.js";
 
 const userRouter = express.Router();
 
+userRouter.use(verifyToken);
+
+userRouter.route("/profile/:userId").get(userController.getUserDetails);
+
+userRouter.route("/users").get(userController.getUserList);
+
 userRouter
   .route("/profile")
-  .get(verifyToken, userController.getUserProfile)
   .patch(
-    verifyToken,
     filesUpload.single("userProfileImage"),
     [
       check("name", "Name field can not be empty.")
@@ -38,7 +42,6 @@ userRouter
     userController.updateUserProfile
   )
   .put(
-    verifyToken,
     [
       check("oldPassword").notEmpty().withMessage("Old password required."),
       check("newPassword")
@@ -53,11 +56,5 @@ userRouter
     validationCheck,
     userController.updateUserPassword
   );
-
-userRouter
-  .route("/profile/:userId")
-  .get(verifyToken, userController.getOtherUser);
-
-userRouter.route("/").get(verifyToken, userController.getUserList);
 
 export default userRouter;

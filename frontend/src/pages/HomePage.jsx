@@ -27,7 +27,9 @@ function HomePage() {
 
   const [searchText, setSearchText] = useState("");
 
-  const { loading, error, blogs } = useSelector((state) => state.blogList);
+  const { loading, error, blogs, pageCount } = useSelector(
+    (state) => state.blogList
+  );
 
   useEffect(() => {
     setSearchText(decodeURIComponent(keyword));
@@ -67,6 +69,7 @@ function HomePage() {
           sx={{ pl: 2, flex: 1 }}
           value={searchText}
           onChange={handleSearchInputChange}
+          onKeyDown={(e) => e.key==="Enter" && handleSearch()}
         />
         <IconButton color={"primary"} onClick={handleSearch}>
           <SearchIcon />
@@ -79,7 +82,7 @@ function HomePage() {
 
       {error && <Alert severity="error">{error}</Alert>}
 
-      {!loading && !error && !blogs.length && (
+      {!loading && !error && !blogs?.length && (
         <Alert severity="info">Nothing To Show</Alert>
       )}
 
@@ -96,7 +99,7 @@ function HomePage() {
         color="primary"
         sx={{ alignSelf: "center", my: 5 }}
         page={page}
-        count={10}
+        count={pageCount}
         renderItem={(item) => (
           <PaginationItem
             component={Link}

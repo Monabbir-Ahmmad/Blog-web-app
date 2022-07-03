@@ -1,11 +1,12 @@
 import asyncHandler from "express-async-handler";
 import userService from "../service/userService.js";
+import { sortTypes } from "../utils/sortTypes.js";
 
-// @desc Get user profile
-// @route GET /api/user/profile
+// @desc Get user profile details
+// @route GET /api/user/profile/:userId
 // @access Protected
-const getUserProfile = asyncHandler(async (req, res) => {
-  const userId = req.user?.id;
+const getUserDetails = asyncHandler(async (req, res) => {
+  const userId = req.params?.userId;
 
   const result = await userService.getProfileDetails(userId);
 
@@ -17,15 +18,16 @@ const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 // @desc Get list of users
-// @route GET /api/user/?page=number&limit=number&nameDesc=boolean(0,1)
+// @route GET /api/user/?page=Number&limit=Number&sort=Number&keyword=String
 // @access Protected
 const getUserList = asyncHandler(async (req, res) => {
-  let { page, limit, nameDesc } = req.query;
+  let { page, limit, sort, keyword } = req.query;
   page = parseInt(page > 0 ? page : 1);
   limit = parseInt(limit > 0 ? limit : 12);
-  nameDesc = parseInt(nameDesc) === 1;
+  sort = parseInt(sort >= 0 && sort < sortTypes.length ? sort : 0);
+  keyword = decodeURIComponent(keyword || "");
 
-  const result = await userService.getUserList(page, limit, nameDesc);
+  const result = await userService.getUserList(page, limit, sort, keyword);
 
   if (result.success) {
     res.status(200).json(result.body);
@@ -80,25 +82,9 @@ const updateUserPassword = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc Get user profile
-// @route GET /api/user/profile/:userId
-// @access Protected
-const getOtherUser = asyncHandler(async (req, res) => {
-  const userId = req.params?.userId;
-
-  const result = await userService.getProfileDetails(userId);
-
-  if (result.success) {
-    res.status(200).json(result.body);
-  } else {
-    throw result.error;
-  }
-});
-
 export default {
-  getUserProfile,
+  getUserDetails,
   getUserList,
   updateUserProfile,
   updateUserPassword,
-  getOtherUser,
 };

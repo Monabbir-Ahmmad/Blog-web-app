@@ -20,12 +20,18 @@ function ProfilePage() {
 
   const { userId } = useParams();
   const [searchParams] = useSearchParams();
+
   const page = parseInt(searchParams.get("page") || "1");
 
-  const { loading, error, blogs } = useSelector((state) => state.userBlogList);
+  const { loading, error, blogs, pageCount } = useSelector(
+    (state) => state.userBlogList
+  );
 
   useEffect(() => {
     dispatch(getUserDetails(userId));
+  }, [dispatch, userId]);
+
+  useEffect(() => {
     dispatch(getUserBlogs(userId, page));
   }, [dispatch, page, userId]);
 
@@ -70,7 +76,7 @@ function ProfilePage() {
           color="primary"
           sx={{ alignSelf: "center", my: 5 }}
           page={page}
-          count={10}
+          count={pageCount}
           renderItem={(item) => (
             <PaginationItem
               component={Link}
