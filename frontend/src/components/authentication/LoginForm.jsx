@@ -99,6 +99,7 @@ function LoginForm({ reset }) {
       <TextField
         variant="outlined"
         label="Password"
+        autoComplete="on"
         type={showPassword ? "text" : "password"}
         error={valueMissing && !values.password}
         helperText={

@@ -208,6 +208,7 @@ function RegisterForm({ reset }) {
       <TextField
         variant="outlined"
         label="Password"
+        autoComplete="on"
         type={showPassword.password ? "text" : "password"}
         error={valueMissing && !password}
         helperText={valueMissing && !password ? "Password cannot be empty" : ""}
@@ -227,6 +228,7 @@ function RegisterForm({ reset }) {
       <TextField
         variant="outlined"
         label="Confirm Password"
+        autoComplete="on"
         type={showPassword.confirmPassword ? "text" : "password"}
         error={
           valueMissing && (!confirmPassword || password !== confirmPassword)

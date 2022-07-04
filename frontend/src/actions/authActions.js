@@ -1,4 +1,3 @@
-import axios from "axios";
 import { POST_USER_LOGIN, POST_USER_REGISTER } from "../constants/apiLinks";
 import {
   USER_LOGIN_FAIL,

@@ -5,6 +5,8 @@ import {
   POST_USER_LOGIN,
   POST_USER_REGISTER,
 } from "../constants/apiLinks";
+import { USER_LOGOUT } from "../constants/authConstants";
+import reduxStore from "../reduxStore";
 import TokenService from "./token.service";
 
 const api = (contentType = "application/json") => {
@@ -37,6 +39,7 @@ const api = (contentType = "application/json") => {
       if (
         originalConfig.url !== POST_USER_LOGIN &&
         originalConfig.url !== POST_USER_REGISTER &&
+        originalConfig.url !== POST_REFRESH_TOKEN &&
         err.response
       ) {
         // Access Token was expired
@@ -47,9 +50,18 @@ const api = (contentType = "application/json") => {
               refreshToken: TokenService.getLocalRefreshToken(),
             });
             const { accessToken } = rs.data;
+
             TokenService.updateLocalAccessToken(accessToken);
+
             return instance(originalConfig);
           } catch (_error) {
+            //Refresh token was expired
+            TokenService.removeUser();
+
+            reduxStore.dispatch({
+              type: USER_LOGOUT,
+            });
+
             return Promise.reject(_error);
           }
         }

@@ -106,6 +106,7 @@ function UpdatePassword({ openPasswordEdit, handlePasswordEditCancel }) {
             <TextField
               variant="outlined"
               label="Current Password"
+              autoComplete="on"
               type={showPassword.oldPassword ? "text" : "password"}
               error={valueMissing && !values.oldPassword}
               helperText={
@@ -135,6 +136,7 @@ function UpdatePassword({ openPasswordEdit, handlePasswordEditCancel }) {
             <TextField
               variant="outlined"
               label="New Password"
+              autoComplete="on"
               type={showPassword.newPassword ? "text" : "password"}
               error={valueMissing && !values.newPassword}
               helperText={
@@ -164,6 +166,7 @@ function UpdatePassword({ openPasswordEdit, handlePasswordEditCancel }) {
             <TextField
               variant="outlined"
               label="Confirm New Password"
+              autoComplete="on"
               type={showPassword.confirmNewPassword ? "text" : "password"}
               error={
                 valueMissing &&

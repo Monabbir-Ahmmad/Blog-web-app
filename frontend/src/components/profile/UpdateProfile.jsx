@@ -227,6 +227,7 @@ function UpdateProfile({ openProfileEdit, handleProfileEditCancel }) {
               fullWidth
               variant="outlined"
               label="Password"
+              autoComplete="on"
               type={showPassword ? "text" : "password"}
               error={valueMissing && !password}
               helperText={

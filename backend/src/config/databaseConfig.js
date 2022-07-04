@@ -1,20 +1,14 @@
 import { Sequelize } from "sequelize";
+import dotenv from "dotenv";
 
-export const config = {
-  host: "localhost",
-  port: "3306",
-  user: "root",
-  password: "",
-  databaseName: "blog_database",
-  databaseDialect: "mysql",
-};
+dotenv.config();
 
 export const database = new Sequelize(
-  config.databaseName,
-  config.user,
-  config.password,
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
   {
-    dialect: config.databaseDialect,
+    dialect: process.env.DB_DIALECT,
     logging: false,
   }
 );
