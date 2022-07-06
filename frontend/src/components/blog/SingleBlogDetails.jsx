@@ -5,6 +5,7 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
+  Link,
   Typography,
 } from "@mui/material";
 import moment from "moment";
@@ -14,9 +15,11 @@ import { stringToColour } from "../../utils/utilities";
 import BlogItemMenu from "./BlogItemMenu";
 import SunContentDisplayer from "../sunEditor/SunContentDisplayer";
 import BlogLikeButton from "./BlogLikeButton";
+import { Link as RouterLink } from "react-router-dom";
 
-function SingleBlogDetails({ blog }) {
+function SingleBlogDetails() {
   const { userAuthInfo } = useSelector((state) => state.userLogin);
+  const { blog } = useSelector((state) => state.singleBlog);
 
   return (
     <Card variant="outlined" sx={{ height: "100%" }}>
@@ -38,7 +41,16 @@ function SingleBlogDetails({ blog }) {
             blogId={blog?.id}
           />
         }
-        title={blog?.user?.name}
+        title={
+          <Link
+            component={RouterLink}
+            to={`/profile/${blog?.user?.id}`}
+            underline="hover"
+            color={"inherit"}
+          >
+            {blog?.user?.name}
+          </Link>
+        }
         subheader={moment(new Date(blog?.updatedAt)).fromNow()}
       />
       <CardContent>

@@ -3,12 +3,7 @@ import { DataTypes } from "sequelize";
 import User from "./userModel.js";
 import Blog from "./blogModel.js";
 
-const Like = database.define("like", {
-  hasLiked: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  },
-});
+const Like = database.define("like");
 
 Blog.hasMany(Like, { onDelete: "CASCADE" });
 

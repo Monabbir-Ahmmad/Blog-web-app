@@ -5,24 +5,22 @@ import { useSelector } from "react-redux";
 import { postBlogLike } from "../../actions/blogActions";
 
 function BlogLikeButton({ blog }) {
-  const [hasLiked, setHasLiked] = useState(false);
-
-  const [likedBy, setLikedBy] = useState(
-    blog?.likes?.filter((e) => e.hasLiked).map((e) => e.userId)
-  );
   const { userAuthInfo } = useSelector((state) => state.userLogin);
 
+  const [likedBy, setLikedBy] = useState(blog?.likes);
+  const [hasLiked, setHasLiked] = useState(
+    blog?.likes?.some((like) => like.userId === userAuthInfo?.id)
+  );
+
   useEffect(() => {
-    setHasLiked(likedBy?.includes(userAuthInfo?.id));
+    setHasLiked(likedBy?.some((like) => like.userId === userAuthInfo?.id));
   }, [userAuthInfo, likedBy]);
 
   const handleLikeClick = async () => {
     try {
       const likedBlog = await postBlogLike(blog?.id);
 
-      setLikedBy(
-        likedBlog.likes?.filter((e) => e.hasLiked).map((e) => e.userId)
-      );
+      setLikedBy(likedBlog.likes);
     } catch (error) {
       console.error(error.message);
     }

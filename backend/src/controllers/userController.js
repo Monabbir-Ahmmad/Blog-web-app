@@ -18,7 +18,7 @@ const getUserDetails = asyncHandler(async (req, res) => {
 });
 
 // @desc Get list of users
-// @route GET /api/user/?page=Number&limit=Number&sort=Number&keyword=String
+// @route GET /api/user/users?page=Number&limit=Number&sort=Number&keyword=String
 // @access Protected
 const getUserList = asyncHandler(async (req, res) => {
   let { page, limit, sort, keyword } = req.query;
@@ -66,7 +66,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 });
 
 // @desc Update user password
-// @route PUT /api/user/profile
+// @route PUT /api/user/password
 // @access Protected
 // @needs oldPassword, newPassword
 const updateUserPassword = asyncHandler(async (req, res) => {

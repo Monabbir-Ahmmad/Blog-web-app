@@ -5,28 +5,19 @@ import blogCache from "../repository/cache_repository/blogCache.js";
 import userService from "./userService.js";
 
 const createBlog = async (userId, title, content, coverImage) => {
-  const { body: user } = await userService.getProfileDetails(userId);
+  const blog = await blogDb.createBlog(userId, title, content, coverImage);
 
-  if (user?.id) {
-    const blog = await blogDb.createBlog(userId, title, content, coverImage);
+  blogCache.cacheBlogById(blog?.id, blog);
 
-    blogCache.cacheBlogById(blog?.id, blog);
-
-    return blog?.id
-      ? {
-          success: true,
-          body: blog,
-        }
-      : {
-          success: false,
-          error: new HttpError(400, "Blog creation failed."),
-        };
-  } else {
-    return {
-      success: false,
-      error: new HttpError(403, "Must be logged in to post blogs."),
-    };
-  }
+  return blog?.id
+    ? {
+        success: true,
+        body: blog,
+      }
+    : {
+        success: false,
+        error: new HttpError(400, "Blog creation failed."),
+      };
 };
 
 const getBlogDetails = async (blogId) => {
@@ -108,140 +99,114 @@ const updateBlog = async (
   coverImage,
   removeCoverImage
 ) => {
-  const { body: user } = await userService.getProfileDetails(userId);
+  const { body: blog } = await getBlogDetails(blogId);
 
-  if (user?.id) {
-    const { body: blog } = await getBlogDetails(blogId);
+  const blogOwner = blog?.user?.id === userId;
 
-    const blogOwner = blog?.user?.id === userId;
+  if (blog?.id && blogOwner) {
+    title = title || blog?.title;
+    content = content || blog?.content;
+    coverImage = coverImage || blog?.coverImage;
 
-    if (blog?.id && blogOwner) {
-      title = title || blog?.title;
-      content = content || blog?.content;
-      coverImage = coverImage || blog?.coverImage;
+    if (removeCoverImage) coverImage = null;
 
-      if (removeCoverImage) coverImage = null;
+    const updatedBlog = await blogDb.updateBlog(
+      blogId,
+      title,
+      content,
+      coverImage
+    );
 
-      const updatedBlog = await blogDb.updateBlog(
-        blogId,
-        title,
-        content,
-        coverImage
-      );
+    if (updateBlog && blog?.coverImage && coverImage !== blog?.coverImage)
+      deleteUploadedFile(blog?.coverImage);
 
-      if (updateBlog && blog?.coverImage && coverImage !== blog?.coverImage)
-        deleteUploadedFile(blog?.coverImage);
+    const blogDetails = {
+      id: blog?.id,
+      title,
+      content,
+      coverImage,
+      createdAt: blog?.createdAt,
+      updatedAt: new Date(),
+      user: blog?.user,
+      likes: blog?.likes,
+    };
 
-      const blogDetails = {
-        id: blog?.id,
-        title,
-        content,
-        coverImage,
-        createdAt: blog?.createdAt,
-        updatedAt: new Date(),
-        user: blog?.user,
-        likes: blog?.likes,
-      };
+    blogCache.cacheBlogById(blog?.id, blogDetails);
 
-      blogCache.cacheBlogById(blog?.id, blogDetails);
-
-      return updatedBlog
-        ? {
-            success: true,
-            body: blogDetails,
-          }
-        : {
-            success: false,
-            error: new HttpError(400, "Failed to update blog."),
-          };
-    } else if (!blog?.id) {
-      return { success: false, error: new HttpError(404, "Blog not found.") };
-    } else {
-      return {
-        success: false,
-        error: new HttpError(403, "Unauthorized. Not the owner of the blog."),
-      };
-    }
+    return updatedBlog
+      ? {
+          success: true,
+          body: blogDetails,
+        }
+      : {
+          success: false,
+          error: new HttpError(400, "Failed to update blog."),
+        };
+  } else if (!blog?.id) {
+    return { success: false, error: new HttpError(404, "Blog not found.") };
   } else {
     return {
       success: false,
-      error: new HttpError(403, "Must be logged in to update your blogs."),
+      error: new HttpError(403, "Unauthorized. Not the owner of the blog."),
     };
   }
 };
 
 const updateBlogLikeStatus = async (userId, blogId) => {
-  const { body: user } = await userService.getProfileDetails(userId);
+  const { body: blog } = await getBlogDetails(blogId);
 
-  if (user?.id) {
-    const { body: blog } = await getBlogDetails(blogId);
+  if (blog?.id) {
+    const likeStatus = await blogDb.updateBlogLikeStatus(userId, blogId);
 
-    if (blog?.id) {
-      const updatedLike = await blogDb.updateBlogLikeStatus(userId, blogId);
-
-      const blogDetails = {
-        id: blog.id,
-        title: blog.title,
-        content: blog.content,
-        coverImage: blog.coverImage,
-        createdAt: blog.createdAt,
-        updatedAt: blog.updatedAt,
-        user: blog.user,
-        likes: [
-          ...blog.likes.filter((like) => like.userId != updatedLike.userId),
-          { ...updatedLike },
-        ],
-      };
-
-      blogCache.cacheBlogById(blog?.id, blogDetails);
-
-      return { success: true, body: blogDetails };
-    } else {
-      return { success: false, error: new HttpError(404, "Blog not found.") };
-    }
-  } else {
-    return {
-      success: false,
-      error: new HttpError(403, "Must be logged in to like blogs."),
+    const blogDetails = {
+      id: blog.id,
+      title: blog.title,
+      content: blog.content,
+      coverImage: blog.coverImage,
+      createdAt: blog.createdAt,
+      updatedAt: blog.updatedAt,
+      user: blog.user,
+      likes: blog.likes.filter((like) => like.userId != userId),
     };
+
+    if (likeStatus) {
+      blogDetails.likes.push({ userId });
+    }
+
+    blogCache.cacheBlogById(blog?.id, blogDetails);
+
+    return { success: true, body: blogDetails };
+  } else {
+    return { success: false, error: new HttpError(404, "Blog not found.") };
   }
 };
 
 const deleteBlog = async (userId, blogId) => {
-  const { body: user } = await userService.getProfileDetails(userId);
+  const { body: blog } = await getBlogDetails(blogId);
 
-  if (user?.id) {
-    const { body: blog } = await getBlogDetails(blogId);
+  const blogOwner = blog?.user?.id === userId;
 
-    const blogOwner = blog?.user?.id === userId;
+  if (blog?.id && blogOwner) {
+    const deletedBlog = await blogDb.deleteBlogById(blogId);
 
-    if (blog?.id && blogOwner) {
-      const deletedBlog = await blogDb.deleteBlogById(blogId);
-
-      if (deletedBlog && blog?.coverImage) {
-        deleteUploadedFile(blog?.coverImage);
-      }
-
-      blogCache.removeBlogById(blog?.id);
-
-      return deletedBlog
-        ? { success: true, body: { blogId, message: "Blog deleted." } }
-        : {
-            success: false,
-            error: new HttpError(400, "Failed to delete blog."),
-          };
-    } else if (!blog?.id) {
-      return { success: false, error: new HttpError(404, "Blog not found.") };
-    } else {
-      return {
-        success: false,
-        error: new HttpError(403, "Unauthorized. Not the owner of the blog."),
-      };
+    if (deletedBlog && blog?.coverImage) {
+      deleteUploadedFile(blog?.coverImage);
     }
+
+    blogCache.removeBlogById(blog?.id);
+
+    return deletedBlog
+      ? { success: true, body: { blogId, message: "Blog deleted." } }
+      : {
+          success: false,
+          error: new HttpError(400, "Failed to delete blog."),
+        };
+  } else if (!blog?.id) {
+    return { success: false, error: new HttpError(404, "Blog not found.") };
   } else {
     return {
       success: false,
-      error: new HttpError(403, "Must be logged in to delete your blogs."),
+      error: new HttpError(403, "Unauthorized. Not the owner of the blog."),
     };
   }
 };

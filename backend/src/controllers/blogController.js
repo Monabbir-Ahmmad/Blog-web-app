@@ -61,7 +61,7 @@ const getUserBlogList = asyncHandler(async (req, res) => {
 });
 
 // @desc Get single blog
-// @route GET /api/blog/find/:blogId
+// @route GET /api/blog/:blogId
 // @access Protected
 const getBlog = asyncHandler(async (req, res) => {
   const blogId = req.params?.blogId;

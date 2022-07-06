@@ -1,19 +1,16 @@
 import {
   FiTrash as DeleteIcon,
   FiEdit3 as EditIcon,
-  FiMoreVertical as MoreIcon,
+  FiMoreHorizontal as MoreIcon,
 } from "react-icons/fi";
 import { IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { deletePersonalBlog } from "../../actions/blogActions";
-import BlogEditor from "./BlogEditor";
+import { deleteComment } from "../../actions/commentActions";
 
-function BlogItemMenu({ isPersonal, blogId }) {
+function CommentItemMenu({ isPersonal, commentId }) {
   const dispatch = useDispatch();
-
   const [anchor, setAnchor] = useState(null);
-  const [openBlogEditor, setOpenBlogEditor] = useState(false);
 
   const handleClick = (e) => {
     setAnchor(e.currentTarget);
@@ -23,31 +20,17 @@ function BlogItemMenu({ isPersonal, blogId }) {
     setAnchor(null);
   };
 
-  const handleEdit = () => {
-    setOpenBlogEditor(true);
-  };
-
-  const handleBlogEditorClose = () => {
-    setOpenBlogEditor(false);
-  };
+  const handleEdit = () => {};
 
   const handleDelete = () => {
-    dispatch(deletePersonalBlog(blogId));
+    dispatch(deleteComment(commentId));
   };
 
   return (
     <>
-      <IconButton onClick={handleClick}>
+      <IconButton size="small" onClick={handleClick}>
         <MoreIcon />
       </IconButton>
-
-      {openBlogEditor && (
-        <BlogEditor
-          dialogOpen={openBlogEditor}
-          handleDialogClose={handleBlogEditorClose}
-          blogId={blogId}
-        />
-      )}
 
       {isPersonal && (
         <Menu
@@ -63,13 +46,13 @@ function BlogItemMenu({ isPersonal, blogId }) {
             <ListItemIcon>
               <EditIcon size={16} />
             </ListItemIcon>
-            Edit blog
+            Edit comment
           </MenuItem>
           <MenuItem onClick={handleDelete}>
             <ListItemIcon>
               <DeleteIcon size={16} />
             </ListItemIcon>
-            Delete blog
+            Delete comment
           </MenuItem>
         </Menu>
       )}
@@ -77,4 +60,4 @@ function BlogItemMenu({ isPersonal, blogId }) {
   );
 }
 
-export default BlogItemMenu;
+export default CommentItemMenu;

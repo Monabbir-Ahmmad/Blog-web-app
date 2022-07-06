@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import moment from "moment";
 import { useSelector } from "react-redux";
-import { useNavigate, Link as RounterLink } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { API_HOST } from "../../constants/apiLinks";
 import { randomImageById, stringToColour } from "../../utils/utilities";
 import BlogItemMenu from "./BlogItemMenu";
@@ -48,7 +48,7 @@ function BlogItem({ blog }) {
         }
         title={
           <Link
-            component={RounterLink}
+            component={RouterLink}
             to={`/profile/${blog?.user?.id}`}
             underline="hover"
             color={"inherit"}

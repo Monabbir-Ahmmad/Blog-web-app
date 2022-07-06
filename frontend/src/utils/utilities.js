@@ -23,3 +23,27 @@ export const stringToColour = (str) => {
   }, 0);
   return `hsl(${stringUniqueHash % 360}, 95%, 35%)`;
 };
+
+export const createCommentTree = (list) => {
+  const map = {};
+  const roots = [];
+  let node;
+
+  list = list.map((item) => ({ ...item, children: [] })); // initialize the children
+
+  list.forEach((item, index) => {
+    map[item?.id] = index;
+  }); // initialize the map
+
+  for (let i = 0; i < list.length; i++) {
+    node = list[i];
+    if (node.parentId) {
+      // if you have dangling branches check that map[node.parentId] exists
+      list[map[node.parentId]]?.children?.push(node);
+    } else {
+      roots.push(node);
+    }
+  }
+
+  return roots.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+};

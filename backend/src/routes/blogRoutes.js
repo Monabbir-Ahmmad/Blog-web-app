@@ -29,7 +29,7 @@ blogRouter.route("/search").get(blogController.searchBlogs);
 
 blogRouter.route("/user/:userId").get(blogController.getUserBlogList);
 
-blogRouter.route("/find/:blogId").get(blogController.getBlog);
+blogRouter.route("/:blogId").get(blogController.getBlog);
 
 blogRouter
   .route("/update")

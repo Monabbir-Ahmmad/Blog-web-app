@@ -14,33 +14,34 @@ userRouter.route("/profile/:userId").get(userController.getUserDetails);
 
 userRouter.route("/users").get(userController.getUserList);
 
+userRouter.route("/profile").patch(
+  filesUpload.single("userProfileImage"),
+  [
+    check("name", "Name field can not be empty.")
+      .optional({ nullable: true })
+      .notEmpty(),
+    check("email", "Invalid email address.")
+      .optional({ nullable: true })
+      .isEmail(),
+    check("gender", "Gender field can not be empty.")
+      .optional({ nullable: true })
+      .notEmpty(),
+    check("dateOfBirth", "Date of birth must be a valid date.")
+      .optional({ nullable: true })
+      .trim()
+      .isDate()
+      .withMessage("Date of birth must be a valid date.")
+      .bail()
+      .custom((dateOfBirth) => calculateAge(dateOfBirth) >= 13)
+      .withMessage("Must be at least 13 years old."),
+    check("password", "Password required.").notEmpty(),
+  ],
+  validationCheck,
+  userController.updateUserProfile
+);
+
 userRouter
-  .route("/profile")
-  .patch(
-    filesUpload.single("userProfileImage"),
-    [
-      check("name", "Name field can not be empty.")
-        .optional({ nullable: true })
-        .notEmpty(),
-      check("email", "Invalid email address.")
-        .optional({ nullable: true })
-        .isEmail(),
-      check("gender", "Gender field can not be empty.")
-        .optional({ nullable: true })
-        .notEmpty(),
-      check("dateOfBirth", "Date of birth must be a valid date.")
-        .optional({ nullable: true })
-        .trim()
-        .isDate()
-        .withMessage("Date of birth must be a valid date.")
-        .bail()
-        .custom((dateOfBirth) => calculateAge(dateOfBirth) >= 13)
-        .withMessage("Must be at least 13 years old."),
-      check("password", "Password required.").notEmpty(),
-    ],
-    validationCheck,
-    userController.updateUserProfile
-  )
+  .route("/password")
   .put(
     [
       check("oldPassword").notEmpty().withMessage("Old password required."),

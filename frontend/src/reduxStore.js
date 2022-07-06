@@ -10,6 +10,12 @@ import {
   userBlogListReducer,
 } from "./reducers/blogReducer";
 import {
+  commentDeleteReducer,
+  commentListReducer,
+  commentUpdateReducer,
+  postCommentReducer,
+} from "./reducers/commentReducer";
+import {
   userDetailsReducer,
   userProfileUpdateReducer,
   userPasswordUpdateReducer,
@@ -30,6 +36,10 @@ const reducer = combineReducers({
   userBlogList: userBlogListReducer,
   personalBlogDelete: personalBlogDeleteReducer,
   personalBlogUpdate: personalBlogUpdateReducer,
+  postComment: postCommentReducer,
+  commentList: commentListReducer,
+  commentUpdate: commentUpdateReducer,
+  commentDelete: commentDeleteReducer,
 });
 
 const initialState = {

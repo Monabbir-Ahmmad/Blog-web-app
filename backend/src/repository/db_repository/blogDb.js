@@ -14,8 +14,6 @@ const createBlog = async (userId, title, content, coverImage) => {
 
   await blog.setUser(user);
 
-  blog.user = await blog.getUser();
-
   return {
     id: blog.id,
     title: blog.title,
@@ -24,9 +22,9 @@ const createBlog = async (userId, title, content, coverImage) => {
     createdAt: blog.createdAt,
     updatedAt: blog.updatedAt,
     user: {
-      id: blog.user.id,
-      name: blog.user.name,
-      profileImage: blog.user.profileImage,
+      id: user.id,
+      name: user.name,
+      profileImage: user.profileImage,
     },
     likes: [],
   };
@@ -49,7 +47,7 @@ const findBlogById = async (id) => {
       },
       {
         model: Like,
-        attributes: ["userId", "hasLiked"],
+        attributes: ["userId"],
       },
     ],
   });
@@ -73,7 +71,7 @@ const findBlogListByUserId = async (userId, page, limit) => {
       },
       {
         model: Like,
-        attributes: ["userId", "hasLiked"],
+        attributes: ["userId"],
       },
     ],
     where: { userId },
@@ -97,21 +95,17 @@ const updateBlog = async (blogId, title, content, coverImage) => {
 };
 
 const updateBlogLikeStatus = async (userId, blogId) => {
-  const like = await Like.findOrCreate({
+  const like = await Like.findOne({
     where: { userId, blogId },
   });
 
   if (like) {
-    await Like.update(
-      { hasLiked: !like[0].hasLiked },
-      { where: { id: like[0].id } }
-    );
+    await Like.destroy({ where: { userId, blogId } });
+    return false;
+  } else {
+    await Like.create({ userId, blogId });
+    return true;
   }
-
-  return {
-    userId,
-    hasLiked: !like[0]?.hasLiked,
-  };
 };
 
 const deleteBlogById = async (id) => {
@@ -136,7 +130,7 @@ const findBlogsByUsernameOrTitle = async (keyword, page, limit) => {
       },
       {
         model: Like,
-        attributes: ["userId", "hasLiked"],
+        attributes: ["userId"],
       },
     ],
     where: {

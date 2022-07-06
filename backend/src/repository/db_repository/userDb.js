@@ -35,7 +35,7 @@ const createUser = async (
     dateOfBirth: user?.dateOfBirth,
     profileImage: user?.profileImage,
     password: user?.password,
-    privilege: (await user.getUserType())?.privilege,
+    privilege: userType.privilege,
   };
 };
 
