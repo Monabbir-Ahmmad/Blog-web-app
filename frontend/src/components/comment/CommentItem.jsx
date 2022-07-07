@@ -6,7 +6,6 @@ import {
   CardActions,
   CardHeader,
   Link,
-  Stack,
   Typography,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,29 +14,30 @@ import { useEffect, useState } from "react";
 import { API_HOST } from "../../constants/apiLinks";
 import { RiChat1Line as CommentIcon } from "react-icons/ri";
 import CommentItemMenu from "./CommentItemMenu";
-import CommentWriter from "./CommentWriter";
 import { Link as RouterLink } from "react-router-dom";
-import { deleteComment } from "../../actions/commentActions";
+import { deleteComment, writeComment } from "../../actions/commentActions";
 import moment from "moment";
 import { stringToColour } from "../../utils/utilities";
+import ReplyWriter from "./ReplyWriter";
 
 function CommentItem({ comment, level = 0, parentComment }) {
   const dispatch = useDispatch();
 
-  const { success: postCommentSuccess } = useSelector(
+  const { success: postReplySuccess } = useSelector(
     (state) => state.postComment
   );
+  const { blog } = useSelector((state) => state.singleBlog);
 
   const [showReplies, setShowReplies] = useState(
     comment?.children?.length === 0
   );
-  const [showReplyInput, setShowReplyInput] = useState(false);
+  const [replyMode, setReplyMode] = useState(false);
 
   useEffect(() => {
-    if (postCommentSuccess) {
-      setShowReplyInput(false);
+    if (postReplySuccess) {
+      setReplyMode(false);
     }
-  }, [postCommentSuccess]);
+  }, [postReplySuccess]);
 
   const nestedComments = comment?.children?.map((comment) => (
     <CommentItem
@@ -52,6 +52,14 @@ function CommentItem({ comment, level = 0, parentComment }) {
     if (!showReplies) {
       setShowReplies(true);
     }
+  };
+
+  const handleReplySubmit = (commentText) => {
+    dispatch(writeComment(blog?.id, commentText.trim(), comment?.id));
+  };
+
+  const handleReplyCancel = () => {
+    setReplyMode(false);
   };
 
   const handleDeleteComment = () => {
@@ -113,7 +121,7 @@ function CommentItem({ comment, level = 0, parentComment }) {
           <Button
             size="small"
             startIcon={<CommentIcon />}
-            onClick={() => setShowReplyInput(true)}
+            onClick={() => setReplyMode(true)}
           >
             Reply
           </Button>
@@ -125,20 +133,15 @@ function CommentItem({ comment, level = 0, parentComment }) {
           )}
         </CardActions>
       </Card>
+
       {showReplies && nestedComments}
 
-      {showReplyInput && (
-        <Stack gap={1} pt={2}>
-          <Typography>Replying to {comment?.user?.name}</Typography>
-          <CommentWriter parentComment={comment} />
-          <Button
-            size="small"
-            sx={{ alignSelf: "end" }}
-            onClick={() => setShowReplyInput(false)}
-          >
-            Cancle Reply
-          </Button>
-        </Stack>
+      {replyMode && (
+        <ReplyWriter
+          parentComment={comment}
+          handleSubmit={handleReplySubmit}
+          hanndleCancel={handleReplyCancel}
+        />
       )}
     </Box>
   );

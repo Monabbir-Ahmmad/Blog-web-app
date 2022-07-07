@@ -4,17 +4,25 @@ import CommentItem from "./CommentItem";
 import CommentWriter from "./CommentWriter";
 import React from "react";
 import { createCommentTree } from "../../utils/utilities";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { writeComment } from "../../actions/commentActions";
 
 function CommentArea() {
+  const dispatch = useDispatch();
+
   const { loading, error, comments } = useSelector(
     (state) => state.commentList
   );
+  const { blog } = useSelector((state) => state.singleBlog);
+
+  const handleCommentSubmit = (commentText) => {
+    dispatch(writeComment(blog?.id, commentText.trim()));
+  };
 
   return (
     <Stack spacing={3}>
       <Typography variant="h6">Comments</Typography>
-      <CommentWriter />
+      <CommentWriter handleSubmit={handleCommentSubmit} />
 
       {loading && <LinearProgress />}
 

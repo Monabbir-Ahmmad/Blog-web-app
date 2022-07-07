@@ -14,6 +14,7 @@ import {
   POST_COMMENT_FAIL,
   POST_COMMENT_REQUEST,
   POST_COMMENT_SUCCESS,
+  POST_COMMENT_SUCCESS_RESET,
   UPDATE_COMMENT_FAIL,
   UPDATE_COMMENT_REQUEST,
   UPDATE_COMMENT_SUCCESS,
@@ -41,6 +42,8 @@ export const writeComment =
         type: GET_COMMENTS_SUCCESS,
         payload: [...commentList.comments, res.data],
       });
+
+      setTimeout(() => dispatch({ type: POST_COMMENT_SUCCESS_RESET }), 1500);
     } catch (error) {
       dispatch({
         type: POST_COMMENT_FAIL,

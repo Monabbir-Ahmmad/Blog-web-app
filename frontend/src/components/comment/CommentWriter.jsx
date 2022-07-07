@@ -1,21 +1,17 @@
 import { Avatar, IconButton, InputBase, Paper } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import { API_HOST } from "../../constants/apiLinks";
 import { AiOutlineSend as SendIcon } from "react-icons/ai";
 import { stringToColour } from "../../utils/utilities";
-import { writeComment } from "../../actions/commentActions";
 
-function CommentWriter({ parentComment }) {
-  const dispatch = useDispatch();
-
+function CommentWriter({ parentComment, defaultValue, handleSubmit }) {
   const { userAuthInfo } = useSelector((state) => state.userLogin);
-  const { blog } = useSelector((state) => state.singleBlog);
 
   const { success } = useSelector((state) => state.postComment);
 
-  const [commentText, setCommentText] = useState("");
+  const [commentText, setCommentText] = useState(defaultValue || "");
 
   useEffect(() => {
     if (success) {
@@ -25,10 +21,6 @@ function CommentWriter({ parentComment }) {
 
   const handleCommentTextChange = (e) => {
     setCommentText(e.target.value);
-  };
-
-  const handleCommentSubmit = () => {
-    dispatch(writeComment(blog?.id, commentText.trim(), parentComment?.id));
   };
 
   return (
@@ -70,7 +62,7 @@ function CommentWriter({ parentComment }) {
         color={"primary"}
         disabled={!commentText?.trim()}
         sx={{ alignSelf: "end" }}
-        onClick={handleCommentSubmit}
+        onClick={() => handleSubmit(commentText)}
       >
         <SendIcon />
       </IconButton>
