@@ -10,12 +10,13 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { BiSearch as SearchIcon } from "react-icons/bi";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getBlogList } from "../actions/blogActions";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+
 import BlogItem from "../components/blog/BlogItem";
+import { BiSearch as SearchIcon } from "react-icons/bi";
+import { getBlogList } from "../actions/blogActions";
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -69,7 +70,7 @@ function HomePage() {
           sx={{ pl: 2, flex: 1 }}
           value={searchText}
           onChange={handleSearchInputChange}
-          onKeyDown={(e) => e.key==="Enter" && handleSearch()}
+          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
         />
         <IconButton color={"primary"} onClick={handleSearch}>
           <SearchIcon />
@@ -87,8 +88,8 @@ function HomePage() {
       )}
 
       <Grid container spacing={3} columns={{ xs: 1, sm: 2, lg: 3, xl: 4 }}>
-        {blogs.map((blog, index) => (
-          <Grid key={index} item xs={1}>
+        {blogs.map((blog) => (
+          <Grid key={blog?.id} item xs={1}>
             <BlogItem blog={blog} />
           </Grid>
         ))}

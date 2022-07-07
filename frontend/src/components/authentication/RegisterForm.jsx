@@ -1,11 +1,3 @@
-import styled from "@emotion/styled";
-import {
-  FiEye as Visibility,
-  FiEyeOff as VisibilityOff,
-  FiCalendar as CalenderIcon,
-} from "react-icons/fi";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import AdapterMoment from "@mui/lab/AdapterMoment";
 import {
   Alert,
   Button,
@@ -18,11 +10,20 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import moment from "moment";
-import { useEffect, useState } from "react";
+import {
+  FiCalendar as CalenderIcon,
+  FiEye as Visibility,
+  FiEyeOff as VisibilityOff,
+} from "react-icons/fi";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../../actions/authActions";
+import { useEffect, useState } from "react";
+
+import AdapterMoment from "@mui/lab/AdapterMoment";
 import ProfileImagePicker from "../imagePicker/ProfileImagePicker";
+import moment from "moment";
+import { register } from "../../actions/authActions";
+import styled from "@emotion/styled";
 
 const genders = ["Male", "Female", "Other"];
 
@@ -39,6 +40,8 @@ const FormContainer = styled.form`
 function RegisterForm({ reset }) {
   const dispatch = useDispatch();
 
+  const { loading, error } = useSelector((state) => state.userRegister);
+
   const [valueMissing, setValueMissing] = useState(false);
 
   const [showPassword, setShowPassword] = useState({
@@ -54,8 +57,6 @@ function RegisterForm({ reset }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const { loading, error } = useSelector((state) => state.userRegister);
-
   useEffect(() => {
     if (reset) {
       setValueMissing(false);
@@ -69,7 +70,7 @@ function RegisterForm({ reset }) {
     }
   }, [reset]);
 
-  const handleClickShowPassword = (prop) => (e) => {
+  const handleClickShowPassword = (prop) => () => {
     setShowPassword({ ...showPassword, [prop]: !showPassword[prop] });
   };
 

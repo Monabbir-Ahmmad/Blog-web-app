@@ -1,14 +1,14 @@
-import express from "express";
-import cors from "cors";
-import http from "http";
-import dotenv from "dotenv";
-import errorMiddleware from "./src/middleware/errorMiddleware.js";
-import { databaseConnect } from "./src/config/databaseConfig.js";
-import seedDatabase from "./seedDatabase.js";
 import authRouter from "./src/routes/authRoutes.js";
-import userRouter from "./src/routes/userRoutes.js";
 import blogRouter from "./src/routes/blogRoutes.js";
 import commentRouter from "./src/routes/commentRoutes.js";
+import cors from "cors";
+import { databaseConnect } from "./src/config/databaseConfig.js";
+import dotenv from "dotenv";
+import errorMiddleware from "./src/middleware/errorMiddleware.js";
+import express from "express";
+import http from "http";
+import seedDatabase from "./seedDatabase.js";
+import userRouter from "./src/routes/userRoutes.js";
 
 const app = express();
 

@@ -1,17 +1,18 @@
-import { useState } from "react";
-import { Link as RouterLink, Outlet } from "react-router-dom";
+import { Link, useTheme } from "@mui/material";
+import { Outlet, Link as RouterLink } from "react-router-dom";
+
 import AppBar from "@mui/material/AppBar";
+import AppIcon from "../icon/AppIcon";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
+import FloatingAlerts from "../snackbar/FloatingAlerts";
 import IconButton from "@mui/material/IconButton";
 import { FiMenu as MenuIcon } from "react-icons/fi";
+import NavMenu from "./NavMenu";
+import ThemeSwitcher from "../themeSwitch/ThemeSwitcher";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Link, useTheme } from "@mui/material";
-import NavMenu from "./NavMenu";
-import AppIcon from "../icon/AppIcon";
-import FloatingAlerts from "../snackbar/FloatingAlerts";
-import ThemeSwitcher from "../themeSwitch/ThemeSwitcher";
+import { useState } from "react";
 
 const drawerWidth = 300;
 

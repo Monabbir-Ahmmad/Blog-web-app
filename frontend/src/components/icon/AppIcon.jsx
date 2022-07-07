@@ -1,5 +1,5 @@
-import { SvgIcon } from "@mui/material";
 import { ReactComponent as Logo } from "../../assets/logo.svg";
+import { SvgIcon } from "@mui/material";
 
 function AppIcon(props) {
   return (

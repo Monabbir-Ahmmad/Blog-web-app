@@ -1,6 +1,6 @@
-import { Op } from "sequelize";
 import Blog from "../../models/blogModel.js";
 import Like from "../../models/likeModel.js";
+import { Op } from "sequelize";
 import User from "../../models/userModel.js";
 
 const createBlog = async (userId, title, content, coverImage) => {

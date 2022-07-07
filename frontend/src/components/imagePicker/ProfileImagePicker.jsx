@@ -1,5 +1,6 @@
-import { FaCamera as CameraIcon } from "react-icons/fa";
 import { Avatar, Box, Fab, Menu, MenuItem } from "@mui/material";
+
+import { FaCamera as CameraIcon } from "react-icons/fa";
 import { useState } from "react";
 
 function ProfileImagePicker({

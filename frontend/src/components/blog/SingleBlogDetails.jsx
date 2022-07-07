@@ -8,17 +8,17 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import moment from "moment";
-import { useSelector } from "react-redux";
+
 import { API_HOST } from "../../constants/apiLinks";
-import { stringToColour } from "../../utils/utilities";
 import BlogItemMenu from "./BlogItemMenu";
-import SunContentDisplayer from "../sunEditor/SunContentDisplayer";
 import BlogLikeButton from "./BlogLikeButton";
 import { Link as RouterLink } from "react-router-dom";
+import SunContentDisplayer from "../sunEditor/SunContentDisplayer";
+import moment from "moment";
+import { stringToColour } from "../../utils/utilities";
+import { useSelector } from "react-redux";
 
 function SingleBlogDetails() {
-  const { userAuthInfo } = useSelector((state) => state.userLogin);
   const { blog } = useSelector((state) => state.singleBlog);
 
   return (
@@ -35,12 +35,7 @@ function SingleBlogDetails() {
             sx={{ bgcolor: stringToColour(blog?.user?.name) }}
           />
         }
-        action={
-          <BlogItemMenu
-            isPersonal={blog?.user?.id === userAuthInfo?.id}
-            blogId={blog?.id}
-          />
-        }
+        action={<BlogItemMenu blog={blog} />}
         title={
           <Link
             component={RouterLink}
@@ -69,6 +64,7 @@ function SingleBlogDetails() {
       <CardContent>
         <SunContentDisplayer content={blog?.content} />
       </CardContent>
+
       <CardActions sx={{ gap: 1 }}>
         <BlogLikeButton blog={blog} />
       </CardActions>

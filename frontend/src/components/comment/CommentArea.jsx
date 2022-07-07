@@ -1,9 +1,10 @@
 import { Alert, LinearProgress, Stack, Typography } from "@mui/material";
-import React from "react";
-import { useSelector } from "react-redux";
-import { createCommentTree } from "../../utils/utilities";
+
 import CommentItem from "./CommentItem";
 import CommentWriter from "./CommentWriter";
+import React from "react";
+import { createCommentTree } from "../../utils/utilities";
+import { useSelector } from "react-redux";
 
 function CommentArea() {
   const { loading, error, comments } = useSelector(
@@ -23,9 +24,11 @@ function CommentArea() {
         <Alert severity="info">Be the first to comment</Alert>
       )}
 
-      {createCommentTree(comments)?.map((comment) => (
-        <CommentItem key={comment?.id} comment={comment} />
-      ))}
+      <div>
+        {createCommentTree(comments)?.map((comment) => (
+          <CommentItem key={comment?.id} comment={comment} />
+        ))}
+      </div>
     </Stack>
   );
 }

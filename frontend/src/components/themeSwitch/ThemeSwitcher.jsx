@@ -1,7 +1,8 @@
+import { RiMoonFill as DarkIcon, RiSunFill as LightIcon } from "react-icons/ri";
 import { IconButton, useTheme } from "@mui/material";
-import { useContext } from "react";
+
 import { ThemeContext } from "../../context/ThemeContext";
-import { RiSunFill as LightIcon, RiMoonFill as DarkIcon } from "react-icons/ri";
+import { useContext } from "react";
 
 function ThemeSwitcher() {
   const theme = useTheme();

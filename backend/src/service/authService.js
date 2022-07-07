@@ -2,11 +2,12 @@ import {
   generateAccessToken,
   generateRefreshToken,
 } from "../utils/generateToken.js";
-import jwt from "jsonwebtoken";
-import HttpError from "../utils/httpError.js";
 import { hashPassword, verifyPassword } from "../utils/passwordEncryption.js";
-import userDb from "../repository/db_repository/userDb.js";
+
+import HttpError from "../utils/httpError.js";
+import jwt from "jsonwebtoken";
 import userCache from "../repository/cache_repository/userCache.js";
+import userDb from "../repository/db_repository/userDb.js";
 
 const signup = async (
   name,

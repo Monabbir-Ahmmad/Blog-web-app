@@ -4,13 +4,17 @@ import {
   FiMoreVertical as MoreIcon,
 } from "react-icons/fi";
 import { IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { deletePersonalBlog } from "../../actions/blogActions";
-import BlogEditor from "./BlogEditor";
+import { useDispatch, useSelector } from "react-redux";
 
-function BlogItemMenu({ isPersonal, blogId }) {
+import BlogEditor from "./BlogEditor";
+import { deletePersonalBlog } from "../../actions/blogActions";
+import { useState } from "react";
+
+function BlogItemMenu({ blog }) {
   const dispatch = useDispatch();
+  const { userAuthInfo } = useSelector((state) => state.userLogin);
+
+  const [isPersonal] = useState(blog?.user?.id === userAuthInfo?.id);
 
   const [anchor, setAnchor] = useState(null);
   const [openBlogEditor, setOpenBlogEditor] = useState(false);
@@ -32,7 +36,7 @@ function BlogItemMenu({ isPersonal, blogId }) {
   };
 
   const handleDelete = () => {
-    dispatch(deletePersonalBlog(blogId));
+    dispatch(deletePersonalBlog(blog?.id));
   };
 
   return (
@@ -45,7 +49,7 @@ function BlogItemMenu({ isPersonal, blogId }) {
         <BlogEditor
           dialogOpen={openBlogEditor}
           handleDialogClose={handleBlogEditorClose}
-          blogId={blogId}
+          blogId={blog?.id}
         />
       )}
 
@@ -65,6 +69,7 @@ function BlogItemMenu({ isPersonal, blogId }) {
             </ListItemIcon>
             Edit blog
           </MenuItem>
+
           <MenuItem onClick={handleDelete}>
             <ListItemIcon>
               <DeleteIcon size={16} />

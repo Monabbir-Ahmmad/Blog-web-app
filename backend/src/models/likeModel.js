@@ -1,7 +1,7 @@
-import { database } from "../config/databaseConfig.js";
+import Blog from "./blogModel.js";
 import { DataTypes } from "sequelize";
 import User from "./userModel.js";
-import Blog from "./blogModel.js";
+import { database } from "../config/databaseConfig.js";
 
 const Like = database.define("like");
 

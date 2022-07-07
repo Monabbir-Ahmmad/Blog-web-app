@@ -9,18 +9,21 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import moment from "moment";
-import { Link as RouterLink } from "react-router-dom";
-import { RiChat1Line as CommentIcon } from "react-icons/ri";
-import { API_HOST } from "../../constants/apiLinks";
-import { stringToColour } from "../../utils/utilities";
-import CommentItemMenu from "./CommentItemMenu";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+
+import { API_HOST } from "../../constants/apiLinks";
+import { RiChat1Line as CommentIcon } from "react-icons/ri";
+import CommentItemMenu from "./CommentItemMenu";
 import CommentWriter from "./CommentWriter";
+import { Link as RouterLink } from "react-router-dom";
+import { deleteComment } from "../../actions/commentActions";
+import moment from "moment";
+import { stringToColour } from "../../utils/utilities";
 
 function CommentItem({ comment, level = 0, parentComment }) {
-  const { userAuthInfo } = useSelector((state) => state.userLogin);
+  const dispatch = useDispatch();
+
   const { success: postCommentSuccess } = useSelector(
     (state) => state.postComment
   );
@@ -51,8 +54,14 @@ function CommentItem({ comment, level = 0, parentComment }) {
     }
   };
 
+  const handleDeleteComment = () => {
+    dispatch(deleteComment(comment?.id));
+  };
+
+  const handleEditComment = () => {};
+
   return (
-    <Box sx={{ mt: 3, ml: level > 3 || level === 0 ? 0 : 2 }}>
+    <Box sx={{ mt: 2, ml: level > 3 || level === 0 ? 0 : 2 }}>
       <Card variant="outlined">
         <CardHeader
           avatar={
@@ -63,14 +72,14 @@ function CommentItem({ comment, level = 0, parentComment }) {
                   ? `${API_HOST}/${comment?.user?.profileImage}`
                   : "broken.png"
               }
-              variant="rounded"
               sx={{ bgcolor: stringToColour(comment?.user?.name) }}
             />
           }
           action={
             <CommentItemMenu
-              isPersonal={comment?.user?.id === userAuthInfo?.id}
-              commentId={comment?.id}
+              handleEdit={handleEditComment}
+              handleDelete={handleDeleteComment}
+              comment={comment}
             />
           }
           title={
@@ -86,7 +95,7 @@ function CommentItem({ comment, level = 0, parentComment }) {
           subheader={moment(new Date(comment?.createdAt)).fromNow()}
         />
 
-        <Typography sx={{ mx: 2 }}>
+        <Typography component={"pre"} variant="body1" sx={{ mx: 2 }}>
           {parentComment?.id && (
             <Link
               component={RouterLink}

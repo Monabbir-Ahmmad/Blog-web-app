@@ -1,6 +1,3 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { combineReducers } from "redux";
-import { userLoginReducer, userRegisterReducer } from "./reducers/authReducer";
 import {
   blogListReducer,
   personalBlogDeleteReducer,
@@ -17,11 +14,15 @@ import {
 } from "./reducers/commentReducer";
 import {
   userDetailsReducer,
-  userProfileUpdateReducer,
-  userPasswordUpdateReducer,
   userListReducer,
+  userPasswordUpdateReducer,
+  userProfileUpdateReducer,
 } from "./reducers/userReducer";
+import { userLoginReducer, userRegisterReducer } from "./reducers/authReducer";
+
 import TokenService from "./service/token.service";
+import { combineReducers } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
 
 const reducer = combineReducers({
   userRegister: userRegisterReducer,

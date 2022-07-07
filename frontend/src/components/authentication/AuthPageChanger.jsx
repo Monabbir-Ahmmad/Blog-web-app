@@ -1,28 +1,26 @@
-import styled from "@emotion/styled";
 import { Box, Button, Fade, Stack, Typography, Zoom } from "@mui/material";
-import AuthPageImage from "../../assets/loginPageImage.png";
+
 import AppIcon from "../icon/AppIcon";
+import AuthPageImage from "../../assets/loginPageImage.png";
 
-const Container = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 3rem;
-  gap: 3rem;
-  background-image: url(${AuthPageImage});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  text-align: center;
-  transition: all 1s ease;
-`;
-
-function AuthPageChanger({ signupOpen, pageChangeHandler }) {
+function AuthPageChanger({ signupOpen, handlePageChange }) {
   return (
-    <Container>
+    <Stack
+      sx={{
+        width: 1,
+        minHeight: "100vh",
+        alignItems: "center",
+        justifyContent: "center",
+        p: 4,
+        gap: 4,
+        backgroundImage: `url(${AuthPageImage})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        textAlign: "center",
+        transition: "all 1s ease",
+      }}
+    >
       <Zoom in={true} style={{ transitionDelay: "1s" }}>
         <Box
           width={100}
@@ -36,6 +34,7 @@ function AuthPageChanger({ signupOpen, pageChangeHandler }) {
           <AppIcon sx={{ fontSize: 70 }} />
         </Box>
       </Zoom>
+
       {signupOpen && (
         <Fade in={signupOpen} {...(signupOpen ? { timeout: 2000 } : {})}>
           <Stack spacing={4}>
@@ -48,6 +47,7 @@ function AuthPageChanger({ signupOpen, pageChangeHandler }) {
           </Stack>
         </Fade>
       )}
+
       {!signupOpen && (
         <Fade in={!signupOpen} {...(!signupOpen ? { timeout: 2000 } : {})}>
           <Stack spacing={4}>
@@ -70,18 +70,17 @@ function AuthPageChanger({ signupOpen, pageChangeHandler }) {
           border: "3px solid white",
           borderRadius: 100,
           transition: "all 300ms ease",
-
           "&:hover": {
             border: "3px solid white",
             bgcolor: "white",
             color: "primary.main",
           },
         }}
-        onClick={pageChangeHandler}
+        onClick={handlePageChange}
       >
         {signupOpen ? "Sign in" : "Sign up"}
       </Button>
-    </Container>
+    </Stack>
   );
 }
 

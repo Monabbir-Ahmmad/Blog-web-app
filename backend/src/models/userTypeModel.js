@@ -1,5 +1,5 @@
-import { database } from "../config/databaseConfig.js";
 import { DataTypes } from "sequelize";
+import { database } from "../config/databaseConfig.js";
 
 const UserType = database.define("userType", {
   privilege: {

@@ -1,6 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
 import AlertSnackbar from "./AlertSnackbar";
+import { useSelector } from "react-redux";
 
 function FloatingAlerts() {
   const profileUpdate = useSelector((state) => state.userProfileUpdate);

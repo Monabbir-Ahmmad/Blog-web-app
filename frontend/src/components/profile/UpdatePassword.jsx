@@ -11,9 +11,10 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { FiEye as Visibility, FiEyeOff as VisibilityOff } from "react-icons/fi";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+
 import { updateUserPassword } from "../../actions/userActions";
 
 function UpdatePassword({ openPasswordEdit, handlePasswordEditCancel }) {

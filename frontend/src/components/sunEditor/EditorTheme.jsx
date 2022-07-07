@@ -1,6 +1,7 @@
-import { useTheme } from "@mui/material";
-import { useEffect } from "react";
 import "./SunEditor.css";
+
+import { useEffect } from "react";
+import { useTheme } from "@mui/material";
 
 function EditorTheme({ children }) {
   const theme = useTheme();

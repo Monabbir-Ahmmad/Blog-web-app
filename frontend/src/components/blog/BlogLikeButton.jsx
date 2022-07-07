@@ -1,8 +1,9 @@
-import { RiThumbUpFill as LikeIcon } from "react-icons/ri";
 import { Box, IconButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+
+import { RiThumbUpFill as LikeIcon } from "react-icons/ri";
 import { postBlogLike } from "../../actions/blogActions";
+import { useSelector } from "react-redux";
 
 function BlogLikeButton({ blog }) {
   const { userAuthInfo } = useSelector((state) => state.userLogin);
@@ -28,7 +29,7 @@ function BlogLikeButton({ blog }) {
   return (
     <Box
       display={"flex"}
-      gap={2}
+      gap={1}
       justifyContent={"center"}
       alignItems={"center"}
     >
@@ -38,6 +39,7 @@ function BlogLikeButton({ blog }) {
       >
         <LikeIcon />
       </IconButton>
+
       <Typography variant="body2" color={"text.secondary"}>
         {likedBy?.length} likes
       </Typography>

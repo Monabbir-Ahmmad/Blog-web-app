@@ -1,11 +1,4 @@
 import {
-  FiEye as Visibility,
-  FiEyeOff as VisibilityOff,
-  FiCalendar as CalenderIcon,
-} from "react-icons/fi";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import DateAdapter from "@mui/lab/AdapterMoment";
-import {
   Alert,
   Button,
   Dialog,
@@ -19,13 +12,21 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import moment from "moment";
+import {
+  FiCalendar as CalenderIcon,
+  FiEye as Visibility,
+  FiEyeOff as VisibilityOff,
+} from "react-icons/fi";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { updateUserProfile } from "../../actions/userActions";
+
 import { API_HOST } from "../../constants/apiLinks";
+import DateAdapter from "@mui/lab/AdapterMoment";
 import ProfileImagePicker from "../imagePicker/ProfileImagePicker";
+import moment from "moment";
+import { updateUserProfile } from "../../actions/userActions";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const genders = ["Male", "Female", "Other"];
 

@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
-import userService from "../service/userService.js";
 import { sortTypes } from "../utils/sortTypes.js";
+import userService from "../service/userService.js";
 
 // @desc Get user profile details
 // @route GET /api/user/profile/:userId

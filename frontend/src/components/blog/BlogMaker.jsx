@@ -1,5 +1,6 @@
-import { Button, Box, Input, Stack, useTheme } from "@mui/material";
 import { FiImage as AddPhotoIcon, FiTrash as DeleteIcon } from "react-icons/fi";
+import { Box, Button, Input, Stack, useTheme } from "@mui/material";
+
 import SunEditor from "../sunEditor/SunEditor";
 
 function BlogMaker({

@@ -1,41 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+
+import AuthPageChanger from "../components/authentication/AuthPageChanger";
 import LoginForm from "../components/authentication/LoginForm";
 import RegisterForm from "../components/authentication/RegisterForm";
-import AuthPageChanger from "../components/authentication/AuthPageChanger";
-import styled from "@emotion/styled";
 import { Stack } from "@mui/material";
+import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
 
-const LoginFormContainer = styled.div`
+const FormContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${({ signupOpen }) => (signupOpen ? 0 : "100%")};
+  width: ${({ open }) => (open ? "100%" : 0)};
   height: 100vh;
-  padding: ${({ signupOpen }) => (signupOpen ? 0 : "2rem")};
+  padding: ${({ open }) => (open ? "2rem" : 0)};
   transition: all 1s ease;
   overflow: hidden;
 
   @media (max-width: 900px) {
     width: 100%;
-    height: ${({ signupOpen }) => (signupOpen ? 0 : "100vh")};
-  }
-`;
-
-const RegFormContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: ${({ signupOpen }) => (signupOpen ? "100%" : 0)};
-  height: 100vh;
-  padding: ${({ signupOpen }) => (signupOpen ? "2rem" : 0)};
-  transition: all 1s ease;
-  overflow: hidden;
-
-  @media (max-width: 900px) {
-    width: 100%;
-    height: ${({ signupOpen }) => (signupOpen ? "auto" : 0)};
+    height: ${({ open }) => (open ? "100vh" : 0)};
   }
 `;
 
@@ -49,8 +34,8 @@ function LoginRegPage() {
   const { userAuthInfo } = useSelector((state) => state.userLogin);
   const [signupOpen, setSignupOpen] = useState(page === "sign-up");
 
-  const loginSectionRef = useRef(null);
-  const regSectionRef = useRef(null);
+  const signupSectionRef = useRef(null);
+  const signinSectionRef = useRef(null);
 
   useEffect(() => {
     if (userAuthInfo?.id) {
@@ -61,14 +46,14 @@ function LoginRegPage() {
   useEffect(() => {
     setTimeout(() => {
       if (!signupOpen)
-        loginSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+        signinSectionRef.current?.scrollIntoView({ behavior: "smooth" });
       else {
-        regSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+        signupSectionRef.current?.scrollIntoView({ behavior: "smooth" });
       }
     }, 600);
   }, [page, signupOpen]);
 
-  const pageChangeHandler = (e) => {
+  const handlePageChange = () => {
     setSignupOpen(!signupOpen);
     navigate(
       `/?page=${signupOpen ? "sign-in" : "sign-up"}${
@@ -79,20 +64,22 @@ function LoginRegPage() {
 
   return (
     <Stack direction={{ xs: "column", md: "row" }} minHeight={"100vh"}>
-      <div ref={regSectionRef} />
-      <RegFormContainer signupOpen={signupOpen}>
+      <div ref={signupSectionRef} />
+
+      <FormContainer open={signupOpen}>
         <RegisterForm reset={!signupOpen} />
-      </RegFormContainer>
+      </FormContainer>
 
       <AuthPageChanger
         signupOpen={signupOpen}
-        pageChangeHandler={pageChangeHandler}
+        handlePageChange={handlePageChange}
       />
 
-      <LoginFormContainer signupOpen={signupOpen}>
+      <FormContainer open={!signupOpen}>
         <LoginForm reset={signupOpen} />
-      </LoginFormContainer>
-      <div ref={loginSectionRef} />
+      </FormContainer>
+
+      <div ref={signinSectionRef} />
     </Stack>
   );
 }

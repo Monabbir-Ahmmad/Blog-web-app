@@ -1,9 +1,10 @@
 import { Avatar, IconButton, InputBase, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { AiOutlineSend as SendIcon } from "react-icons/ai";
-import { API_HOST } from "../../constants/apiLinks";
-import { stringToColour } from "../../utils/utilities";
 import { useEffect, useState } from "react";
+
+import { API_HOST } from "../../constants/apiLinks";
+import { AiOutlineSend as SendIcon } from "react-icons/ai";
+import { stringToColour } from "../../utils/utilities";
 import { writeComment } from "../../actions/commentActions";
 
 function CommentWriter({ parentComment }) {
@@ -50,7 +51,7 @@ function CommentWriter({ parentComment }) {
         variant="rounded"
         sx={{
           bgcolor: stringToColour(userAuthInfo?.name),
-          alignSelf: "start",
+          alignSelf: "end",
         }}
       />
 
@@ -68,7 +69,7 @@ function CommentWriter({ parentComment }) {
       <IconButton
         color={"primary"}
         disabled={!commentText?.trim()}
-        sx={{ alignSelf: "start" }}
+        sx={{ alignSelf: "end" }}
         onClick={handleCommentSubmit}
       >
         <SendIcon />

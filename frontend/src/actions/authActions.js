@@ -8,8 +8,9 @@ import {
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
 } from "../constants/authConstants";
-import api from "../service/api";
+
 import TokenService from "../service/token.service";
+import api from "../service/api";
 
 export const register = (registrationData) => async (dispatch) => {
   try {

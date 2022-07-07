@@ -1,9 +1,9 @@
-import express from "express";
 import blogController from "../controllers/blogController.js";
-import { verifyToken } from "../middleware/authMiddleware.js";
-import { filesUpload } from "../middleware/fileUploadMiddleware.js";
 import { check } from "express-validator";
+import express from "express";
+import { filesUpload } from "../middleware/fileUploadMiddleware.js";
 import { validationCheck } from "../middleware/validationMiddleware.js";
+import { verifyToken } from "../middleware/authMiddleware.js";
 
 const blogRouter = express.Router();
 

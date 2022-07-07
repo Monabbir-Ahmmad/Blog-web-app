@@ -1,8 +1,8 @@
-import express from "express";
-import { verifyToken } from "../middleware/authMiddleware.js";
 import { check } from "express-validator";
-import { validationCheck } from "../middleware/validationMiddleware.js";
 import commentController from "../controllers/commentController.js";
+import express from "express";
+import { validationCheck } from "../middleware/validationMiddleware.js";
+import { verifyToken } from "../middleware/authMiddleware.js";
 
 const commentRouter = express.Router();
 

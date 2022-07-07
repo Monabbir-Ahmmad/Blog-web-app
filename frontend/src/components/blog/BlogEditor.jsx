@@ -11,12 +11,13 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { FiX as CloseIcon } from "react-icons/fi";
 import { getBlogToUpdate, updatePersonalBlog } from "../../actions/blogActions";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useRef, useState } from "react";
+
 import { API_HOST } from "../../constants/apiLinks";
 import BlogMaker from "./BlogMaker";
+import { FiX as CloseIcon } from "react-icons/fi";
 
 function BlogEditor({ dialogOpen, handleDialogClose, blogId }) {
   const theme = useTheme();

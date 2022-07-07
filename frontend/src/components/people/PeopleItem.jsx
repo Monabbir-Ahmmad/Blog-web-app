@@ -1,8 +1,9 @@
 import { Avatar, Button, Paper, Stack, Typography } from "@mui/material";
-import { RiUser6Line as UserIcon } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
+
 import { API_HOST } from "../../constants/apiLinks";
+import { RiUser6Line as UserIcon } from "react-icons/ri";
 import { stringToColour } from "../../utils/utilities";
+import { useNavigate } from "react-router-dom";
 
 function PeopleItem({ user }) {
   const navigate = useNavigate();

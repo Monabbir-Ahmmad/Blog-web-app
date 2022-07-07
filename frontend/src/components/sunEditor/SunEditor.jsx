@@ -1,10 +1,11 @@
 import { default as Editor } from "suneditor-react";
-import { buttonList } from "./buttonList";
 import EditorTheme from "./EditorTheme";
+import { buttonList } from "./buttonList";
 
 function SunEditor({
   minHeight = 400,
   maxHeight = "80vh",
+  buttons = buttonList,
   getSunEditorInstance,
   onChange,
 }) {
@@ -21,7 +22,7 @@ function SunEditor({
           fontSize: [18, 20, 22, 24, 26, 28, 36, 48, 72],
           formats: ["p", "div", "pre", "h1", "h2", "h3"],
           imageFileInput: false,
-          buttonList: buttonList,
+          buttonList: buttons,
         }}
       />
     </EditorTheme>

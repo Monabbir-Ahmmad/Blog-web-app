@@ -1,6 +1,6 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 
 function Protected({ children }) {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
-import { Op } from "sequelize";
 import Blog from "../../models/blogModel.js";
+import { Op } from "sequelize";
 import User from "../../models/userModel.js";
 import UserType from "../../models/userTypeModel.js";
 import { sortTypes } from "../../utils/sortTypes.js";

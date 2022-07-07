@@ -9,18 +9,16 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import moment from "moment";
-import { useSelector } from "react-redux";
-import { useNavigate, Link as RouterLink } from "react-router-dom";
-import { API_HOST } from "../../constants/apiLinks";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { randomImageById, stringToColour } from "../../utils/utilities";
+
+import { API_HOST } from "../../constants/apiLinks";
 import BlogItemMenu from "./BlogItemMenu";
 import BlogLikeButton from "./BlogLikeButton";
+import moment from "moment";
 
 function BlogItem({ blog }) {
   const navigate = useNavigate();
-
-  const { userAuthInfo } = useSelector((state) => state.userLogin);
 
   const onItemClick = () => {
     navigate(`/blog/${blog?.id}`);
@@ -40,12 +38,7 @@ function BlogItem({ blog }) {
             sx={{ bgcolor: stringToColour(blog?.user?.name) }}
           />
         }
-        action={
-          <BlogItemMenu
-            isPersonal={blog?.user?.id === userAuthInfo?.id}
-            blogId={blog?.id}
-          />
-        }
+        action={<BlogItemMenu blog={blog} />}
         title={
           <Link
             component={RouterLink}
@@ -58,6 +51,7 @@ function BlogItem({ blog }) {
         }
         subheader={moment(new Date(blog?.createdAt)).fromNow()}
       />
+
       <CardActionArea onClick={onItemClick}>
         <CardMedia
           component="img"
@@ -69,6 +63,7 @@ function BlogItem({ blog }) {
           }
           alt={blog?.title}
         />
+
         <CardContent>
           <Typography
             variant="body1"
@@ -86,6 +81,7 @@ function BlogItem({ blog }) {
           </Typography>
         </CardContent>
       </CardActionArea>
+
       <CardActions sx={{ gap: 1 }}>
         <BlogLikeButton blog={blog} />
       </CardActions>

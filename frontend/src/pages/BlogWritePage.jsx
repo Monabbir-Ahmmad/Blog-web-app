@@ -1,4 +1,3 @@
-import { FiUpload as UploadIcon } from "react-icons/fi";
 import {
   Alert,
   Button,
@@ -6,10 +5,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { writeBlog } from "../actions/blogActions";
+import { useEffect, useRef, useState } from "react";
+
 import BlogMaker from "../components/blog/BlogMaker";
+import { FiUpload as UploadIcon } from "react-icons/fi";
+import { writeBlog } from "../actions/blogActions";
 
 function BlogWritePage() {
   const dispatch = useDispatch();

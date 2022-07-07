@@ -1,10 +1,10 @@
-import express from "express";
-import { verifyToken } from "../middleware/authMiddleware.js";
-import { filesUpload } from "../middleware/fileUploadMiddleware.js";
-import { check } from "express-validator";
-import { validationCheck } from "../middleware/validationMiddleware.js";
-import userController from "../controllers/userController.js";
 import calculateAge from "../utils/calculateAge.js";
+import { check } from "express-validator";
+import express from "express";
+import { filesUpload } from "../middleware/fileUploadMiddleware.js";
+import userController from "../controllers/userController.js";
+import { validationCheck } from "../middleware/validationMiddleware.js";
+import { verifyToken } from "../middleware/authMiddleware.js";
 
 const userRouter = express.Router();
 

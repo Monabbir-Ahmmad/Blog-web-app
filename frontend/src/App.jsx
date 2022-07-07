@@ -1,13 +1,14 @@
 import { Route, Routes } from "react-router-dom";
+
 import AuthPage from "./pages/AuthPage";
-import HomePage from "./pages/HomePage";
 import BlogWritePage from "./pages/BlogWritePage";
+import HomePage from "./pages/HomePage";
 import NavDrawer from "./components/nav/NavDrawer";
-import ProfilePage from "./pages/ProfilePage";
 import PeoplePage from "./pages/PeoplePage";
+import ProfilePage from "./pages/ProfilePage";
+import Protected from "./components/route/Protected";
 import SingleBlogPage from "./pages/SingleBlogPage";
 import { Typography } from "@mui/material";
-import Protected from "./components/route/Protected";
 
 function App() {
   return (

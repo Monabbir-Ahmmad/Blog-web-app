@@ -4,12 +4,15 @@ import {
   FiMoreHorizontal as MoreIcon,
 } from "react-icons/fi";
 import { IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { deleteComment } from "../../actions/commentActions";
 
-function CommentItemMenu({ isPersonal, commentId }) {
-  const dispatch = useDispatch();
+import { useSelector } from "react-redux";
+import { useState } from "react";
+
+function CommentItemMenu({ handleEdit, handleDelete, comment }) {
+  const { userAuthInfo } = useSelector((state) => state.userLogin);
+
+  const [isPersonal] = useState(comment?.user?.id === userAuthInfo?.id);
+
   const [anchor, setAnchor] = useState(null);
 
   const handleClick = (e) => {
@@ -18,12 +21,6 @@ function CommentItemMenu({ isPersonal, commentId }) {
 
   const handleClose = () => {
     setAnchor(null);
-  };
-
-  const handleEdit = () => {};
-
-  const handleDelete = () => {
-    dispatch(deleteComment(commentId));
   };
 
   return (

@@ -1,13 +1,4 @@
 import {
-  FiCalendar as CalendarIcon,
-  FiEdit as EditIcon,
-  FiMail as EmailIcon,
-  FiKey as KeyIcon,
-} from "react-icons/fi";
-import { RiNewspaperLine as BlogCountIcon } from "react-icons/ri";
-import { BiCake as CakeIcon } from "react-icons/bi";
-import { BsGenderAmbiguous as GenderIcon } from "react-icons/bs";
-import {
   Avatar,
   Button,
   Divider,
@@ -15,14 +6,24 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import moment from "moment";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import {
+  FiCalendar as CalendarIcon,
+  FiEdit as EditIcon,
+  FiMail as EmailIcon,
+  FiKey as KeyIcon,
+} from "react-icons/fi";
+
 import { API_HOST } from "../../constants/apiLinks";
-import { stringToColour } from "../../utils/utilities";
+import { RiNewspaperLine as BlogCountIcon } from "react-icons/ri";
+import { BiCake as CakeIcon } from "react-icons/bi";
+import { BsGenderAmbiguous as GenderIcon } from "react-icons/bs";
 import ProfileItem from "./ProfileItem";
-import UpdateProfile from "./UpdateProfile";
 import UpdatePassword from "./UpdatePassword";
+import UpdateProfile from "./UpdateProfile";
+import moment from "moment";
+import { stringToColour } from "../../utils/utilities";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 function ProfileDetails() {
   const theme = useTheme();

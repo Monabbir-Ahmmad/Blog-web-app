@@ -6,19 +6,20 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import {
-  RiShutDownLine as LogoutIcon,
   RiHome5Line as DiscoverIcon,
+  RiShutDownLine as LogoutIcon,
+  RiTeamLine as PeopleIcon,
   RiUser6Line as UserIcon,
   RiPenNibLine as WriteIcon,
-  RiTeamLine as PeopleIcon,
 } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
+
 import { API_HOST } from "../../constants/apiLinks";
+import NavLinkItem from "./NavLinkItem";
 import { logout } from "../../actions/authActions";
 import { stringToColour } from "../../utils/utilities";
-import NavLinkItem from "./NavLinkItem";
+import { useNavigate } from "react-router-dom";
 
 function NavMenu() {
   const dispatch = useDispatch();

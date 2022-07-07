@@ -1,28 +1,29 @@
 import {
-  GET_USER_PROFILE,
-  UPDATE_USER_PROFILE,
-  UPDATE_USER_PASSWORD,
   GET_USER_LIST,
+  GET_USER_PROFILE,
+  UPDATE_USER_PASSWORD,
+  UPDATE_USER_PROFILE,
 } from "../constants/apiLinks";
-import { USER_LOGIN_SUCCESS } from "../constants/authConstants";
 import {
+  GET_USER_LIST_FAIL,
+  GET_USER_LIST_REQUEST,
+  GET_USER_LIST_SUCCESS,
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
-  USER_PROFILE_UPDATE_REQUEST,
-  USER_PROFILE_UPDATE_SUCCESS,
-  USER_PROFILE_UPDATE_FAIL,
+  USER_PASSWORD_UPDATE_FAIL,
   USER_PASSWORD_UPDATE_REQUEST,
   USER_PASSWORD_UPDATE_SUCCESS,
-  USER_PASSWORD_UPDATE_FAIL,
-  USER_PROFILE_UPDATE_SUCCESS_RESET,
   USER_PASSWORD_UPDATE_SUCCESS_RESET,
-  GET_USER_LIST_REQUEST,
-  GET_USER_LIST_SUCCESS,
-  GET_USER_LIST_FAIL,
+  USER_PROFILE_UPDATE_FAIL,
+  USER_PROFILE_UPDATE_REQUEST,
+  USER_PROFILE_UPDATE_SUCCESS,
+  USER_PROFILE_UPDATE_SUCCESS_RESET,
 } from "../constants/userConstants";
-import api from "../service/api";
+
 import TokenService from "../service/token.service";
+import { USER_LOGIN_SUCCESS } from "../constants/authConstants";
+import api from "../service/api";
 
 export const getUserDetails = (userId) => async (dispatch, getState) => {
   try {

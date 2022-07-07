@@ -1,5 +1,3 @@
-import styled from "@emotion/styled";
-import { FiEye as Visibility, FiEyeOff as VisibilityOff } from "react-icons/fi";
 import {
   Alert,
   Button,
@@ -9,9 +7,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { FiEye as Visibility, FiEyeOff as VisibilityOff } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+
 import { login } from "../../actions/authActions";
+import styled from "@emotion/styled";
 
 const FormContainer = styled.form`
   display: flex;
@@ -26,6 +27,8 @@ const FormContainer = styled.form`
 function LoginForm({ reset }) {
   const dispatch = useDispatch();
 
+  const { loading, error } = useSelector((state) => state.userLogin);
+
   const [valueMissing, setValueMissing] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -34,8 +37,6 @@ function LoginForm({ reset }) {
     email: "",
     password: "",
   });
-
-  const { loading, error } = useSelector((state) => state.userLogin);
 
   useEffect(() => {
     if (reset) {

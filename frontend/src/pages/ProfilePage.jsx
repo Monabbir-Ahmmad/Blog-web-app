@@ -7,13 +7,14 @@ import {
   Paper,
   Stack,
 } from "@mui/material";
-import { useEffect } from "react";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useSearchParams, Link } from "react-router-dom";
-import { getUserBlogs } from "../actions/blogActions";
-import { getUserDetails } from "../actions/userActions";
+
 import BlogItem from "../components/blog/BlogItem";
 import ProfileDetails from "../components/profile/ProfileDetails";
+import { getUserBlogs } from "../actions/blogActions";
+import { getUserDetails } from "../actions/userActions";
+import { useEffect } from "react";
 
 function ProfilePage() {
   const dispatch = useDispatch();
@@ -64,8 +65,8 @@ function ProfilePage() {
         )}
 
         <Grid container spacing={3} columns={{ xs: 1, md: 2 }}>
-          {blogs.map((blog, index) => (
-            <Grid key={index} item xs={1}>
+          {blogs.map((blog) => (
+            <Grid key={blog?.id} item xs={1}>
               <BlogItem blog={blog} />
             </Grid>
           ))}

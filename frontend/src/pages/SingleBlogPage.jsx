@@ -1,11 +1,12 @@
 import { Alert, Box, LinearProgress, Paper, Stack } from "@mui/material";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getSingleBlog } from "../actions/blogActions";
+
+import CommentArea from "../components/comment/CommentArea";
 import SingleBlogDetails from "../components/blog/SingleBlogDetails";
 import { getBlogComments } from "../actions/commentActions";
-import CommentArea from "../components/comment/CommentArea";
+import { getSingleBlog } from "../actions/blogActions";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 function SingleBlogPage() {
   const dispatch = useDispatch();

@@ -1,6 +1,6 @@
-import { database } from "../config/databaseConfig.js";
 import { DataTypes } from "sequelize";
 import User from "./userModel.js";
+import { database } from "../config/databaseConfig.js";
 
 const Blog = database.define("blog", {
   title: {

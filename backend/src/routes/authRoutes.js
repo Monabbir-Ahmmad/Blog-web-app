@@ -1,9 +1,9 @@
-import express from "express";
-import { filesUpload } from "../middleware/fileUploadMiddleware.js";
-import { check } from "express-validator";
-import { validationCheck } from "../middleware/validationMiddleware.js";
 import authController from "../controllers/authController.js";
 import calculateAge from "../utils/calculateAge.js";
+import { check } from "express-validator";
+import express from "express";
+import { filesUpload } from "../middleware/fileUploadMiddleware.js";
+import { validationCheck } from "../middleware/validationMiddleware.js";
 
 const authRouter = express.Router();
 

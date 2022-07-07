@@ -12,12 +12,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+
+import PeopleItem from "../components/people/PeopleItem";
 import { BiSearch as SearchIcon } from "react-icons/bi";
 import { getUserList } from "../actions/userActions";
-import PeopleItem from "../components/people/PeopleItem";
 
 function PeoplePage() {
   const dispatch = useDispatch();
@@ -110,8 +111,8 @@ function PeoplePage() {
       )}
 
       <Grid container spacing={3} columns={{ xs: 1, sm: 2, lg: 3, xl: 5 }}>
-        {users.map((user, index) => (
-          <Grid key={index} item xs={1}>
+        {users.map((user) => (
+          <Grid key={user?.id} item xs={1}>
             <PeopleItem user={user} />
           </Grid>
         ))}
