@@ -2,6 +2,7 @@ import { FiImage as AddPhotoIcon, FiTrash as DeleteIcon } from "react-icons/fi";
 import { Box, Button, Input, Stack, useTheme } from "@mui/material";
 
 import SunEditor from "../sunEditor/SunEditor";
+import { buttonListResponsive } from "../sunEditor/buttonList";
 
 function BlogMaker({
   title,
@@ -80,6 +81,7 @@ function BlogMaker({
         minHeight={600}
         getSunEditorInstance={getEditorInstance}
         onChange={onContentChange}
+        buttons={buttonListResponsive}
       />
     </Stack>
   );

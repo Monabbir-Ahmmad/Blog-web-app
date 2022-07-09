@@ -1,73 +1,35 @@
-import { Avatar, IconButton, InputBase, Paper } from "@mui/material";
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { Button, Stack, Typography } from "@mui/material";
+import { useEffect } from "react";
+import { useRef } from "react";
+import CommentInput from "./CommentInput";
 
-import { API_HOST } from "../../constants/apiLinks";
-import { AiOutlineSend as SendIcon } from "react-icons/ai";
-import { stringToColour } from "../../utils/utilities";
-
-function CommentWriter({ parentComment, defaultValue, handleSubmit }) {
-  const { userAuthInfo } = useSelector((state) => state.userLogin);
-
-  const { success } = useSelector((state) => state.postComment);
-
-  const [commentText, setCommentText] = useState(defaultValue || "");
+function CommentWriter({
+  parentComment,
+  handleSubmit,
+  hanndleCancel,
+  defaultValue,
+}) {
+  const replyBoxRef = useRef();
 
   useEffect(() => {
-    if (success) {
-      setCommentText("");
-    }
-  }, [success]);
-
-  const handleCommentTextChange = (e) => {
-    setCommentText(e.target.value);
-  };
+    replyBoxRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  }, []);
 
   return (
-    <Paper
-      variant="outlined"
-      sx={{
-        p: "2px 2px",
-        display: "flex",
-        alignItems: "center",
-        width: 1,
-      }}
-    >
-      <Avatar
-        alt={userAuthInfo?.name}
-        src={
-          userAuthInfo?.profileImage
-            ? `${API_HOST}/${userAuthInfo?.profileImage}`
-            : "broken.png"
-        }
-        variant="rounded"
-        sx={{
-          bgcolor: stringToColour(userAuthInfo?.name),
-          alignSelf: "end",
-        }}
-      />
-
-      <InputBase
-        placeholder={
-          parentComment?.id ? "Reply to comment" : "Join the discussion"
-        }
-        multiline
-        maxRows={10}
-        value={commentText}
-        sx={{ pl: 2, flex: 1 }}
-        onChange={handleCommentTextChange}
-      />
-
-      <IconButton
-        color={"primary"}
-        disabled={!commentText?.trim()}
-        sx={{ alignSelf: "end" }}
-        onClick={() => handleSubmit(commentText)}
-      >
-        <SendIcon />
-      </IconButton>
-    </Paper>
+    <Stack ref={replyBoxRef} gap={1} pt={2}>
+      {parentComment?.user?.id && (
+        <Typography>
+          Replying to <strong>{parentComment?.user?.name}</strong>
+        </Typography>
+      )}
+      <CommentInput handleSubmit={handleSubmit} defaultValue={defaultValue} />
+      <Button size="small" sx={{ alignSelf: "end" }} onClick={hanndleCancel}>
+        Cancle
+      </Button>
+    </Stack>
   );
 }
-
 export default CommentWriter;

@@ -1,8 +1,8 @@
 import {
-  DELETE_PERSONAL_BLOG_FAIL,
-  DELETE_PERSONAL_BLOG_REQUEST,
-  DELETE_PERSONAL_BLOG_SUCCESS,
-  DELETE_PERSONAL_BLOG_SUCCESS_RESET,
+  DELETE_BLOG_FAIL,
+  DELETE_BLOG_REQUEST,
+  DELETE_BLOG_SUCCESS,
+  DELETE_BLOG_RESET,
   GET_BLOGS_FAIL,
   GET_BLOGS_REQUEST,
   GET_BLOGS_SUCCESS,
@@ -15,11 +15,11 @@ import {
   POST_BLOG_FAIL,
   POST_BLOG_REQUEST,
   POST_BLOG_SUCCESS,
-  POST_BLOG_SUCCESS_RESET,
-  UPDATE_PERSONAL_BLOG_FAIL,
-  UPDATE_PERSONAL_BLOG_REQUEST,
-  UPDATE_PERSONAL_BLOG_SUCCESS,
-  UPDATE_PERSONAL_BLOG_SUCCESS_RESET,
+  POST_BLOG_RESET,
+  UPDATE_BLOG_FAIL,
+  UPDATE_BLOG_REQUEST,
+  UPDATE_BLOG_SUCCESS,
+  UPDATE_BLOG_RESET,
 } from "../constants/blogsConstants";
 
 export const postBlogReducer = (state = {}, action) => {
@@ -28,10 +28,10 @@ export const postBlogReducer = (state = {}, action) => {
       return { loading: true };
     case POST_BLOG_SUCCESS:
       return { loading: false, success: true, blog: action.payload };
-    case POST_BLOG_SUCCESS_RESET:
-      return { ...state, loading: false, success: false };
     case POST_BLOG_FAIL:
       return { loading: false, success: false, error: action.payload };
+    case POST_BLOG_RESET:
+      return { ...state, loading: false, success: false };
     default:
       return state;
   }
@@ -90,31 +90,31 @@ export const userBlogListReducer = (
   }
 };
 
-export const personalBlogDeleteReducer = (state = {}, action) => {
+export const blogDeleteReducer = (state = {}, action) => {
   switch (action.type) {
-    case DELETE_PERSONAL_BLOG_REQUEST:
+    case DELETE_BLOG_REQUEST:
       return { loading: true };
-    case DELETE_PERSONAL_BLOG_SUCCESS:
+    case DELETE_BLOG_SUCCESS:
       return { loading: false, success: true };
-    case DELETE_PERSONAL_BLOG_SUCCESS_RESET:
-      return { loading: false, success: false };
-    case DELETE_PERSONAL_BLOG_FAIL:
+    case DELETE_BLOG_FAIL:
       return { loading: false, success: false, error: action.payload };
+    case DELETE_BLOG_RESET:
+      return { loading: false, success: false };
     default:
       return state;
   }
 };
 
-export const personalBlogUpdateReducer = (state = {}, action) => {
+export const blogUpdateReducer = (state = {}, action) => {
   switch (action.type) {
-    case UPDATE_PERSONAL_BLOG_REQUEST:
+    case UPDATE_BLOG_REQUEST:
       return { loading: true };
-    case UPDATE_PERSONAL_BLOG_SUCCESS:
+    case UPDATE_BLOG_SUCCESS:
       return { loading: false, success: true };
-    case UPDATE_PERSONAL_BLOG_SUCCESS_RESET:
-      return { loading: false, success: false };
-    case UPDATE_PERSONAL_BLOG_FAIL:
+    case UPDATE_BLOG_FAIL:
       return { loading: false, success: false, error: action.payload };
+    case UPDATE_BLOG_RESET:
+      return { loading: false, success: false };
     default:
       return state;
   }

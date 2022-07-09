@@ -25,7 +25,7 @@ const createComment = async (userId, blogId, text, parentId) => {
     id: comment.id,
     text: comment.text,
     createdAt: comment.createdAt,
-    updatedAt: comment.updatedAt,
+    updatedAt: comment.createdAt,
     parentId: comment.parentId,
     user: {
       id: user.id,

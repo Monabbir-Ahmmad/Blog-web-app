@@ -1,17 +1,17 @@
 import {
-  DELETE_PERSONAL_BLOG,
+  DELETE_BLOG,
   GET_BLOG_LIST,
   GET_SINGLE_BLOG,
   GET_USER_BLOG_LIST,
   POST_BLOG,
   POST_BLOG_LIKE,
-  UPDATE_PERSONAL_BLOG,
+  UPDATE_BLOG,
 } from "../constants/apiLinks";
 import {
-  DELETE_PERSONAL_BLOG_FAIL,
-  DELETE_PERSONAL_BLOG_REQUEST,
-  DELETE_PERSONAL_BLOG_SUCCESS,
-  DELETE_PERSONAL_BLOG_SUCCESS_RESET,
+  DELETE_BLOG_FAIL,
+  DELETE_BLOG_REQUEST,
+  DELETE_BLOG_SUCCESS,
+  DELETE_BLOG_RESET,
   GET_BLOGS_FAIL,
   GET_BLOGS_REQUEST,
   GET_BLOGS_SUCCESS,
@@ -24,11 +24,11 @@ import {
   POST_BLOG_FAIL,
   POST_BLOG_REQUEST,
   POST_BLOG_SUCCESS,
-  POST_BLOG_SUCCESS_RESET,
-  UPDATE_PERSONAL_BLOG_FAIL,
-  UPDATE_PERSONAL_BLOG_REQUEST,
-  UPDATE_PERSONAL_BLOG_SUCCESS,
-  UPDATE_PERSONAL_BLOG_SUCCESS_RESET,
+  POST_BLOG_RESET,
+  UPDATE_BLOG_FAIL,
+  UPDATE_BLOG_REQUEST,
+  UPDATE_BLOG_SUCCESS,
+  UPDATE_BLOG_RESET,
 } from "../constants/blogsConstants";
 
 import api from "../service/api";
@@ -44,7 +44,7 @@ export const writeBlog = (blog) => async (dispatch, getState) => {
       payload: res.data,
     });
 
-    setTimeout(() => dispatch({ type: POST_BLOG_SUCCESS_RESET }), 4000);
+    setTimeout(() => dispatch({ type: POST_BLOG_RESET }), 4000);
   } catch (error) {
     dispatch({
       type: POST_BLOG_FAIL,
@@ -137,14 +137,14 @@ export const getUserBlogs =
     }
   };
 
-export const deletePersonalBlog = (blogId) => async (dispatch, getState) => {
+export const deleteBlog = (blogId) => async (dispatch, getState) => {
   try {
-    dispatch({ type: DELETE_PERSONAL_BLOG_REQUEST });
+    dispatch({ type: DELETE_BLOG_REQUEST });
 
-    await api().delete(`${DELETE_PERSONAL_BLOG}/${blogId}`);
+    await api().delete(`${DELETE_BLOG}/${blogId}`);
 
     dispatch({
-      type: DELETE_PERSONAL_BLOG_SUCCESS,
+      type: DELETE_BLOG_SUCCESS,
     });
 
     const { blogList } = getState();
@@ -168,27 +168,24 @@ export const deletePersonalBlog = (blogId) => async (dispatch, getState) => {
     });
   } catch (error) {
     dispatch({
-      type: DELETE_PERSONAL_BLOG_FAIL,
+      type: DELETE_BLOG_FAIL,
       payload:
         error.response && error.response.data?.message
           ? error.response.data?.message
           : error.message,
     });
   }
-  setTimeout(
-    () => dispatch({ type: DELETE_PERSONAL_BLOG_SUCCESS_RESET }),
-    4000
-  );
+  setTimeout(() => dispatch({ type: DELETE_BLOG_RESET }), 4000);
 };
 
-export const updatePersonalBlog = (blog) => async (dispatch, getState) => {
+export const updateBlog = (blog) => async (dispatch, getState) => {
   try {
-    dispatch({ type: UPDATE_PERSONAL_BLOG_REQUEST });
+    dispatch({ type: UPDATE_BLOG_REQUEST });
 
-    const res = await api().patch(UPDATE_PERSONAL_BLOG, blog);
+    const res = await api().patch(UPDATE_BLOG, blog);
 
     dispatch({
-      type: UPDATE_PERSONAL_BLOG_SUCCESS,
+      type: UPDATE_BLOG_SUCCESS,
     });
 
     const { blogList } = getState();
@@ -221,15 +218,12 @@ export const updatePersonalBlog = (blog) => async (dispatch, getState) => {
     });
   } catch (error) {
     dispatch({
-      type: UPDATE_PERSONAL_BLOG_FAIL,
+      type: UPDATE_BLOG_FAIL,
       payload:
         error.response && error.response.data?.message
           ? error.response.data?.message
           : error.message,
     });
   }
-  setTimeout(
-    () => dispatch({ type: UPDATE_PERSONAL_BLOG_SUCCESS_RESET }),
-    4000
-  );
+  setTimeout(() => dispatch({ type: UPDATE_BLOG_RESET }), 4000);
 };

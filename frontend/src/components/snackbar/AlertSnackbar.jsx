@@ -9,7 +9,7 @@ const Alert = forwardRef(function Alert(props, ref) {
 function AlertSnackbar({ open, autoHideDuration = 6000, severity, message }) {
   return (
     <Snackbar
-      open={open}
+      open={Boolean(open)}
       autoHideDuration={autoHideDuration}
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
     >

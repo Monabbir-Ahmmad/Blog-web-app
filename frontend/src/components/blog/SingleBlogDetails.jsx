@@ -46,7 +46,9 @@ function SingleBlogDetails() {
             {blog?.user?.name}
           </Link>
         }
-        subheader={moment(new Date(blog?.updatedAt)).fromNow()}
+        subheader={`${moment(blog?.createdAt).fromNow()}${
+          blog?.createdAt !== blog?.updatedAt ? `  (edited)` : ``
+        }`}
       />
       <CardContent>
         <Typography variant="h4">{blog?.title}</Typography>

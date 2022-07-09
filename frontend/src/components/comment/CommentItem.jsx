@@ -15,16 +15,23 @@ import { API_HOST } from "../../constants/apiLinks";
 import { RiChat1Line as CommentIcon } from "react-icons/ri";
 import CommentItemMenu from "./CommentItemMenu";
 import { Link as RouterLink } from "react-router-dom";
-import { deleteComment, writeComment } from "../../actions/commentActions";
+import {
+  deleteComment,
+  updateComment,
+  writeComment,
+} from "../../actions/commentActions";
 import moment from "moment";
 import { stringToColour } from "../../utils/utilities";
-import ReplyWriter from "./ReplyWriter";
+import CommentWriter from "./CommentWriter";
 
 function CommentItem({ comment, level = 0, parentComment }) {
   const dispatch = useDispatch();
 
   const { success: postReplySuccess } = useSelector(
-    (state) => state.postComment
+    (state) => state.commentPost
+  );
+  const { success: commentUpdateSuccess } = useSelector(
+    (state) => state.commentUpdate
   );
   const { blog } = useSelector((state) => state.singleBlog);
 
@@ -32,12 +39,19 @@ function CommentItem({ comment, level = 0, parentComment }) {
     comment?.children?.length === 0
   );
   const [replyMode, setReplyMode] = useState(false);
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     if (postReplySuccess) {
       setReplyMode(false);
     }
   }, [postReplySuccess]);
+
+  useEffect(() => {
+    if (commentUpdateSuccess) {
+      setEditMode(false);
+    }
+  }, [commentUpdateSuccess]);
 
   const nestedComments = comment?.children?.map((comment) => (
     <CommentItem
@@ -66,78 +80,101 @@ function CommentItem({ comment, level = 0, parentComment }) {
     dispatch(deleteComment(comment?.id));
   };
 
-  const handleEditComment = () => {};
+  const handleEditComment = () => {
+    setEditMode(true);
+  };
+
+  const handleEditCommentCancel = () => {
+    setEditMode(false);
+  };
+
+  const handleCommentEditSubmit = (commentText) => {
+    dispatch(updateComment(comment?.id, commentText.trim()));
+  };
 
   return (
     <Box sx={{ mt: 2, ml: level > 3 || level === 0 ? 0 : 2 }}>
-      <Card variant="outlined">
-        <CardHeader
-          avatar={
-            <Avatar
-              alt={comment?.user?.name}
-              src={
-                comment?.user?.profileImage
-                  ? `${API_HOST}/${comment?.user?.profileImage}`
-                  : "broken.png"
-              }
-              sx={{ bgcolor: stringToColour(comment?.user?.name) }}
-            />
-          }
-          action={
-            <CommentItemMenu
-              handleEdit={handleEditComment}
-              handleDelete={handleDeleteComment}
-              comment={comment}
-            />
-          }
-          title={
-            <Link
-              component={RouterLink}
-              to={`/profile/${comment?.user?.id}`}
-              underline="hover"
-              color={"primary"}
-            >
-              {comment?.user?.name}
-            </Link>
-          }
-          subheader={moment(new Date(comment?.createdAt)).fromNow()}
+      {editMode && (
+        <CommentWriter
+          parentComment={parentComment}
+          handleSubmit={handleCommentEditSubmit}
+          hanndleCancel={handleEditCommentCancel}
+          defaultValue={comment?.text}
         />
+      )}
 
-        <Typography component={"pre"} variant="body1" sx={{ mx: 2 }}>
-          {parentComment?.id && (
-            <Link
-              component={RouterLink}
-              to={`/profile/${parentComment?.user?.id}`}
-              underline="none"
-              color={"primary"}
+      {!editMode && (
+        <Card variant="outlined">
+          <CardHeader
+            avatar={
+              <Avatar
+                alt={comment?.user?.name}
+                src={
+                  comment?.user?.profileImage
+                    ? `${API_HOST}/${comment?.user?.profileImage}`
+                    : "broken.png"
+                }
+                sx={{ bgcolor: stringToColour(comment?.user?.name) }}
+              />
+            }
+            action={
+              <CommentItemMenu
+                handleEdit={handleEditComment}
+                handleDelete={handleDeleteComment}
+                comment={comment}
+              />
+            }
+            title={
+              <Link
+                component={RouterLink}
+                to={`/profile/${comment?.user?.id}`}
+                underline="hover"
+                color={"primary"}
+              >
+                {comment?.user?.name}
+              </Link>
+            }
+            subheader={`${moment(comment?.createdAt).fromNow()}${
+              comment?.createdAt !== comment?.updatedAt ? `  (edited)` : ``
+            }`}
+          />
+
+          <Typography component={"pre"} variant="body1" sx={{ mx: 2 }}>
+            {parentComment?.id && (
+              <Link
+                component={RouterLink}
+                to={`/profile/${parentComment?.user?.id}`}
+                underline="none"
+                color={"primary"}
+              >
+                @{comment?.user?.name}{" "}
+              </Link>
+            )}
+            {comment?.text}
+          </Typography>
+
+          <CardActions>
+            <Button
+              size="small"
+              startIcon={<CommentIcon />}
+              onClick={() => setReplyMode(true)}
             >
-              @{comment?.user?.name}{" "}
-            </Link>
-          )}
-          {comment?.text}
-        </Typography>
-
-        <CardActions>
-          <Button
-            size="small"
-            startIcon={<CommentIcon />}
-            onClick={() => setReplyMode(true)}
-          >
-            Reply
-          </Button>
-
-          {comment?.children?.length > 0 && !showReplies && (
-            <Button size="small" onClick={handleShowReplies}>
-              Show {comment?.children?.length} Replies
+              Reply
             </Button>
-          )}
-        </CardActions>
-      </Card>
+
+            {comment?.children?.length > 0 && !showReplies && (
+              <Button size="small" onClick={handleShowReplies}>
+                Show {comment?.children?.length} Replies
+              </Button>
+            )}
+          </CardActions>
+        </Card>
+      )}
 
       {showReplies && nestedComments}
 
       {replyMode && (
-        <ReplyWriter
+        <CommentWriter
           parentComment={comment}
           handleSubmit={handleReplySubmit}
           hanndleCancel={handleReplyCancel}

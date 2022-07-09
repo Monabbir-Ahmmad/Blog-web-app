@@ -1,7 +1,7 @@
 import {
   blogListReducer,
-  personalBlogDeleteReducer,
-  personalBlogUpdateReducer,
+  blogDeleteReducer,
+  blogUpdateReducer,
   postBlogReducer,
   singleBlogReducer,
   userBlogListReducer,
@@ -10,7 +10,7 @@ import {
   commentDeleteReducer,
   commentListReducer,
   commentUpdateReducer,
-  postCommentReducer,
+  commentPostReducer,
 } from "./reducers/commentReducer";
 import {
   userDetailsReducer,
@@ -35,9 +35,9 @@ const reducer = combineReducers({
   blogList: blogListReducer,
   singleBlog: singleBlogReducer,
   userBlogList: userBlogListReducer,
-  personalBlogDelete: personalBlogDeleteReducer,
-  personalBlogUpdate: personalBlogUpdateReducer,
-  postComment: postCommentReducer,
+  blogDelete: blogDeleteReducer,
+  blogUpdate: blogUpdateReducer,
+  commentPost: commentPostReducer,
   commentList: commentListReducer,
   commentUpdate: commentUpdateReducer,
   commentDelete: commentDeleteReducer,

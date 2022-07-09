@@ -11,7 +11,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { getBlogToUpdate, updatePersonalBlog } from "../../actions/blogActions";
+import { getBlogToUpdate, updateBlog } from "../../actions/blogActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 
@@ -25,9 +25,7 @@ function BlogEditor({ dialogOpen, handleDialogClose, blogId }) {
 
   const dispatch = useDispatch();
 
-  const { loading, error, success } = useSelector(
-    (state) => state.personalBlogUpdate
-  );
+  const { loading, error, success } = useSelector((state) => state.blogUpdate);
 
   const [blog, setBlog] = useState(null);
   const [title, setTitle] = useState("");
@@ -109,7 +107,7 @@ function BlogEditor({ dialogOpen, handleDialogClose, blogId }) {
         formData.append("removeCoverImage", 1);
       }
 
-      dispatch(updatePersonalBlog(formData));
+      dispatch(updateBlog(formData));
     }
   };
 

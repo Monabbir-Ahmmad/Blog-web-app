@@ -15,6 +15,7 @@ function SunEditor({
         onChange={onChange}
         getSunEditorInstance={getSunEditorInstance}
         setOptions={{
+          placeholder: "Please type here...",
           defaultStyle: "font-size:16px; font-family:'Montserrat';",
           mode: "classic",
           minHeight: minHeight,

@@ -76,10 +76,16 @@ const updateComment = async (userId, commentId, text) => {
   if (comment?.id && commentOwner) {
     await commentDb.updateComment(userId, commentId, text);
 
-    comment.text = text;
-    comment.updatedAt = new Date();
+    const commentDetails = {
+      id: comment.id,
+      text,
+      createdAt: comment.createdAt,
+      updatedAt: new Date(),
+      parentId: comment.parentId,
+      user: comment.user,
+    };
 
-    return { success: true, body: comment };
+    return { success: true, body: commentDetails };
   } else if (!comment?.id) {
     return {
       success: false,

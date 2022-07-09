@@ -539,7 +539,6 @@
 
 .sun-editor .se-toolbar-more-layer {
   margin: 0 -3px;
-  background-color: #fafafa;
 }
 
 .sun-editor .se-toolbar-more-layer .se-more-layer {
@@ -562,21 +561,21 @@
 .sun-editor .se-btn-module .se-btn-more:focus,
 .sun-editor .se-btn-module .se-btn-more:hover {
   color: #000;
-  background-color: #d1d1d1;
+  /* background-color: #d1d1d1; */
   border-color: #c1c1c1;
   outline: 0 none;
 }
 
 .sun-editor .se-btn-module .se-btn-more.on {
   color: #333;
-  background-color: #d1d1d1;
+  /* background-color: #d1d1d1; */
   border-color: #c1c1c1;
   outline: 0 none;
 }
 
 .sun-editor .se-btn-module .se-btn-more.on:hover {
   color: #000;
-  background-color: #c1c1c1;
+  /* background-color: #c1c1c1; */
   border-color: #b1b1b1;
   outline: 0 none;
 }

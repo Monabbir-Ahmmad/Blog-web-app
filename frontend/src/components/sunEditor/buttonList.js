@@ -1,16 +1,105 @@
 export const buttonList = [
   ["undo", "redo"],
-  [/*"font",*/ "fontSize", "formatBlock"],
+  ["fontSize", "formatBlock"],
   ["paragraphStyle", "blockquote"],
   ["bold", "underline", "italic", "strike", "subscript", "superscript"],
   ["fontColor", "hiliteColor", "textStyle"],
   ["outdent", "indent"],
   ["align", "horizontalRule", "list", "lineHeight"],
-  ["table", "link", "image", "video", "audio" /** ,'math' */], // You must add the 'katex' library at options to use the 'math' plugin.
+  ["table", "link", "image", "video", "audio"],
   ["removeFormat"],
-  /** ['imageGallery'] */ // You must add the "imageGalleryUrl".
-  // ["fullScreen", "preview", "showBlocks", "codeView"],
-  /** ['dir', 'dir_ltr', 'dir_rtl'] */ // "dir": Toggle text direction, "dir_ltr": Right to Left, "dir_rtl": Left to Right
-]; // Or Array of button list, eg. [['font', 'align'], ['image']]
-// plugins: [font] set plugins, all plugins are set by default
-// Other option;
+];
+
+export const buttonListResponsive = [
+  // Default
+  ["undo", "redo"],
+  ["fontSize", "formatBlock"],
+  ["paragraphStyle", "blockquote"],
+  ["bold", "underline", "italic", "strike", "subscript", "superscript"],
+  ["fontColor", "hiliteColor", "textStyle"],
+  ["outdent", "indent"],
+  ["align", "horizontalRule", "list", "lineHeight"],
+  ["table", "link", "image", "video", "audio"],
+  ["removeFormat"],
+
+  // (min-width:992px)
+  [
+    "%992",
+    [
+      ["undo", "redo"],
+      [
+        ":p-More Paragraph-default.more_paragraph",
+        "fontSize",
+        "formatBlock",
+        "paragraphStyle",
+        "blockquote",
+      ],
+      ["bold", "underline", "italic", "strike"],
+      [
+        ":t-More Text-default.more_text",
+        "subscript",
+        "superscript",
+        "fontColor",
+        "hiliteColor",
+        "textStyle",
+      ],
+      ["outdent", "indent"],
+      ["align", "horizontalRule", "list", "lineHeight"],
+      [
+        "-right",
+        ":r-More Rich-default.more_plus",
+        "table",
+        "link",
+        "image",
+        "video",
+        "audio",
+      ],
+      ["removeFormat"],
+    ],
+  ],
+  // (min-width:768px)
+  [
+    "%768",
+    [
+      ["undo", "redo"],
+      [
+        ":p-More Paragraph-default.more_paragraph",
+
+        "fontSize",
+        "formatBlock",
+        "paragraphStyle",
+        "blockquote",
+      ],
+      [
+        ":t-More Text-default.more_text",
+        "bold",
+        "underline",
+        "italic",
+        "strike",
+        "subscript",
+        "superscript",
+        "fontColor",
+        "hiliteColor",
+        "textStyle",
+      ],
+      [
+        ":e-More Line-default.more_horizontal",
+        "outdent",
+        "indent",
+        "align",
+        "horizontalRule",
+        "list",
+        "lineHeight",
+      ],
+      [
+        ":r-More Rich-default.more_plus",
+        "table",
+        "link",
+        "image",
+        "video",
+        "audio",
+      ],
+      ["removeFormat"],
+    ],
+  ],
+];

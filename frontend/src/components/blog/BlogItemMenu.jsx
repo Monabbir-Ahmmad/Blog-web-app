@@ -7,7 +7,7 @@ import { IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 import BlogEditor from "./BlogEditor";
-import { deletePersonalBlog } from "../../actions/blogActions";
+import { deleteBlog } from "../../actions/blogActions";
 import { useState } from "react";
 
 function BlogItemMenu({ blog }) {
@@ -36,7 +36,7 @@ function BlogItemMenu({ blog }) {
   };
 
   const handleDelete = () => {
-    dispatch(deletePersonalBlog(blog?.id));
+    dispatch(deleteBlog(blog?.id));
   };
 
   return (

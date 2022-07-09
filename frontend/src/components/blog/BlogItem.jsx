@@ -49,7 +49,9 @@ function BlogItem({ blog }) {
             {blog?.user?.name}
           </Link>
         }
-        subheader={moment(new Date(blog?.createdAt)).fromNow()}
+        subheader={`${moment(blog?.createdAt).fromNow()}${
+          blog?.createdAt !== blog?.updatedAt ? `  (edited)` : ``
+        }`}
       />
 
       <CardActionArea onClick={onItemClick}>

@@ -8,16 +8,18 @@ import {
   DELETE_COMMENT_FAIL,
   DELETE_COMMENT_REQUEST,
   DELETE_COMMENT_SUCCESS,
+  DELETE_COMMENT_RESET,
   GET_COMMENTS_FAIL,
   GET_COMMENTS_REQUEST,
   GET_COMMENTS_SUCCESS,
   POST_COMMENT_FAIL,
   POST_COMMENT_REQUEST,
   POST_COMMENT_SUCCESS,
-  POST_COMMENT_SUCCESS_RESET,
+  POST_COMMENT_RESET,
   UPDATE_COMMENT_FAIL,
   UPDATE_COMMENT_REQUEST,
   UPDATE_COMMENT_SUCCESS,
+  UPDATE_COMMENT_RESET,
 } from "../constants/commentConstants";
 
 import api from "../service/api";
@@ -43,7 +45,7 @@ export const writeComment =
         payload: [...commentList.comments, res.data],
       });
 
-      setTimeout(() => dispatch({ type: POST_COMMENT_SUCCESS_RESET }), 1500);
+      setTimeout(() => dispatch({ type: POST_COMMENT_RESET }), 1000);
     } catch (error) {
       dispatch({
         type: POST_COMMENT_FAIL,
@@ -52,6 +54,7 @@ export const writeComment =
             ? error.response.data?.message
             : error.message,
       });
+      setTimeout(() => dispatch({ type: POST_COMMENT_RESET }), 4000);
     }
   };
 
@@ -95,6 +98,7 @@ export const updateComment =
           comment.id === commentId ? res.data : comment
         ),
       });
+      setTimeout(() => dispatch({ type: UPDATE_COMMENT_RESET }), 1000);
     } catch (error) {
       dispatch({
         type: UPDATE_COMMENT_FAIL,
@@ -103,6 +107,7 @@ export const updateComment =
             ? error.response.data?.message
             : error.message,
       });
+      setTimeout(() => dispatch({ type: UPDATE_COMMENT_RESET }), 4000);
     }
   };
 
@@ -124,6 +129,7 @@ export const deleteComment = (commentId) => async (dispatch, getState) => {
         (comment) => comment.id !== commentId
       ),
     });
+    setTimeout(() => dispatch({ type: DELETE_COMMENT_RESET }), 1000);
   } catch (error) {
     dispatch({
       type: DELETE_COMMENT_FAIL,
@@ -132,5 +138,6 @@ export const deleteComment = (commentId) => async (dispatch, getState) => {
           ? error.response.data?.message
           : error.message,
     });
+    setTimeout(() => dispatch({ type: DELETE_COMMENT_RESET }), 4000);
   }
 };

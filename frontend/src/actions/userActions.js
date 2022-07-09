@@ -14,11 +14,11 @@ import {
   USER_PASSWORD_UPDATE_FAIL,
   USER_PASSWORD_UPDATE_REQUEST,
   USER_PASSWORD_UPDATE_SUCCESS,
-  USER_PASSWORD_UPDATE_SUCCESS_RESET,
+  USER_PASSWORD_UPDATE_RESET,
   USER_PROFILE_UPDATE_FAIL,
   USER_PROFILE_UPDATE_REQUEST,
   USER_PROFILE_UPDATE_SUCCESS,
-  USER_PROFILE_UPDATE_SUCCESS_RESET,
+  USER_PROFILE_UPDATE_RESET,
 } from "../constants/userConstants";
 
 import TokenService from "../service/token.service";
@@ -78,10 +78,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       accessToken: res.data.accessToken,
     });
 
-    setTimeout(
-      () => dispatch({ type: USER_PROFILE_UPDATE_SUCCESS_RESET }),
-      4000
-    );
+    setTimeout(() => dispatch({ type: USER_PROFILE_UPDATE_RESET }), 4000);
   } catch (error) {
     dispatch({
       type: USER_PROFILE_UPDATE_FAIL,
@@ -102,10 +99,7 @@ export const updateUserPassword =
 
       dispatch({ type: USER_PASSWORD_UPDATE_SUCCESS });
 
-      setTimeout(
-        () => dispatch({ type: USER_PASSWORD_UPDATE_SUCCESS_RESET }),
-        4000
-      );
+      setTimeout(() => dispatch({ type: USER_PASSWORD_UPDATE_RESET }), 4000);
     } catch (error) {
       dispatch({
         type: USER_PASSWORD_UPDATE_FAIL,

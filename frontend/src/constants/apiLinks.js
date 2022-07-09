@@ -19,9 +19,9 @@ export const POST_BLOG = "/blog/create";
 
 export const GET_SINGLE_BLOG = "/blog";
 
-export const UPDATE_PERSONAL_BLOG = "/blog/update";
+export const UPDATE_BLOG = "/blog/update";
 
-export const DELETE_PERSONAL_BLOG = "/blog/delete";
+export const DELETE_BLOG = "/blog/delete";
 
 export const GET_BLOG_LIST = "/blog/search";
 
