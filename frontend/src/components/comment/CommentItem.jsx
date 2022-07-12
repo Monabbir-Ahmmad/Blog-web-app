@@ -53,10 +53,10 @@ function CommentItem({ comment, level = 0, parentComment }) {
     }
   }, [commentUpdateSuccess]);
 
-  const nestedComments = comment?.children?.map((comment) => (
+  const nestedComments = comment?.children?.map((cmt) => (
     <CommentItem
-      key={comment?.id}
-      comment={comment}
+      key={cmt?.id}
+      comment={cmt}
       level={level + 1}
       parentComment={comment}
     />
@@ -139,7 +139,11 @@ function CommentItem({ comment, level = 0, parentComment }) {
             }`}
           />
 
-          <Typography component={"pre"} variant="body1" sx={{ mx: 2 }}>
+          <Typography
+            component={"pre"}
+            variant="body1"
+            sx={{ mx: 2, wordWrap: "break-word", whiteSpace: "pre-wrap" }}
+          >
             {parentComment?.id && (
               <Link
                 component={RouterLink}
@@ -147,7 +151,7 @@ function CommentItem({ comment, level = 0, parentComment }) {
                 underline="none"
                 color={"primary"}
               >
-                @{comment?.user?.name}{" "}
+                @{parentComment?.user?.name}{" "}
               </Link>
             )}
             {comment?.text}
