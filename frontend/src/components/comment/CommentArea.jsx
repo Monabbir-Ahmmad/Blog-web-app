@@ -18,9 +18,7 @@ function CommentArea() {
   const [commentTree, setCommentTree] = useState([]);
 
   useEffect(() => {
-    if (comments?.length) {
-      setCommentTree(createCommentTree(comments));
-    }
+    setCommentTree(createCommentTree(comments));
   }, [comments]);
 
   const handleCommentSubmit = (commentText) => {
