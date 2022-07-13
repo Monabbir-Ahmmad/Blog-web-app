@@ -1,9 +1,14 @@
 import HttpError from "../utils/httpError.js";
 import blogService from "./blogService.js";
 import commentDb from "../repository/db_repository/commentDb.js";
+import commentCache from "../repository/cache_repository/commentCache.js";
 
 const getComment = async (commentId) => {
-  const comment = await commentDb.findCommentById(commentId);
+  const comment = await commentCache.getCommentById(
+    commentId,
+    async () => await commentDb.findCommentById(commentId)
+  );
+
   if (comment?.id) {
     return { success: true, body: comment };
   } else {
@@ -36,15 +41,19 @@ const postComment = async (userId, blogId, text, parentId) => {
       parentId
     );
 
-    return comment?.id
-      ? {
-          success: true,
-          body: comment,
-        }
-      : {
-          success: false,
-          error: new HttpError(400, "Comment post failed."),
-        };
+    if (comment?.id) {
+      commentCache.addBlogComment(blogId, comment?.id, comment);
+
+      return {
+        success: true,
+        body: comment,
+      };
+    } else {
+      return {
+        success: false,
+        error: new HttpError(400, "Comment post failed."),
+      };
+    }
   } else {
     return {
       success: false,
@@ -57,7 +66,10 @@ const getBlogComments = async (blogId) => {
   const { body: blog } = await blogService.getBlogDetails(blogId);
 
   if (blog?.id) {
-    const commentList = await commentDb.findCommentsByBlogId(blogId);
+    const commentList = await commentCache.getBlogComments(
+      blogId,
+      async () => await commentDb.findCommentsByBlogId(blogId)
+    );
 
     return { success: true, body: commentList };
   } else {
@@ -85,6 +97,8 @@ const updateComment = async (userId, commentId, text) => {
       user: comment.user,
     };
 
+    commentCache.cacheCommentById(comment.id, commentDetails);
+
     return { success: true, body: commentDetails };
   } else if (!comment?.id) {
     return {
@@ -106,6 +120,8 @@ const deleteComment = async (userId, commentId) => {
 
   if (comment?.id && commentOwner) {
     await commentDb.deleteComment(userId, commentId);
+
+    commentCache.removeCommentById(commentId);
 
     return { success: true, body: { commentId, message: "Comment deleted." } };
   } else if (!comment?.id) {

@@ -1,19 +1,19 @@
 import { cache } from "../../config/cacheConfig.js";
 
-const blogKey = "blogId";
-const userBlogsKey = "userBlogIds";
-const searchBlogIdArrayKey = (page, limit, keyword = "") => {
+const blogKeyPrefix = "blogId";
+const userBlogsKeyPrefix = "userBlogIds";
+const blogIdArrayKeyPrefix = (page, limit, keyword = "") => {
   return `blog_p${page}_l${limit}_k${keyword}`;
 };
 
 const cacheBlogById = (blogId, blogData) => {
-  const result = cache.set(blogKey + blogId, blogData);
+  const result = cache.set(blogKeyPrefix + blogId, blogData);
   console.log(result ? "Blog cached" : "Blog caching failed");
   return result;
 };
 
 const getBlogById = async (blogId, callback) => {
-  let blog = cache.get(blogKey + blogId);
+  let blog = cache.get(blogKeyPrefix + blogId);
   if (blog?.id) {
     console.log("Blog cache hit");
     return blog;
@@ -26,7 +26,7 @@ const getBlogById = async (blogId, callback) => {
 };
 
 const removeBlogById = (blogId) => {
-  const blog = cache.take(blogKey + blogId);
+  const blog = cache.take(blogKeyPrefix + blogId);
   if (blog) {
     console.log("Blog removed from cache.");
   }
@@ -35,7 +35,7 @@ const removeBlogById = (blogId) => {
 
 const cacheBlogList = (blogList = []) => {
   blogList = blogList.map((blog) => {
-    return { key: blogKey + blog?.id, val: blog };
+    return { key: blogKeyPrefix + blog?.id, val: blog };
   });
 
   const result = cache.mset(blogList);
@@ -48,7 +48,7 @@ const getBlogListByIds = async (blogIdArray = []) => {
 
   if (blogIdArray?.length) {
     blogIdArray.forEach((id) => {
-      const blog = cache.get(blogKey + id);
+      const blog = cache.get(blogKeyPrefix + id);
       blog?.id && blogList.push(blog);
     });
   }
@@ -62,22 +62,22 @@ const getBlogListByIds = async (blogIdArray = []) => {
   return null;
 };
 
-const cacheBlogIdArray = (keyword, keyNumber, blogIdArray = []) => {
-  const result = cache.set(keyword + keyNumber, blogIdArray);
+const cacheBlogIdArray = (keyPrefix, keyNumber, blogIdArray = []) => {
+  const result = cache.set(keyPrefix + keyNumber, blogIdArray);
   console.log(result ? "Blog id array cached" : "Blog id array caching failed");
   return result;
 };
 
-const getBlogIdArray = (keyword, keyNumber) => {
-  const result = cache.get(keyword + keyNumber);
+const getBlogIdArray = (keyPrefix, keyNumber) => {
+  const result = cache.get(keyPrefix + keyNumber);
   console.log(result ? "Blog id array cache hit" : "Blog id array cache miss");
   return result;
 };
 
 const cacheUserBlogList = (userId, page, limit, blogList = []) => {
-  const key = searchBlogIdArrayKey(page, limit, userBlogsKey);
+  const keyPrefix = blogIdArrayKeyPrefix(page, limit, userBlogsKeyPrefix);
   const result = cacheBlogIdArray(
-    key,
+    keyPrefix,
     userId,
     blogList.map((blog) => blog?.id)
   );
@@ -89,7 +89,7 @@ const cacheUserBlogList = (userId, page, limit, blogList = []) => {
 
 const getUserBlogList = async (userId, page, limit, callback) => {
   const userBlogIdArray = getBlogIdArray(
-    searchBlogIdArrayKey(page, limit, userBlogsKey),
+    blogIdArrayKeyPrefix(page, limit, userBlogsKeyPrefix),
     userId
   );
 
@@ -107,7 +107,7 @@ const getUserBlogList = async (userId, page, limit, callback) => {
 };
 
 const cacheSearchedBlogs = (page, limit, keyword, blogList) => {
-  const key = searchBlogIdArrayKey(page, limit, keyword);
+  const key = blogIdArrayKeyPrefix(page, limit, keyword);
 
   const result = cacheBlogIdArray(
     key,
@@ -122,7 +122,7 @@ const cacheSearchedBlogs = (page, limit, keyword, blogList) => {
 
 const getSearchedBlogs = async (page, limit, keyword, callback) => {
   const searchedBlogIdArray = getBlogIdArray(
-    searchBlogIdArrayKey(page, limit, keyword),
+    blogIdArrayKeyPrefix(page, limit, keyword),
     0
   );
 
