@@ -12,7 +12,7 @@ userRouter.use(verifyToken);
 
 userRouter.route("/profile/:userId").get(userController.getUserDetails);
 
-userRouter.route("/users").post(userController.getUserList);
+userRouter.route("/users").get(userController.getUserList);
 
 userRouter.route("/profile").patch(
   filesUpload.single("userProfileImage"),

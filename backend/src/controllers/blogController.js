@@ -25,13 +25,12 @@ const createBlog = asyncHandler(async (req, res) => {
 });
 
 // @desc Search for blogs by username or title
-// @route POST /api/blog/search?page=number&limit=number&keyword=String
+// @route GET /api/blog/search?page=number&limit=number&keyword=String
 // @access Protected
 const searchBlogs = asyncHandler(async (req, res) => {
-  let { page, limit } = req.query;
+  let { page, limit, keyword = "" } = req.query;
   page = parseInt(page > 0 ? page : 1);
   limit = parseInt(limit > 0 ? limit : 12);
-  const keyword = req.body.keyword || "";
 
   const result = await blogService.searchBlogs(keyword, page, limit);
 

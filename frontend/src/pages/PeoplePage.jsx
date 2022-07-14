@@ -45,7 +45,7 @@ function PeoplePage() {
   const handleSortByChange = (e) => {
     navigate(
       `/people?page=1&sort=${e.target.value}${
-        keyword.trim() ? `&keyword=${keyword.trim()}` : ""
+        keyword.trim() ? `&keyword=${encodeURIComponent(keyword.trim())}` : ""
       }`
     );
   };
@@ -54,7 +54,9 @@ function PeoplePage() {
     setSearchText(searchText.trim());
     navigate(
       `/people?page=1&sort=${sort}${
-        searchText.trim() ? `&keyword=${searchText.trim()}` : ""
+        searchText.trim()
+          ? `&keyword=${encodeURIComponent(searchText.trim())}`
+          : ""
       }`
     );
   };
@@ -127,7 +129,9 @@ function PeoplePage() {
           <PaginationItem
             component={Link}
             to={`/people?page=${item.page}&sort=${sort}${
-              keyword.trim() ? `&keyword=${keyword.trim()}` : ""
+              keyword.trim()
+                ? `&keyword=${encodeURIComponent(keyword.trim())}`
+                : ""
             }`}
             {...item}
           />

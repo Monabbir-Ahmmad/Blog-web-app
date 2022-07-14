@@ -117,9 +117,10 @@ export const getUserList =
     try {
       dispatch({ type: GET_USER_LIST_REQUEST });
 
-      const res = await api().post(
-        `${GET_USER_LIST}/?page=${page}&limit=${limit}&sort=${sort}`,
-        { keyword }
+      const res = await api().get(
+        `${GET_USER_LIST}/?page=${page}&limit=${limit}&sort=${sort}&keyword=${encodeURIComponent(
+          keyword
+        )}`
       );
 
       dispatch({

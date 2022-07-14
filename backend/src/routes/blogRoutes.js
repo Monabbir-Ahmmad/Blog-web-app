@@ -25,7 +25,7 @@ blogRouter
     blogController.createBlog
   );
 
-blogRouter.route("/search").post(blogController.searchBlogs);
+blogRouter.route("/search").get(blogController.searchBlogs);
 
 blogRouter.route("/user/:userId").get(blogController.getUserBlogList);
 

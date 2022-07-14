@@ -40,7 +40,11 @@ function HomePage() {
   const handleSearch = () => {
     setSearchText(searchText.trim());
     navigate(
-      `/home?page=1${searchText.trim() ? `&keyword=${searchText.trim()}` : ""}`
+      `/home?page=1${
+        searchText.trim()
+          ? `&keyword=${encodeURIComponent(searchText.trim())}`
+          : ""
+      }`
     );
   };
 
@@ -97,7 +101,9 @@ function HomePage() {
           <PaginationItem
             component={Link}
             to={`/home?page=${item.page}${
-              keyword.trim() ? `&keyword=${keyword.trim()}` : ""
+              keyword.trim()
+                ? `&keyword=${encodeURIComponent(keyword.trim())}`
+                : ""
             }`}
             {...item}
           />
