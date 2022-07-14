@@ -27,8 +27,7 @@ import moment from "moment";
 import { updateUserProfile } from "../../actions/userActions";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-
-const genders = ["Male", "Female", "Other"];
+import { genders } from "../../utils/utilities";
 
 function UpdateProfile({ openProfileEdit, handleProfileEditCancel }) {
   const dispatch = useDispatch();

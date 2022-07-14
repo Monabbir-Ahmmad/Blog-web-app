@@ -261,13 +261,13 @@
 .sun-editor .se-btn:enabled:focus,
 .sun-editor .se-btn:enabled:hover {
   background-color: var(--btn-enabled-color);
-  border-color: #d1d1d1;
+  border-color: lightgray;
   outline: 0 none;
 }
 
 .sun-editor .se-btn:enabled:active {
   background-color: var(--btn-enabled-color);
-  border-color: #c1c1c1;
+  border-color: lightgray;
   -webkit-box-shadow: inset 0 3px 5px #c1c1c1;
   box-shadow: inset 0 3px 5px #c1c1c1;
 }
@@ -282,7 +282,7 @@
 .sun-editor .se-btn._se_color_picker_remove:enabled:active,
 .sun-editor .se-btn._se_color_picker_remove:enabled:focus,
 .sun-editor .se-btn._se_color_picker_remove:enabled:hover {
-  background-color: #ccc;
+  background-color: lightgray;
 }
 
 .sun-editor .se-btn-primary:focus,
@@ -328,33 +328,33 @@
 .sun-editor .se-btn:enabled.active:focus,
 .sun-editor .se-btn:enabled.active:hover {
   background-color: var(--btn-enabled-color);
-  border-color: #d1d1d1;
+  border-color: lightgray;
   outline: 0 none;
 }
 
 .sun-editor .se-btn:enabled.active:active {
   background-color: var(--btn-enabled-color);
-  border-color: #c1c1c1;
+  border-color: lightgray;
   -webkit-box-shadow: inset 0 3px 5px #c1c1c1;
   box-shadow: inset 0 3px 5px #c1c1c1;
 }
 
 .sun-editor .se-btn:enabled.on {
   background-color: var(--btn-enabled-color);
-  border-color: #d1d1d1;
+  border-color: lightgray;
   outline: 0 none;
 }
 
 .sun-editor .se-btn:enabled.on:focus,
 .sun-editor .se-btn:enabled.on:hover {
   background-color: var(--btn-enabled-color);
-  border-color: #c1c1c1;
+  border-color: lightgray;
   outline: 0 none;
 }
 
 .sun-editor .se-btn:enabled.on:active {
   background-color: var(--btn-enabled-color);
-  border-color: #b1b1b1;
+  border-color: lightgray;
   -webkit-box-shadow: inset 0 3px 5px #b1b1b1;
   box-shadow: inset 0 3px 5px #b1b1b1;
 }
@@ -562,21 +562,21 @@
 .sun-editor .se-btn-module .se-btn-more:hover {
   color: #000;
   /* background-color: #d1d1d1; */
-  border-color: #c1c1c1;
+  border-color: lightgray;
   outline: 0 none;
 }
 
 .sun-editor .se-btn-module .se-btn-more.on {
   color: #333;
   /* background-color: #d1d1d1; */
-  border-color: #c1c1c1;
+  border-color: lightgray;
   outline: 0 none;
 }
 
 .sun-editor .se-btn-module .se-btn-more.on:hover {
   color: #000;
   /* background-color: #c1c1c1; */
-  border-color: #b1b1b1;
+  border-color: lightgray;
   outline: 0 none;
 }
 
@@ -648,7 +648,7 @@
   left: 0;
   height: auto;
   z-index: 5;
-  border: 1px solid #bababa;
+  border: 1px solid lightgray;
   border-radius: 4px;
   padding: 6px 0;
   background-color: #fff;
@@ -755,14 +755,14 @@
 
 .sun-editor .se-btn-list:focus,
 .sun-editor .se-btn-list:hover {
-  background-color: #e1e1e1;
-  border-color: #d1d1d1;
+  background-color: lightgray;
+  border-color: lightgray;
   outline: 0 none;
 }
 
 .sun-editor .se-btn-list:active {
-  background-color: #d1d1d1;
-  border-color: #c1c1c1;
+  background-color: lightgray;
+  border-color: lightgray;
   -webkit-box-shadow: inset 0 3px 5px #c1c1c1;
   box-shadow: inset 0 3px 5px #c1c1c1;
 }
@@ -1480,13 +1480,13 @@
 
 .sun-editor .se-dialog .se-dialog-inner .se-dialog-btn-revert:hover {
   background-color: #e1e1e1;
-  border-color: #d1d1d1;
+  border-color: lightgray;
   outline: 0 none;
 }
 
 .sun-editor .se-dialog .se-dialog-inner .se-dialog-btn-revert:active {
-  background-color: #d1d1d1;
-  border-color: #c1c1c1;
+  background-color: lightgray;
+  border-color: lightgray;
   -webkit-box-shadow: inset 0 3px 5px #c1c1c1;
   box-shadow: inset 0 3px 5px #c1c1c1;
 }
@@ -1697,14 +1697,14 @@
 
 .sun-editor .se-controller .se-btn-group button:focus:enabled,
 .sun-editor .se-controller .se-btn-group button:hover:enabled {
-  background-color: #e1e1e1;
-  border-color: #d1d1d1;
+  background-color: lightgray;
+  border-color: lightgray;
   outline: 0 none;
 }
 
 .sun-editor .se-controller .se-btn-group button:active:enabled {
-  background-color: #d1d1d1;
-  border-color: #c1c1c1;
+  background-color: lightgray;
+  border-color: lightgray;
   -webkit-box-shadow: inset 0 3px 5px #c1c1c1;
   box-shadow: inset 0 3px 5px #c1c1c1;
 }
@@ -1716,40 +1716,41 @@
 }
 
 .sun-editor .se-controller .se-btn-group button:enabled.active {
+  background-color: lightgray;
   color: #4592ff;
   outline: 0 none;
 }
 
 .sun-editor .se-controller .se-btn-group button:enabled.active:focus,
 .sun-editor .se-controller .se-btn-group button:enabled.active:hover {
-  background-color: #e1e1e1;
-  border-color: #d1d1d1;
+  background-color: lightgray;
+  border-color: lightgray;
   outline: 0 none;
 }
 
 .sun-editor .se-controller .se-btn-group button:enabled.active:active {
-  background-color: #d1d1d1;
-  border-color: #c1c1c1;
+  background-color: lightgray;
+  border-color: lightgray;
   -webkit-box-shadow: inset 0 3px 5px #c1c1c1;
   box-shadow: inset 0 3px 5px #c1c1c1;
 }
 
 .sun-editor .se-controller .se-btn-group button:enabled.on {
-  background-color: #e1e1e1;
-  border-color: #d1d1d1;
+  background-color: lightgray;
+  border-color: lightgray;
   outline: 0 none;
 }
 
 .sun-editor .se-controller .se-btn-group button:enabled.on:focus,
 .sun-editor .se-controller .se-btn-group button:enabled.on:hover {
-  background-color: #d1d1d1;
-  border-color: #c1c1c1;
+  background-color: lightgray;
+  border-color: lightgray;
   outline: 0 none;
 }
 
 .sun-editor .se-controller .se-btn-group button:enabled.on:active {
-  background-color: #c1c1c1;
-  border-color: #b1b1b1;
+  background-color: lightgray;
+  border-color: lightgray;
   -webkit-box-shadow: inset 0 3px 5px #b1b1b1;
   box-shadow: inset 0 3px 5px #b1b1b1;
 }
@@ -1931,7 +1932,7 @@
 .sun-editor
   .se-select-list:not(.__se_select-menu-mouse-move)
   .se-select-item.active {
-  background-color: #e1e1e1;
+  background-color: lightgray;
 }
 
 .sun-editor .se-dialog-form-files .se-select-list {
@@ -2782,7 +2783,7 @@
 }
 
 .sun-editor-editable table th {
-  background-color: #f3f3f3;
+  background-color: var(--btn-enabled-color);
 }
 
 .sun-editor-editable table td,

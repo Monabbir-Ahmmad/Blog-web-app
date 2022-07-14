@@ -62,8 +62,9 @@ export const getBlogList =
     try {
       dispatch({ type: GET_BLOGS_REQUEST });
 
-      const res = await api().get(
-        `${GET_BLOG_LIST}?page=${page}&limit=${limit}&keyword=${keyword}`
+      const res = await api().post(
+        `${GET_BLOG_LIST}?page=${page}&limit=${limit}`,
+        { keyword }
       );
 
       dispatch({

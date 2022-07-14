@@ -18,14 +18,14 @@ const getUserDetails = asyncHandler(async (req, res) => {
 });
 
 // @desc Get list of users
-// @route GET /api/user/users?page=Number&limit=Number&sort=Number&keyword=String
+// @route POST /api/user/users?page=Number&limit=Number&sort=Number&keyword=String
 // @access Protected
 const getUserList = asyncHandler(async (req, res) => {
-  let { page, limit, sort, keyword } = req.query;
+  let { page, limit, sort } = req.query;
   page = parseInt(page > 0 ? page : 1);
   limit = parseInt(limit > 0 ? limit : 12);
   sort = parseInt(sort >= 0 && sort < sortTypes.length ? sort : 0);
-  keyword = decodeURIComponent(keyword || "");
+  const keyword = req.body.keyword || "";
 
   const result = await userService.getUserList(page, limit, sort, keyword);
 

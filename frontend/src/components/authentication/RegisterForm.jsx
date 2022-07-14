@@ -24,8 +24,7 @@ import ProfileImagePicker from "../imagePicker/ProfileImagePicker";
 import moment from "moment";
 import { register } from "../../actions/authActions";
 import styled from "@emotion/styled";
-
-const genders = ["Male", "Female", "Other"];
+import { genders } from "../../utils/utilities";
 
 const FormContainer = styled.form`
   display: flex;

@@ -34,7 +34,7 @@ function CommentArea() {
 
       {error && <Alert severity="error">{error}</Alert>}
 
-      {!loading && !error && !comments?.length && (
+      {!loading && !error && !commentTree?.length && (
         <Alert severity="info">Be the first to comment</Alert>
       )}
 

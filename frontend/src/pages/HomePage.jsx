@@ -33,22 +33,14 @@ function HomePage() {
   );
 
   useEffect(() => {
-    setSearchText(decodeURIComponent(keyword));
+    setSearchText(keyword);
     dispatch(getBlogList(page, keyword));
   }, [dispatch, keyword, page]);
-
-  const handleSearchInputChange = (e) => {
-    setSearchText(e.target.value);
-  };
 
   const handleSearch = () => {
     setSearchText(searchText.trim());
     navigate(
-      `/home?page=1${
-        searchText.trim()
-          ? `&keyword=${encodeURIComponent(searchText.trim())}`
-          : ""
-      }`
+      `/home?page=1${searchText.trim() ? `&keyword=${searchText.trim()}` : ""}`
     );
   };
 
@@ -69,7 +61,7 @@ function HomePage() {
           placeholder="Search Blogs"
           sx={{ pl: 2, flex: 1 }}
           value={searchText}
-          onChange={handleSearchInputChange}
+          onChange={(e) => setSearchText(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
         />
         <IconButton color={"primary"} onClick={handleSearch}>
@@ -105,7 +97,7 @@ function HomePage() {
           <PaginationItem
             component={Link}
             to={`/home?page=${item.page}${
-              keyword ? `&keyword=${encodeURIComponent(keyword.trim())}` : ""
+              keyword.trim() ? `&keyword=${keyword.trim()}` : ""
             }`}
             {...item}
           />

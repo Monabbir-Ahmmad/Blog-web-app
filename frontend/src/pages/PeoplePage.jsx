@@ -27,6 +27,7 @@ function PeoplePage() {
   const [searchParams] = useSearchParams();
 
   const keyword = searchParams.get("keyword") || "";
+
   const sort = parseInt(searchParams.get("sort") || "0");
   const page = parseInt(searchParams.get("page") || "1");
 
@@ -37,25 +38,23 @@ function PeoplePage() {
   );
 
   useEffect(() => {
-    setSearchText(decodeURIComponent(keyword));
+    setSearchText(keyword);
     dispatch(getUserList(page, sort, keyword));
   }, [dispatch, sort, page, keyword]);
 
   const handleSortByChange = (e) => {
-    navigate(`/people?page=1&sort=${e.target.value}`);
-  };
-
-  const handleSearchInputChange = (e) => {
-    setSearchText(e.target.value);
+    navigate(
+      `/people?page=1&sort=${e.target.value}${
+        keyword.trim() ? `&keyword=${keyword.trim()}` : ""
+      }`
+    );
   };
 
   const handleSearch = () => {
     setSearchText(searchText.trim());
     navigate(
       `/people?page=1&sort=${sort}${
-        searchText.trim()
-          ? `&keyword=${encodeURIComponent(searchText.trim())}`
-          : ""
+        searchText.trim() ? `&keyword=${searchText.trim()}` : ""
       }`
     );
   };
@@ -77,7 +76,7 @@ function PeoplePage() {
           placeholder="Search People"
           sx={{ pl: 2, flex: 1 }}
           value={searchText}
-          onChange={handleSearchInputChange}
+          onChange={(e) => setSearchText(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
         />
         <IconButton color={"primary"} onClick={handleSearch}>
@@ -127,7 +126,9 @@ function PeoplePage() {
         renderItem={(item) => (
           <PaginationItem
             component={Link}
-            to={`/people?page=${item.page}&sort=${sort}`}
+            to={`/people?page=${item.page}&sort=${sort}${
+              keyword.trim() ? `&keyword=${keyword.trim()}` : ""
+            }`}
             {...item}
           />
         )}

@@ -1,3 +1,5 @@
+export const genders = ["Male", "Female", "Other"];
+
 const imageArray = [
   "https://www.elegantthemes.com/blog/wp-content/uploads/2019/08/things-successful-blogs-have-in-common-featured-image.jpg",
   "https://oppzone.co/wp-content/uploads/2022/02/image-4.jpeg",

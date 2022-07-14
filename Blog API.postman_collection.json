@@ -211,10 +211,19 @@
 						{
 							"name": "Get user list",
 							"request": {
-								"method": "GET",
+								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"keyword\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{blogAPI}}/user/users?page=1&limit=12&sort=0&keyword=test",
+									"raw": "{{blogAPI}}/user/users?page=1&limit=12&sort=0",
 									"host": [
 										"{{blogAPI}}"
 									],
@@ -237,11 +246,6 @@
 											"key": "sort",
 											"value": "0",
 											"description": "Default = 0"
-										},
-										{
-											"key": "keyword",
-											"value": "test",
-											"description": "Optional search keyword (User name). Without keyword gets all within page and limit."
 										}
 									]
 								}
@@ -389,10 +393,19 @@
 						{
 							"name": "Get blog list",
 							"request": {
-								"method": "GET",
+								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"keyword\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{blogAPI}}/blog/search?page=1&limit=12&keyword=test",
+									"raw": "{{blogAPI}}/blog/search?page=1&limit=12",
 									"host": [
 										"{{blogAPI}}"
 									],
@@ -410,11 +423,6 @@
 											"key": "limit",
 											"value": "12",
 											"description": "Default = 12"
-										},
-										{
-											"key": "keyword",
-											"value": "test",
-											"description": "Optional search word (author name or title). Without keyword gets all within page and limit."
 										}
 									]
 								}
