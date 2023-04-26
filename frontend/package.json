@@ -6,7 +6,7 @@
     "@date-io/moment": "^2.14.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.8.1",
-    "@mui/lab": "^5.0.0-alpha.85",
+    "@mui/lab": "^5.0.0-alpha.128",
     "@mui/material": "^5.12.2",
     "@reduxjs/toolkit": "^1.8.2",
     "@testing-library/jest-dom": "^5.16.5",
