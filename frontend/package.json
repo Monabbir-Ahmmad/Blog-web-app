@@ -5,7 +5,7 @@
   "dependencies": {
     "@date-io/moment": "^2.14.0",
     "@emotion/react": "^11.11.0",
-    "@emotion/styled": "^11.8.1",
+    "@emotion/styled": "^11.11.0",
     "@mui/lab": "^5.0.0-alpha.129",
     "@mui/material": "^5.13.0",
     "@reduxjs/toolkit": "^1.9.5",
